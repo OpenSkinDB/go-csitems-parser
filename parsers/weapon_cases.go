@@ -3,8 +3,10 @@ package openskindb_parsers
 import (
 	"context"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/baldurstod/vdf"
 	models "github.com/openskindb/openskindb-csitems/models"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -45,47 +47,113 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 		}
 
 		// Get child key called "attributes"
-		attributes, _ := item.Get("attributes")
+		associated_items, _ := item.Get("associated_items")
 
-		if attributes == nil {
-			continue
-		}
-
-		// Get the tournament event id from attributes
-		tournament_event_data, _ := attributes.Get("tournament event id");
-		tournament_event_id := -1 // Default to -1 if not found
-
-		if(tournament_event_data != nil) {
-			tournament_id, err := tournament_event_data.GetInt("value")
-
-			if err == nil {
-				// logger.Warn().Msgf("Found tournament event id '%d' for item '%s'", tournament_id, item_name)
-				tournament_event_id = tournament_id
+		case_key_def_idx := -1 // Default to -1 if not found
+		if associated_items != nil {
+			value := associated_items.GetChilds()[0].Key;
+			
+			if value != "" {
+				case_key_def_idx, _ = strconv.Atoi(value)
 			}
 		}
+		
+		// If case_key_def_idx is still -1, we cannot find the key for this case
+		case_key := GetWeaponCaseKeyByDefIndex(ig, case_key_def_idx)
+		item_set := GetWeaponCaseItemSet(item)
 
-		// Get the pedestal display model from attributes
-		pedestal_display_model, _ := attributes.GetString("pedestal display model")
-
-		// Determine the type of collectible
-		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
-
-		weapon_cases = append(weapon_cases, models.WeaponCase{
+		// Create the weapon case model
+		var current = models.WeaponCase{
 			DefinitionIndex: 		definition_index,
 			Prefab: 				 		prefab,
 			Name:            		name,
 			ItemName:        		item_name,
 			ItemDescription: 		item_description,
 			ImageInventory:  		image_inventory,
-			DisplayModel:    		pedestal_display_model,
-			Type: 							collectible_type,
-			TournamentEventId: 	tournament_event_id,
-		})
+			Key: case_key,
+			ItemSet: item_set,
+		};
+
+		weapon_cases = append(weapon_cases, current)
 	}
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' weapon cases in %s", len(weapon_cases), duration.String())
+	logger.Info().Msgf("Parsed '%d' weapon cases in %s", len(weapon_cases), duration)
 
 	return weapon_cases
+}
+
+func GetWeaponCaseKeyByDefIndex(ig *models.ItemsGame, definitionIndex int) *models.WeaponCaseKey {
+	items, err := ig.Get("items")
+
+	if err != nil {
+		log.Error().Err(err).Msg("gg Failed to get items from items_game.txt")
+		return nil
+	}
+
+	var current models.WeaponCaseKey
+	for _, item := range items.GetChilds() {
+		def_idx, _ := strconv.Atoi(item.Key)
+		if def_idx != definitionIndex {
+			continue
+		}
+
+		prefab, _ := item.GetString("prefab")
+
+		if !strings.Contains(prefab, "weapon_case_key") {
+			continue
+		}
+
+		name, _ := item.GetString("name")
+		item_name, _ := item.GetString("item_name")
+		item_description, _ := item.GetString("item_description")
+		first_sale_date, _ := item.GetString("first_sale_date")
+		image_inventory, _ := item.GetString("image_inventory")
+
+		current = models.WeaponCaseKey{
+			DefinitionIndex:  def_idx,
+			Prefab:            prefab,
+			Name:              name,
+			ItemName:          item_name,
+			ItemDescription:   item_description,
+			FirstSaleDate:     first_sale_date,
+			ImageInventory:    image_inventory,
+		}
+
+		break // We found the item, no need to continue
+	}
+
+	if current.Prefab == "" {
+		log.Error().Msgf("No weapon case key found for definition index %d", definitionIndex)
+		return nil
+	}
+
+	return &current
+}
+
+func GetWeaponCaseItemSet(item *vdf.KeyValue) *models.WeaponCaseItemSet {
+	tags, err := item.Get("tags")
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to get tags for weapon case item")
+		return nil
+	}
+
+	item_set, err := tags.Get("ItemSet")
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to get ItemSet for weapon case item")
+		return nil
+	}
+
+	tag, _ := item_set.GetString("tag_value")
+	tagText, _ := item_set.GetString("tag_text")
+	tagGroup, _ := item_set.GetString("tag_group")
+	tagGroupText, _ := item_set.GetString("tag_group_text")
+
+	return &models.WeaponCaseItemSet{
+		Tag:           tag,
+		TagText:       tagText,
+		TagGroup:      tagGroup,
+		TagGroupText:  tagGroupText,
+	}
 }

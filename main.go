@@ -29,9 +29,11 @@ func main() {
 		
 	musicKits := parsers.ParseMusicKits(ctx, itemsGame)
 	collectibles := parsers.ParseCollectibles(ctx, itemsGame)
+	weapon_cases := parsers.ParseWeaponCases(ctx, itemsGame)
 
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
+	ExportToJsonFile(weapon_cases, "weapon_cases")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")

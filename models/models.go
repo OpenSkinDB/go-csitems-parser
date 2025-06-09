@@ -16,7 +16,6 @@ type MusicKit struct {
 }
 
 type WeaponCaseItemSet struct {
-	DefinitionIndex int
 	Tag								string 
 	TagText 					string
 	TagGroup					string
