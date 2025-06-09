@@ -1,6 +1,7 @@
 package openskindb_parsers
 
 import (
+	"context"
 	"strconv"
 	"time"
 
@@ -10,17 +11,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func ParseMusicKits(ig *models.ItemsGame) []models.MusicKit {
-	// "music_definitions"
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnixNano;
+func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit {
+	logger := zerolog.Ctx(ctx);
 
 	start := time.Now()
-	log.Info().Msg("Parsing music kits...")
+	logger.Info().Msg("Parsing music kits...")
 
 	music_definitions, err := ig.Get("music_definitions")
 
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to get music_definitions")
+		logger.Error().Err(err).Msg("Failed to get music_definitions")
 		return nil
 	}
 
@@ -49,7 +49,7 @@ func ParseMusicKits(ig *models.ItemsGame) []models.MusicKit {
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	log.Info().Msgf("Parsed '%d' music-kits in %d", len(musicKits), duration.Nanoseconds())
+	logger.Info().Msgf("Parsed '%d' music-kits in %s", len(musicKits), duration.String())
 
 	return musicKits
 }

@@ -1,33 +1,33 @@
 package openskindb_parsers
 
 import (
+	"context"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
 	models "github.com/openskindb/openskindb-csitems/models"
-
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
-func ParseCollectibles(ig *models.ItemsGame) []models.Collectible {
-	// "music_definitions"
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnixNano;
+func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Collectible {
+	logger := zerolog.Ctx(ctx);
 
 	start := time.Now()
-	log.Info().Msg("Parsing collectibles...")
+	logger.Info().Msg("Parsing collectibles...")
 
 	items, err := ig.Get("items")
 
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to get collectibles from items_game.txt")
+		logger.Error().Err(err).Msg("Failed to get collectibles from items_game.txt")
 		return nil
 	}
 
 	var collectibles []models.Collectible
 
+	// Iterate through all items in the "items" section
 	for _, item := range items.GetChilds() {
 		item_name, _ := item.GetString("item_name")
 
@@ -66,7 +66,7 @@ func ParseCollectibles(ig *models.ItemsGame) []models.Collectible {
 			tournament_id, err := tournament_event_data.GetInt("value")
 
 			if err == nil {
-				// log.Warn().Msgf("Found tournament event id '%d' for item '%s'", tournament_id, item_name)
+				// logger.Warn().Msgf("Found tournament event id '%d' for item '%s'", tournament_id, item_name)
 				tournament_event_id = tournament_id
 			}
 		}
@@ -92,31 +92,44 @@ func ParseCollectibles(ig *models.ItemsGame) []models.Collectible {
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	log.Info().Msgf("Parsed '%d' collectibles in %s", len(collectibles), duration)
+	logger.Info().Msgf("Parsed '%d' collectibles in %s", len(collectibles), duration.String())
 
 	return collectibles
 }
 
-func GetCollectibleType(image_inventory string, prefab string, item_name string, tournament_event_id int) models.CollectibleType {
+func GetCollectibleType(
+	image_inventory string,
+	prefab string,
+	item_name string,
+	tournament_event_id int,
+) models.CollectibleType {
 	if prefab == "" {
-		log.Warn().Msg("Collectible prefab is empty, cannot determine type")
 		return models.CollectibleTypeUnknown
 	}
 
 	if image_inventory == "" {
-		log.Warn().Msgf("Collectible image_inventory is empty for prefab '%s', cannot determine type", prefab)
 		return models.CollectibleTypeUnknown
+	}
+
+	if prefab == "premier_season_coin" {
+		return models.CollectibleTypePremierSeasonCoin
 	}
 
 	if strings.Contains(image_inventory, "service_medal") {
 		return models.CollectibleTypeServiceMedal
 	}
 
+	// image_inventory looks like "10yearcoin", "5yearcoin", etc.
+	reg1 := regexp.MustCompile(`\d+yearcoin`)
+	if reg1.MatchString(image_inventory) {
+		return models.CollectibleTypeYearsOfService	
+	}
+
 	if strings.Contains(item_name, "#CSGO_Collectible_Map") {
 		return models.CollectibleTypeMapContributor
 	}
 
-	if strings.HasPrefix(item_name, "#CSGO_TournamentJournal") {
+	if strings.HasPrefix(item_name, "#CSGO_TournamentJournal") || strings.HasPrefix(item_name, "#CSGO_CollectibleCoin") {
 		return models.CollectibleTypePickEm
 	}
 
@@ -130,8 +143,8 @@ func GetCollectibleType(image_inventory string, prefab string, item_name string,
 	}
 
 	// Create a regex for season1_coin, // season2_coin, etc.
-	reg := regexp.MustCompile(`season\d+_coin`)
-	if reg.MatchString(prefab) {
+	reg2 := regexp.MustCompile(`season\d+_coin`)
+	if reg2.MatchString(prefab) {
 		return models.CollectibleTypeOperation
 	}
 
