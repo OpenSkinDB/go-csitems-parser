@@ -39,7 +39,6 @@ type WeaponCase struct {
 	ItemDescription 		string
 	Prefab 							string
 	ImageInventory			string
-	DisplayModel				string
 	ModelPlayer					string
 	FirstSaleDate 			string
 	ItemSet 					 	*WeaponCaseItemSet

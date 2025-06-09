@@ -40,6 +40,8 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 		name, _ := item.GetString("name")
 		item_description, _ := item.GetString("item_description")
 		image_inventory, _ := item.GetString("image_inventory")
+		model_player, _ := item.GetString("model_player")
+		first_sale_date, _ := item.GetString("first_sale_date")
 
 		if name == "" {
 			log.Warn().Msg("Collectible name is empty")
@@ -69,9 +71,11 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 			Name:            		name,
 			ItemName:        		item_name,
 			ItemDescription: 		item_description,
+			ModelPlayer:        model_player,
+			FirstSaleDate: 			first_sale_date,
 			ImageInventory:  		image_inventory,
-			Key: case_key,
-			ItemSet: item_set,
+			Key: 								case_key,
+			ItemSet: 						item_set,
 		};
 
 		weapon_cases = append(weapon_cases, current)
