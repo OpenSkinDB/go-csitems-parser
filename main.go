@@ -21,7 +21,7 @@ func main() {
 	// Set the global logger to use the console writer
 	itemsGame := parsers.LoadItemsGame("./files/items_game.txt")
 
-	logger.Info().Msgf("Loaded items_game.txt with %d keys", len(itemsGame.KeyValue.GetChilds()))
+	logger.Info().Msgf("Loaded items_game.txt")
 
 	// Attach the Logger to the context.Context
 	ctx := context.Background()

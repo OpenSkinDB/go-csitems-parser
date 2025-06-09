@@ -5,7 +5,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func  GetKeyValueSubKeyValueRecursive(kv *vdf.KeyValue, key string) (string, error) {
+func GetKeyValueSubKeyValueRecursive(kv *vdf.KeyValue, key string) (string, error) {
 	attributes, err := kv.Get("attributes")
 
 	if err != nil {
