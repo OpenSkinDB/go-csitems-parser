@@ -8,20 +8,53 @@ type ItemsGame struct {
 
 type MusicKit struct {
 	DefinitionIndex int
-	Name							string 
-	ItemName					string
-	ImageInventory		string
-	DisplayModel			string
+	Name								string 
+	Prefab 							string
+	ItemName						string
+	ImageInventory			string
+	DisplayModel				string
+}
+
+type WeaponCaseItemSet struct {
+	DefinitionIndex int
+	Tag								string 
+	TagText 					string
+	TagGroup					string
+	TagGroupText			string
+}
+
+type WeaponCaseKey struct {
+	DefinitionIndex 		int
+	Name            		string
+	ItemName        		string
+	ItemDescription 		string
+	FirstSaleDate 			string
+	Prefab 							string
+	ImageInventory			string
+}
+
+type WeaponCase struct {
+	DefinitionIndex 		int
+	Name            		string
+	ItemName        		string
+	ItemDescription 		string
+	Prefab 							string
+	ImageInventory			string
+	DisplayModel				string
+	ModelPlayer					string
+	FirstSaleDate 			string
+	ItemSet 					 	*WeaponCaseItemSet
+	Key 								*WeaponCaseKey
 }
 
 type Collectible struct {
-	DefinitionIndex 	int
-	Name            	string
-	ItemName        	string
-	ItemDescription 	string
-	ImageInventory  	string
-	DisplayModel    	string
-	Prefab 						string
-	TournamentEventId int
-	Type 					 		CollectibleType
+	DefinitionIndex 		int
+	Name            		string
+	Prefab 							string
+	ItemName        		string
+	ItemDescription 		string
+	ImageInventory  		string
+	DisplayModel    		string
+	TournamentEventId 	int
+	Type 					 			CollectibleType
 }
