@@ -8,8 +8,20 @@ type ItemsGame struct {
 
 type MusicKit struct {
 	DefinitionIndex int
-	Name						string 
-	ItemName				string
-	ImageInventory	string
-	DisplayModel		string
+	Name							string 
+	ItemName					string
+	ImageInventory		string
+	DisplayModel			string
+}
+
+type Collectible struct {
+	DefinitionIndex 	int
+	Name            	string
+	ItemName        	string
+	ItemDescription 	string
+	ImageInventory  	string
+	DisplayModel    	string
+	Prefab 						string
+	TournamentEventId int
+	Type 					 		CollectibleType
 }

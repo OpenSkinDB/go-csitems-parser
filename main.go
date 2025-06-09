@@ -1,34 +1,22 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 
 	parsers "github.com/openskindb/openskindb-csitems/parsers"
+	"github.com/rs/zerolog/log"
 	// models "github.com/openskindb/openskindb-csitems/models"
 )
 
 func main() {
-	itemsGame := parsers.LoadItemsGame("items_game.txt")
-	fmt.Println("Items Game Loaded Successfully")
+	itemsGame := parsers.LoadItemsGame("./files/items_game.txt")
+	log.Info().Msg("Loaded items_game.txt successfully")
 
 	musicKits := parsers.ParseMusicKits(itemsGame)
+	collectibles := parsers.ParseCollectibles(itemsGame)
 
-	// dump to json
-	jsonData, err := json.MarshalIndent(musicKits, "", "  ")
-	if err != nil {
-		fmt.Println("Error marshalling music kits to JSON:", err)
-		return
-	}
-	fmt.Println(string(jsonData))
-
-	// dump to file
-	err = os.WriteFile("music_kits.json", jsonData, 0644)
-	if err != nil {
-		fmt.Println("Error writing music kits to file:", err)
-		return
-	}
+	ExportToJsonFile(musicKits, "music_kits")
+	ExportToJsonFile(collectibles, "collectibles")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")

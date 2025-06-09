@@ -1,1 +1,158 @@
 package openskindb_parsers
+
+import (
+	"regexp"
+	"strconv"
+	"strings"
+	"time"
+
+	models "github.com/openskindb/openskindb-csitems/models"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+)
+
+func ParseCollectibles(ig *models.ItemsGame) []models.Collectible {
+	// "music_definitions"
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnixNano;
+
+	start := time.Now()
+	log.Info().Msg("Parsing collectibles...")
+
+	items, err := ig.Get("items")
+
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to get collectibles from items_game.txt")
+		return nil
+	}
+
+	var collectibles []models.Collectible
+
+	for _, item := range items.GetChilds() {
+		item_name, _ := item.GetString("item_name")
+
+		if item_name == "" || !IsItemCollectible(item_name) {
+			continue
+		}
+
+		definition_index, _ := strconv.Atoi(item.Key)
+		prefab, _ := item.GetString("prefab")
+		name, _ := item.GetString("name")
+		item_description, _ := item.GetString("item_description")
+		image_inventory, _ := item.GetString("image_inventory")
+
+		if name == "" {
+			log.Warn().Msg("Collectible name is empty")
+			continue
+		}
+
+		// Get child key called "attributes"
+		attributes, err := item.Get("attributes")
+		if err != nil {
+			// log.Error().Err(err).Msgf("Failed to get attributes for item '%s'", item_name)
+			continue
+		}
+
+		if attributes == nil {
+			// log.Warn().Msgf("Item '%s' has no attributes, skipping", item_name)
+			continue
+		}
+
+		// Get the tournament event id from attributes
+		tournament_event_data, _ := attributes.Get("tournament event id");
+		tournament_event_id := -1 // Default to -1 if not found
+
+		if(tournament_event_data != nil) {
+			tournament_id, err := tournament_event_data.GetInt("value")
+
+			if err == nil {
+				// log.Warn().Msgf("Found tournament event id '%d' for item '%s'", tournament_id, item_name)
+				tournament_event_id = tournament_id
+			}
+		}
+
+		// Get the pedestal display model from attributes
+		pedestal_display_model, _ := attributes.GetString("pedestal display model")
+
+		// Determine the type of collectible
+		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
+
+		collectibles = append(collectibles, models.Collectible{
+			DefinitionIndex: 		definition_index,
+			Prefab: 				 		prefab,
+			Name:            		name,
+			ItemName:        		item_name,
+			ItemDescription: 		item_description,
+			ImageInventory:  		image_inventory,
+			DisplayModel:    		pedestal_display_model,
+			Type: 							collectible_type,
+			TournamentEventId: 	tournament_event_id,
+		})
+	}
+
+	// Save music kits to the database
+	duration := time.Since(start)
+	log.Info().Msgf("Parsed '%d' collectibles in %s", len(collectibles), duration)
+
+	return collectibles
+}
+
+func GetCollectibleType(image_inventory string, prefab string, item_name string, tournament_event_id int) models.CollectibleType {
+	if prefab == "" {
+		log.Warn().Msg("Collectible prefab is empty, cannot determine type")
+		return models.CollectibleTypeUnknown
+	}
+
+	if image_inventory == "" {
+		log.Warn().Msgf("Collectible image_inventory is empty for prefab '%s', cannot determine type", prefab)
+		return models.CollectibleTypeUnknown
+	}
+
+	if strings.Contains(image_inventory, "service_medal") {
+		return models.CollectibleTypeServiceMedal
+	}
+
+	if strings.Contains(item_name, "#CSGO_Collectible_Map") {
+		return models.CollectibleTypeMapContributor
+	}
+
+	if strings.HasPrefix(item_name, "#CSGO_TournamentJournal") {
+		return models.CollectibleTypePickEm
+	}
+
+	if strings.HasPrefix(item_name, "#CSGO_Collectible_Pin") {
+		return models.CollectibleTypeMapPin
+	}
+
+	// This is a bit odd, idk what Valve was thinking 
+	if strings.HasPrefix(item_name, "#CSGO_Collectible_CommunitySeason") {
+		return models.CollectibleTypeMapPin
+	}
+
+	// Create a regex for season1_coin, // season2_coin, etc.
+	reg := regexp.MustCompile(`season\d+_coin`)
+	if reg.MatchString(prefab) {
+		return models.CollectibleTypeOperation
+	}
+
+	if prefab == "majors_trophy" {
+		return models.CollectibleTypeTournamentFinalist
+	}
+
+	// katowice_2014_finalist
+
+	return models.CollectibleTypeUnknown
+}
+
+func IsItemCollectible(item_name string) bool {
+	if len(item_name) == 0 {
+		return false
+	}
+
+	//if it starts with "Collectible" or "Collectible_"
+	if strings.HasPrefix(item_name, "#CSGO_Collectible") || strings.HasPrefix(item_name, "#CSGO_TournamentJournal") {
+		return true
+	}
+
+	return false
+}
