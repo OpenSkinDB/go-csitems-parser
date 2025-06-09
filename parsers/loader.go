@@ -42,7 +42,7 @@ func MergeKeysAtRootLevel(root *vdf.KeyValue) {
 		if len(items) == 0 {
 			continue
 		}
-		
+
 		// create a new KeyValue with the section name
 		newKV := &vdf.KeyValue{
 			Key:   sectionName,
