@@ -47,14 +47,9 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 		}
 
 		// Get child key called "attributes"
-		attributes, err := item.Get("attributes")
-		if err != nil {
-			// log.Error().Err(err).Msgf("Failed to get attributes for item '%s'", item_name)
-			continue
-		}
+		attributes, _ := item.Get("attributes")
 
 		if attributes == nil {
-			// log.Warn().Msgf("Item '%s' has no attributes, skipping", item_name)
 			continue
 		}
 
