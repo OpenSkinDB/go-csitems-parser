@@ -33,6 +33,7 @@ func main() {
 	player_agents := parsers.ParseAgents(ctx, itemsGame)
 	rarities := parsers.ParseRarities(ctx, itemsGame)
 	paint_kits := parsers.ParsePaintKits(ctx, itemsGame)
+	item_sets := parsers.ParseItemSets(ctx, itemsGame)
 
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
@@ -40,6 +41,7 @@ func main() {
 	ExportToJsonFile(player_agents, "player_agents")
 	ExportToJsonFile(rarities, "rarities")
 	ExportToJsonFile(paint_kits, "paint_kits")
+	ExportToJsonFile(item_sets, "item_sets")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")
