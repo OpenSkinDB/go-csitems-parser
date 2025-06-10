@@ -42,15 +42,6 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 		image_inventory, _ := item.GetString("image_inventory")
 		model_player, _ := item.GetString("model_player")
 		first_sale_date, _ := item.GetString("first_sale_date")
-		
-		logger.Debug().Msgf("Found weapon case prefab: %s (%s)", prefab, item_name)
-
-		// if name == "" {
-		// 	logger.Warn().Msg("Weapon case name is empty")
-		// 	continue
-		// }
-
-		// logger.Debug().Msgf("Parsing weapon case: %s (%d)", name, definition_index)
 
 		// Get child key called "attributes"
 		associated_items, _ := item.Get("associated_items")
