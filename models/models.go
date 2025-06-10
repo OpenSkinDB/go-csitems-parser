@@ -6,6 +6,22 @@ type ItemsGame struct {
 	*vdf.KeyValue
 }
 
+type GenericColor struct {
+	Key 		 		string `json:"key"`
+	ColorName 	string `json:"color_name"`
+	HexColor  	string `json:"hex_color"`
+}
+
+type Rarity struct {
+	Key									string  `json:"key"`
+	LocKey 							string 	`json:"loc_key"`
+	LocKeyWeapon				string 	`json:"loc_key_weapon"`
+	LocKeyCharacter			string 	`json:"loc_key_character"`
+	HexColor						string  `json:"hex_color"`
+	ColorName 					string  `json:"color_name"`
+	DropSound						string  `json:"drop_sound"`
+}
+
 type MusicKit struct {
 	DefinitionIndex 		int 		`json:"definition_index"`
 	Name								string  `json:"name"`

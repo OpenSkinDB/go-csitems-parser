@@ -8,7 +8,6 @@ import (
 	models "github.com/openskindb/openskindb-csitems/models"
 
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
 func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit {
@@ -33,11 +32,6 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit
 		image_inventory, _ := musicKit.GetString("image_inventory")
 		pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
 
-		if name == "" {
-			log.Warn().Msg("Music Kit name is empty")
-			continue
-		}
-
 		musicKits = append(musicKits, models.MusicKit{
 			DefinitionIndex: definition_index,
 			Name:            name,
@@ -49,7 +43,7 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' music-kits in %s", len(musicKits), duration.String())
+	logger.Info().Msgf("Parsed '%d' music-kits in %s", len(musicKits), duration)
 
 	return musicKits
 }
