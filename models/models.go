@@ -12,6 +12,18 @@ type GenericColor struct {
 	HexColor  	string `json:"hex_color"`
 }
 
+type PaintKit struct {
+	DefinitionIndex 		int			`json:"definition_index"`
+	Name 		 						string 	`json:"name"`
+	UseLegacyModel 			bool 		`json:"use_legacy_model"`
+	DescriptionString 	string 	`json:"description_string"`
+	DescriptionTag 			string 	`json:"description_tag"`
+	Style 							int 		`json:"style"`
+	WearRemapMin 				float64 `json:"wear_remap_min"`
+	WearRemapMax 				float64 `json:"wear_remap_max"`
+	Rarity 							string	`json:"rarity"`
+}
+
 type Rarity struct {
 	Key									string  `json:"key"`
 	LocKey 							string 	`json:"loc_key"`
