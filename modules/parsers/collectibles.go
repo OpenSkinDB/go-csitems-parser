@@ -59,7 +59,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 			ItemName:        		item_name,
 			ItemDescription: 		item_description,
 			ImageInventory:  		image_inventory,
-			DisplayModel:    		pedestal_display_model,
+			Model:    					pedestal_display_model,
 			Type: 							collectible_type,
 			TournamentEventId: 	tournament_event_id,
 		})
@@ -67,7 +67,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' collectibles in %s", len(collectibles), duration.String())
+	logger.Info().Msgf("Parsed '%d' collectibles in %s", len(collectibles), duration)
 
 	return collectibles
 }

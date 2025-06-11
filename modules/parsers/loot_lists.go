@@ -2,90 +2,171 @@ package openskindb_parsers
 
 import (
 	"context"
+	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/baldurstod/vdf"
 	models "github.com/openskindb/openskindb-csitems/models"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
-func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.Collectible {
+func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.ClientLootList {
 	logger := zerolog.Ctx(ctx);
 
+	// Measure the time it takes to parse the loot lists, just 
+	// for performance monitoring and debugging purposes.
 	start := time.Now()
-	// logger.Info().Msg("Parsing client loot lists...")
+	
+	// We need to get all available "main" loot lists to then find those in the "client_loot_lists" section.
+	// Instead of doing some funky string-checking, there is a direct connection between the
+	// "revolving_loot_lists" and "client_loot_lists" sections in the items_game.txt file.
+	// The "revolving_loot_lists" section contains the main loot lists, while the "client_loot_lists"
+	// section contains the sub-lists that contain the actual items.
+	revolving_loot_lists, err := ig.Get("revolving_loot_lists")
 
+	if err != nil {
+		logger.Error().Err(err).Msg("Failed to get revolving_loot_lists from items_game.txt")
+		return nil
+	}
+
+	// At this point, we have all the main loot lists, and can continue to parse the "client_loot_lists" section.
 	client_loot_lists, err := ig.Get("client_loot_lists")
-
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get client_loot_lists from items_game.txt")
 		return nil
 	}
 
-	var collectibles []models.Collectible
+	revolving_loot_list_stringmap, _ := revolving_loot_lists.ToStringMap()
+	if revolving_loot_list_stringmap == nil {
+		logger.Warn().Msg("No revolving loot lists found in items_game.txt")
+		return nil
+	}
 
-	// Iterate through all items in the "items" section
-	for _, item := range client_loot_lists.GetChilds() {
-		item_name, _ := item.GetString("item_name")
+	buffer := make([]models.ClientLootList, 0)
 
-		if item_name == "" || !IsItemCollectible(item_name) {
+	for series, list := range *revolving_loot_list_stringmap {
+		if !IsValidLootListName(list) {
+			// logger.Debug().Msgf("Skipping loot list '%s' for series '%s' as it is not a valid loot list name", list, series)
 			continue
 		}
 
-		definition_index, _ := strconv.Atoi(item.Key)
-		prefab, _ := item.GetString("prefab")
-		name, _ := item.GetString("name")
-		item_description, _ := item.GetString("item_description")
-		image_inventory, _ := item.GetString("image_inventory")
+		series_int, _ := strconv.Atoi(series)
 
-		if name == "" {
-			log.Warn().Msg("Collectible name is empty")
+		current := models.ClientLootList{
+			Series: series_int,
+			LootListId: list,
+			SubLootLists: make([]models.ClientLootListSubList, 0),
+		}
+
+		all, err := client_loot_lists.Get(list) 
+		// logger.Debug().Msgf("Processing loot list '%s' for series '%d'", list, series_int)
+
+		if err != nil {
+			logger.Error().Err(err).Msgf("Failed to get client loot list '%s' from client_loot_lists", list)
 			continue
 		}
 
-		// Get child key called "attributes"
-		attributes, _ := item.Get("attributes")
-
-		if attributes == nil {
-			continue
-		}
-
-		// Get the tournament event id from attributes
-		tournament_event_data, _ := attributes.Get("tournament event id");
-		tournament_event_id := -1 // Default to -1 if not found
-
-		if(tournament_event_data != nil) {
-			tournament_id, err := tournament_event_data.GetInt("value")
-
-			if err == nil {
-				// logger.Warn().Msgf("Found tournament event id '%d' for item '%s'", tournament_id, item_name)
-				tournament_event_id = tournament_id
+		for _, sub := range all.GetChilds() {
+			current_sub_list := models.ClientLootListSubList{
+				LootListName: sub.Key,
 			}
+
+			current_sub_list.Rarity = GetLootListRarity(sub.Key)
+			current_sub_list.Items = GetLootListItems(client_loot_lists, sub.Key)
+
+			current.SubLootLists = append(current.SubLootLists, current_sub_list)
 		}
 
-		// Get the pedestal display model from attributes
-		pedestal_display_model, _ := attributes.GetString("pedestal display model")
-
-		// Determine the type of collectible
-		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
-
-		collectibles = append(collectibles, models.Collectible{
-			DefinitionIndex: 		definition_index,
-			Prefab: 				 		prefab,
-			Name:            		name,
-			ItemName:        		item_name,
-			ItemDescription: 		item_description,
-			ImageInventory:  		image_inventory,
-			DisplayModel:    		pedestal_display_model,
-			Type: 							collectible_type,
-			TournamentEventId: 	tournament_event_id,
-		})
+		buffer = append(buffer, current)
 	}
 
 	// Save music kits to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' client loot lists in %s", len(collectibles), duration)
+	logger.Info().Msgf("Parsed '%d' loot lists in %s", len(buffer), duration)
 
-	return collectibles
+	return buffer
+}
+
+func IsValidLootListName(name string) bool {
+	skip := []string{
+		"_musickit",
+		"_signature",
+		"_signatures",
+		"_xray_p250",
+		"_dhw13_promo",
+		"_promo_",
+		"crate_ems14_",
+		"storageunit1_",
+		"crate_pins",
+		"storageunit0_",
+		"giftpkg_",
+	}
+
+	for _, s := range skip {
+		if strings.Contains(name, s) {
+			// Skip music kits and other irrelevant loot lists
+			// log.Println("Skipping loot list:", name, "as it contains", s)
+			return false
+		}
+	}
+	return true
+}
+
+func GetLootListRarity(name string) string {
+	rarity_endings := []string{
+		"default",
+		"common",
+		"uncommon",
+		"rare",
+		"mythical",
+		"legendary",
+		"ancient",
+		"immortal",
+		"unusual",
+	}
+
+	for _, ending := range rarity_endings {
+		if strings.HasSuffix(name, ending) {
+			return ending
+		}
+	}
+
+	// If no rarity ending is found, return "default"
+	return "default"
+}
+
+func GetLootListItems(kv *vdf.KeyValue, loot_list string) []models.LootListItem {
+	items := make([]models.LootListItem, 0)
+
+	// we have "[cu_tec9_asiimov]weapon_tec9" and we need to split it into "cu_tec9_asiimov" and "weapon_tec9"
+	r := regexp.MustCompile(`^\[(.+?)\](.+)$`)
+	list, err := kv.Get(loot_list)
+
+	if err != nil {
+		// fmt.Println("Error getting loot list items:", err)
+		return items
+	}
+
+	for _, v := range list.GetChilds() {
+		fmt.Println("Processing loot list item:", v.Key)
+
+		res := r.FindStringSubmatch(v.Key)
+
+		if len(res) < 3 {
+			continue 
+		}
+
+		name := res[1]
+		class := res[2]
+
+		items = append(items, models.LootListItem{
+			Name: name,
+			Class: class,
+		})
+	}
+
+	return items
 }

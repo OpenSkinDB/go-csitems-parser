@@ -63,7 +63,7 @@ func ParseKeychains(ctx context.Context, ig *models.ItemsGame) []models.Keychain
 			Rarity: 					item_rarity,
 			Quality: 					item_quality, 
 			ImageInventory: 	image_inventory,
-			DisplayModel: 		pedestal_display_model, 
+			Model: 						pedestal_display_model, 
 			LootListId: 			loot_list_id,
 		}
 

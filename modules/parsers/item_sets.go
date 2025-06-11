@@ -43,16 +43,13 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 		items := GetItemSetPaintKits(itemset_items)
 
 		if len(items) == 0 {
-			// Check for agents
 			agents := GetItemSetAgents(itemset_items)
 
 			if len(agents) > 0 {
-				logger.Info().Msgf("Item set '%s' has %d agents", name, len(agents))
 				current.Agents = agents
 				current.Type = models.ItemSetTypeAgents
 			} else {
-				logger.Warn().Msgf("Item set '%s' has no items or agents, skipping", name)
-				continue // Skip this item set if it has no items or agents
+				continue 
 			}
 		} else {
 			current.Items = items
@@ -80,7 +77,6 @@ func GetItemSetAgents(kv *vdf.KeyValue) []string {
 }
 
 func GetItemSetPaintKits(kv *vdf.KeyValue) []models.ItemSetItem {
-	logger := zerolog.Ctx(context.Background())
 	skins := make([]models.ItemSetItem, 0)
 
 	// we have "[cu_tec9_asiimov]weapon_tec9" and we need to split it into "cu_tec9_asiimov" and "weapon_tec9"
@@ -92,8 +88,6 @@ func GetItemSetPaintKits(kv *vdf.KeyValue) []models.ItemSetItem {
 		if len(res) < 3 {
 			continue // skip if we can't match the pattern
 		}
-
-		logger.Debug().Msgf("Found paintkit: %s, weapon class: %s", res[1], res[2])
 
 		paintkit_name := res[1]
 		weapon_class := res[2]

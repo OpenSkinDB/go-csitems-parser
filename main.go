@@ -60,6 +60,7 @@ func main() {
 	item_sets := parsers.ParseItemSets(ctx, itemsGame)
 	sticker_kits := parsers.ParseStickerKits(ctx, itemsGame)
 	keychains := parsers.ParseKeychains(ctx, itemsGame)
+	loot_lists := parsers.ParseClientLootLists(ctx, itemsGame)
 
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
@@ -70,6 +71,7 @@ func main() {
 	ExportToJsonFile(item_sets, "item_sets")
 	ExportToJsonFile(sticker_kits, "sticker_kits")
 	ExportToJsonFile(keychains, "keychains")
+	ExportToJsonFile(loot_lists, "client_loot_lists")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")

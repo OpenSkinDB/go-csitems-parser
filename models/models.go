@@ -42,6 +42,23 @@ type ItemSetItem struct {
 	WeaponClass 				string 				`json:"weapon"`
 }
 
+type LootListItem struct {
+	Name 						string 				`json:"item_name"`
+	Class 					string 				`json:"item_class"`
+}
+
+type ClientLootList struct {
+	LootListId 				string 				`json:"loot_list_id"`
+	Series 						int 					`json:"series"`
+	SubLootLists 			[]ClientLootListSubList `json:"sub_loot_lists"`
+}
+
+type ClientLootListSubList struct {
+	Rarity 							string 					`json:"rarity"`
+	LootListName 				string 					`json:"loot_list_name"`
+	Items 							[]LootListItem 	`json:"items"`
+}
+
 type ItemSet struct {
 	Key 								string 				`json:"key"`
 	Name 								string 				`json:"name"`
@@ -65,10 +82,9 @@ type Rarity struct {
 type MusicKit struct {
 	DefinitionIndex 		int 		`json:"definition_index"`
 	Name								string  `json:"name"`
-	Prefab 							string 	`json:"prefab"`
 	ItemName						string 	`json:"item_name"`
 	ImageInventory			string 	`json:"image_inventory"`
-	DisplayModel				string  `json:"display_model"`
+	Model								string  `json:"display_model"`
 }
 
 type Keychain struct {
@@ -79,7 +95,7 @@ type Keychain struct {
 	Rarity 							string 	`json:"rarity"`
 	Quality 						string 	`json:"quality"`
 	ImageInventory			string 	`json:"image_inventory"`
-	DisplayModel				string  `json:"display_model"`
+	Model								string  `json:"display_model"`
 	LootListId 					string 	`json:"loot_list_id"`
 }
 
@@ -132,7 +148,7 @@ type Collectible struct {
 	ItemName        		string 						`json:"item_name"`
 	ItemDescription 		string						`json:"item_description"`
 	ImageInventory  		string						`json:"image_inventory"`
-	DisplayModel    		string						`json:"display_model"`
+	Model    						string						`json:"display_model"`
 	TournamentEventId 	int 							`json:"tournament_event_id"`
 	Type 					 			CollectibleType 	`json:"type"`
 }

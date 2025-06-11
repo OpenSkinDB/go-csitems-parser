@@ -33,11 +33,11 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit
 		pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
 
 		musicKits = append(musicKits, models.MusicKit{
-			DefinitionIndex: definition_index,
-			Name:            name,
-			ItemName:        loc_name,
-			ImageInventory:  image_inventory,
-			DisplayModel:    pedestal_display_model,
+			DefinitionIndex: 	definition_index,
+			Name:            	name,
+			ItemName:        	loc_name,
+			ImageInventory:  	image_inventory,
+			Model:    				pedestal_display_model,
 		})
 	}
 
