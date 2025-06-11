@@ -61,7 +61,7 @@ func ParseRarities(ctx context.Context, ig *models.ItemsGame) []models.Rarity {
 		if color_str != "" {
 			// If the color exists in the map, use it
 			if colorData, exists := cmap[color_str]; exists {
-				logger.Debug().Msgf("Found color '%s' for rarity '%s'", colorData.ColorName, current.LocKey)
+				// logger.Debug().Msgf("Found color '%s' for rarity '%s'", colorData.ColorName, current.LocKey)
 				
 				current.HexColor = colorData.HexColor
 				current.ColorName = colorData.ColorName

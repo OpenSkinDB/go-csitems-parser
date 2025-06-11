@@ -38,8 +38,8 @@ type PaintKit struct {
 }
 
 type ItemSetItem struct {
-	PaintKitName 			string 	`json:"paintkit_name"`
-	WeaponClass 	string 	`json:"weapon_class"`
+	PaintKitName 				string 				`json:"paintkit"`
+	WeaponClass 				string 				`json:"weapon"`
 }
 
 type ItemSet struct {
@@ -47,7 +47,9 @@ type ItemSet struct {
 	Name 								string 				`json:"name"`
 	SetDescription 			string 				`json:"set_description"`
 	IsCollection 				bool 					`json:"is_collection"`
+	Type 								ItemSetType		`json:"type"`
 	Items 							[]ItemSetItem `json:"items"`
+	Agents 							[]string 			`json:"agents"`
 }
 
 type Rarity struct {

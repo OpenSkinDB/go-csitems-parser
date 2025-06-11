@@ -3,6 +3,7 @@ package openskindb_models
 type CollectibleType int
 type StickerEffect int
 type StickerType int
+type ItemSetType int
 
 const (
 	CollectibleTypeUnknown            CollectibleType = -1
@@ -33,4 +34,11 @@ const (
 	StickerTypeAutograph StickerType = 0
 	StickerTypeTeam      StickerType = 1
 	StickerTypeEvent     StickerType = 2
+)
+
+const (
+	ItemSetTypeUnknown   ItemSetType = -1
+	ItemSetTypePaintKits ItemSetType = 0
+	ItemSetTypeAgents    ItemSetType = 1
+	ItemSetTypeStickers  ItemSetType = 1
 )

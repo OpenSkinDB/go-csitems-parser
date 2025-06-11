@@ -35,6 +35,7 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 			Name: name,
 			SetDescription: set_description,
 			IsCollection: is_collection,
+			Type: models.ItemSetTypePaintKits,
 		}
 
 		// Get the items and convert them to ItemSetItem
@@ -42,12 +43,22 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 		items := GetItemSetPaintKits(itemset_items)
 
 		if len(items) == 0 {
-			logger.Warn().Msgf("Item set '%s' has no items, skipping", name)
-			continue // Skip this item set if it has no items
+			// Check for agents
+			agents := GetItemSetAgents(itemset_items)
+
+			if len(agents) > 0 {
+				logger.Info().Msgf("Item set '%s' has %d agents", name, len(agents))
+				current.Agents = agents
+				current.Type = models.ItemSetTypeAgents
+			} else {
+				logger.Warn().Msgf("Item set '%s' has no items or agents, skipping", name)
+				continue // Skip this item set if it has no items or agents
+			}
+		} else {
+			current.Items = items
 		}
 
-		current.Items = items
-
+		// We're done here, add the current item set to the list
 		sets = append(sets, current)
 	}
 
@@ -56,6 +67,16 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 	logger.Info().Msgf("Parsed '%d' item sets in %s", len(sets), duration)
 
 	return sets
+}
+
+func GetItemSetAgents(kv *vdf.KeyValue) []string {
+	agents := make([]string, 0)
+
+	for _, item := range kv.GetChilds() {
+		agents = append(agents, item.Key)
+	}
+
+	return agents
 }
 
 func GetItemSetPaintKits(kv *vdf.KeyValue) []models.ItemSetItem {
