@@ -6,6 +6,17 @@ type ItemsGame struct {
 	*vdf.KeyValue
 }
 
+type BaseWeapon struct {
+	DefinitionIndex 		int 			`json:"definition_index"`
+	ItemName 						string 		`json:"item_name"`
+	ItemDescription 		string 		`json:"item_description"`
+	ItemClass 					string 		`json:"item_class"`
+	Slot 								string 		`json:"slot"`
+	Teams 							[]string 	`json:"teams"`
+	WeaponPrice 				int 			`json:"weapon_price"`
+	ImageInventory			string 		`json:"image_inventory"`
+}
+
 type GenericColor struct {
 	Key 		 		string `json:"key"`
 	ColorName 	string `json:"color_name"`
