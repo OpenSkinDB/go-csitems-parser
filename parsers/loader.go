@@ -54,8 +54,6 @@ func MergeKeysAtRootLevel(root *vdf.KeyValue) {
 
 	// replace the root value with the new root value
 	root.Value = newRoot.Value
-
-	// root.Value = root
 }
 
 func LoadItemsGame(path string) *models.ItemsGame {

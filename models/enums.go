@@ -1,6 +1,8 @@
 package openskindb_models
 
 type CollectibleType int
+type StickerEffect int
+type StickerType int
 
 const (
 	CollectibleTypeUnknown            CollectibleType = -1
@@ -14,4 +16,21 @@ const (
 	CollectibleTypeTournamentFinalist CollectibleType = 70
 	CollectibleTypePremierSeasonCoin  CollectibleType = 80
 	CollectibleTypeYearsOfService     CollectibleType = 90
+)
+
+const (
+	StickerEffectUnknown    StickerEffect = -1
+	StickerEffectNormal     StickerEffect = 0
+	StickerEffectHolo       StickerEffect = 1
+	StickerEffectFoil       StickerEffect = 2
+	StickerEffectGold       StickerEffect = 3
+	StickerEffectGlitter    StickerEffect = 4
+	StickerEffectLenticular StickerEffect = 5
+)
+
+const (
+	StickerTypeUnknown   StickerType = -1
+	StickerTypeAutograph StickerType = 0
+	StickerTypeTeam      StickerType = 1
+	StickerTypeEvent     StickerType = 2
 )

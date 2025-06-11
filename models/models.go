@@ -12,6 +12,19 @@ type GenericColor struct {
 	HexColor  	string `json:"hex_color"`
 }
 
+type StickerKit struct {
+	DefinitionIndex 		int							`json:"definition_index"`
+	Name 		 						string 					`json:"name"`
+	ItemName 						string 					`json:"item_name"`
+	DescriptionString 	string 					`json:"description_string"`
+	StickerMaterial 		string 					`json:"sticker_material"`
+	Rarity 							string					`json:"rarity"`
+	Effect 							StickerEffect 	`json:"effect"`
+	Type 								StickerType 		`json:"type"`
+	TournamentEventId 	int 						`json:"tournament_event_id"`
+	TournamentTeamId 		int 						`json:"tournament_team_id"`
+}
+
 type PaintKit struct {
 	DefinitionIndex 		int			`json:"definition_index"`
 	Name 		 						string 	`json:"name"`
