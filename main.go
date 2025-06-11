@@ -6,7 +6,9 @@ import (
 	"os"
 	"time"
 
-	parsers "github.com/openskindb/openskindb-csitems/parsers"
+	"github.com/jedib0t/go-pretty/list"
+	modules "github.com/openskindb/openskindb-csitems/modules"
+	parsers "github.com/openskindb/openskindb-csitems/modules/parsers"
 	"github.com/rs/zerolog"
 	// models "github.com/openskindb/openskindb-csitems/models"
 )
@@ -19,9 +21,24 @@ func main() {
 		Logger()
 
 	// Set the global logger to use the console writer
-	itemsGame := parsers.LoadItemsGame("./files/items_game.txt")
+	itemsGame := modules.LoadItemsGame("./files/items_game.txt")
 
-	logger.Info().Msgf("Loaded items_game.txt")
+	
+	if itemsGame == nil {
+		logger.Error().Msg("Failed to load items_game.txt, please check the file path and format.")
+		panic("items_game.txt is nil, exiting...")
+	} else {
+		logger.Info().Msgf("Successfully loaded items_game.txt")
+
+		l := list.NewWriter()
+		l.SetStyle(list.StyleConnectedRounded)
+		
+		for _, item := range itemsGame.GetChilds() {
+			fmtKey := GetFormattedItemName(item.Key, len(item.GetChilds()), 35)
+			l.AppendItem(fmtKey)
+		}
+		fmt.Printf("%s\n", l.Render())
+	}
 
 	// Attach the Logger to the context.Context
 	ctx := context.Background()
@@ -35,6 +52,7 @@ func main() {
 	paint_kits := parsers.ParsePaintKits(ctx, itemsGame)
 	item_sets := parsers.ParseItemSets(ctx, itemsGame)
 	sticker_kits := parsers.ParseStickerKits(ctx, itemsGame)
+	keychains := parsers.ParseKeychains(ctx, itemsGame)
 
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
@@ -44,6 +62,7 @@ func main() {
 	ExportToJsonFile(paint_kits, "paint_kits")
 	ExportToJsonFile(item_sets, "item_sets")
 	ExportToJsonFile(sticker_kits, "sticker_kits")
+	ExportToJsonFile(keychains, "keychains")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")

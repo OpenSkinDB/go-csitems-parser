@@ -71,6 +71,18 @@ type MusicKit struct {
 	DisplayModel				string  `json:"display_model"`
 }
 
+type Keychain struct {
+	DefinitionIndex 		int 		`json:"definition_index"`
+	Name								string  `json:"name"`
+	LocName							string  `json:"loc_name"`
+	LocDescription 			string 	`json:"loc_description"`
+	Rarity 							string 	`json:"rarity"`
+	Quality 						string 	`json:"quality"`
+	ImageInventory			string 	`json:"image_inventory"`
+	DisplayModel				string  `json:"display_model"`
+	LootListId 					string 	`json:"loot_list_id"`
+}
+
 type PlayerAgent struct {
 	DefinitionIndex 		int 		`json:"definition_index"`
 	Name								string  `json:"name"`
