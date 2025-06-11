@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sort"
 	"time"
 
 	"github.com/jedib0t/go-pretty/list"
@@ -23,7 +24,6 @@ func main() {
 	// Set the global logger to use the console writer
 	itemsGame := modules.LoadItemsGame("./files/items_game.txt")
 
-	
 	if itemsGame == nil {
 		logger.Error().Msg("Failed to load items_game.txt, please check the file path and format.")
 		panic("items_game.txt is nil, exiting...")
@@ -33,7 +33,14 @@ func main() {
 		l := list.NewWriter()
 		l.SetStyle(list.StyleConnectedRounded)
 		
-		for _, item := range itemsGame.GetChilds() {
+		sorted := itemsGame.GetChilds()
+
+		// Sort based on the number of their children
+		sort.Slice(sorted, func(i, j int) bool {
+			return len(sorted[i].GetChilds()) > len(sorted[j].GetChilds())
+		})
+
+		for _, item := range sorted {
 			fmtKey := GetFormattedItemName(item.Key, len(item.GetChilds()), 35)
 			l.AppendItem(fmtKey)
 		}
