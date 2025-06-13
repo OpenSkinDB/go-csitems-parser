@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	models "github.com/openskindb/openskindb-csitems/models"
 	"github.com/rs/zerolog"
+	models "github.com/zwolof/open-csitems-parser/models"
 )
 
 type StickerTypeParams struct {

@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/jedib0t/go-pretty/list"
-	modules "github.com/openskindb/openskindb-csitems/modules"
-	parsers "github.com/openskindb/openskindb-csitems/modules/parsers"
 	"github.com/rs/zerolog"
-	// models "github.com/openskindb/openskindb-csitems/models"
+	modules "github.com/zwolof/open-csitems-parser/modules"
+	parsers "github.com/zwolof/open-csitems-parser/modules/parsers"
+	// models "github.com/zwolof/open-csitems-parser/models"
 )
 
 func main() {

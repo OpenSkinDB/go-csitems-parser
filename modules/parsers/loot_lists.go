@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/baldurstod/vdf"
-	models "github.com/openskindb/openskindb-csitems/models"
 	"github.com/rs/zerolog"
+	models "github.com/zwolof/open-csitems-parser/models"
 )
 
 func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.ClientLootList {

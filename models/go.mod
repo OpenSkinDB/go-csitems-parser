@@ -1,4 +1,4 @@
-module github.com/openskindb/openskindb-csitems/models
+module github.com/zwolof/open-csitems-parser/models
 
 go 1.24.4
 

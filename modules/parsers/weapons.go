@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	models "github.com/openskindb/openskindb-csitems/models"
+	models "github.com/zwolof/open-csitems-parser/models"
 
 	"github.com/rs/zerolog"
 )

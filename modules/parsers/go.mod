@@ -1,14 +1,14 @@
-module github.com/openskindb/openskindb-csitems/modules/parsers
+module github.com/zwolof/open-csitems-parser/modules/parsers
 
 go 1.24.4
 
-replace github.com/openskindb/openskindb-csitems/models => ../../models
-replace github.com/openskindb/openskindb-csitems/modules => ../
+replace github.com/zwolof/open-csitems-parser/models => ../../models
+replace github.com/zwolof/open-csitems-parser/modules => ../
 
 require (
 	github.com/baldurstod/vdf v0.0.8
-	github.com/openskindb/openskindb-csitems/models v0.0.0-00010101000000-000000000000
-	github.com/openskindb/openskindb-csitems/modules v0.0.0-00010101000000-000000000000
+	github.com/zwolof/open-csitems-parser/models v0.0.0-00010101000000-000000000000
+	github.com/zwolof/open-csitems-parser/modules v0.0.0-00010101000000-000000000000
 	github.com/rs/zerolog v1.34.0
 )
 

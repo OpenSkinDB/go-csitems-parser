@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/baldurstod/vdf"
-	models "github.com/openskindb/openskindb-csitems/models"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	models "github.com/zwolof/open-csitems-parser/models"
 )
 
 func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.WeaponCase {

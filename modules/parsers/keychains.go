@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	models "github.com/openskindb/openskindb-csitems/models"
-	modules "github.com/openskindb/openskindb-csitems/modules"
+	models "github.com/zwolof/open-csitems-parser/models"
+	modules "github.com/zwolof/open-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
