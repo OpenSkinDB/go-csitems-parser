@@ -2,7 +2,6 @@ package openskindb_parsers
 
 import (
 	"context"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -13,6 +12,7 @@ import (
 	models "github.com/zwolof/open-csitems-parser/models"
 )
 
+// NOTE: UNFINISHED
 func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.ClientLootList {
 	logger := zerolog.Ctx(ctx);
 
@@ -151,7 +151,7 @@ func GetLootListItems(kv *vdf.KeyValue, loot_list string) []models.LootListItem 
 	}
 
 	for _, v := range list.GetChilds() {
-		fmt.Println("Processing loot list item:", v.Key)
+		// fmt.Println("Processing loot list item:", v.Key)
 
 		res := r.FindStringSubmatch(v.Key)
 
