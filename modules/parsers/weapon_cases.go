@@ -1,4 +1,4 @@
-package openskindb_parsers
+package parsers
 
 import (
 	"context"
@@ -6,10 +6,11 @@ import (
 	"strings"
 	"time"
 
+	"go-csitems-parser/models"
+
 	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.WeaponCase {

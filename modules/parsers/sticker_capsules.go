@@ -1,1 +1,1 @@
-package openskindb_parsers
+package parsers

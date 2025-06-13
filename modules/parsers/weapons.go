@@ -1,11 +1,11 @@
-package openskindb_parsers
+package parsers
 
 import (
 	"context"
 	"strings"
 	"time"
 
-	models "github.com/zwolof/go-csitems-parser/models"
+	"go-csitems-parser/models"
 
 	"github.com/rs/zerolog"
 )

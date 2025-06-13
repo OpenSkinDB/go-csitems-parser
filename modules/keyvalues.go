@@ -1,4 +1,4 @@
-package openskindb_modules
+package modules
 
 import (
 	"strings"

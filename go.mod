@@ -1,15 +1,9 @@
-module github.com/zwolof/go-csitems-parser
+module go-csitems-parser
 
 go 1.24.4
 
 require github.com/baldurstod/vdf v0.0.8 // indirect
 
-// import from local folder
-replace github.com/zwolof/go-csitems-parser/modules/parsers => ./modules/parsers
-
-replace github.com/zwolof/go-csitems-parser/modules => ./modules
-
-replace github.com/zwolof/go-csitems-parser/models => ./models
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
@@ -22,9 +16,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
-	github.com/zwolof/go-csitems-parser/models v0.0.0-00010101000000-000000000000 // indirect
-	github.com/zwolof/go-csitems-parser/modules v0.0.0-00010101000000-000000000000 // indirect
-	github.com/zwolof/go-csitems-parser/modules/parsers v0.0.0-00010101000000-000000000000 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	go.mongodb.org/mongo-driver v1.14.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect

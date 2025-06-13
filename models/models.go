@@ -1,4 +1,4 @@
-package openskindb_models
+package models
 
 import "github.com/baldurstod/vdf"
 

@@ -1,4 +1,4 @@
-package openskindb_models
+package models
 
 type CollectibleType int
 type StickerEffect int

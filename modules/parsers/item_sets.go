@@ -1,12 +1,13 @@
-package openskindb_parsers
+package parsers
 
 import (
 	"context"
 	"regexp"
 	"time"
 
+	"go-csitems-parser/models"
+
 	"github.com/baldurstod/vdf"
-	models "github.com/zwolof/go-csitems-parser/models"
 
 	"github.com/rs/zerolog"
 )

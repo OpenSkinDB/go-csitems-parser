@@ -1,4 +1,4 @@
-package openskindb_modules
+package modules
 
 func GetStringMapKeySlice(m map[string]string) []string {
 	keys := make([]string, 0, len(m))

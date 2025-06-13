@@ -1,4 +1,4 @@
-package openskindb_parsers
+package parsers
 
 import (
 	"context"
@@ -6,8 +6,9 @@ import (
 	"strings"
 	"time"
 
+	"go-csitems-parser/models"
+
 	"github.com/rs/zerolog"
-	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 type StickerTypeParams struct {

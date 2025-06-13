@@ -7,11 +7,11 @@ import (
 	"sort"
 	"time"
 
+	"go-csitems-parser/modules"
+	"go-csitems-parser/modules/parsers"
+
 	"github.com/jedib0t/go-pretty/list"
 	"github.com/rs/zerolog"
-	modules "github.com/zwolof/go-csitems-parser/modules"
-	parsers "github.com/zwolof/go-csitems-parser/modules/parsers"
-	// models "github.com/zwolof/go-csitems-parser/models"
 )
 
 func main() {

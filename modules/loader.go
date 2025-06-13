@@ -1,11 +1,12 @@
-package openskindb_modules
+package modules
 
 import (
 	"fmt"
 	"os"
 
+	"go-csitems-parser/models"
+
 	"github.com/baldurstod/vdf"
-	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 // merge keys at the root level into its own vdf.KeyValue
