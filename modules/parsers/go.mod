@@ -1,14 +1,14 @@
-module github.com/zwolof/open-csitems-parser/modules/parsers
+module github.com/zwolof/go-csitems-parser/modules/parsers
 
 go 1.24.4
 
-replace github.com/zwolof/open-csitems-parser/models => ../../models
-replace github.com/zwolof/open-csitems-parser/modules => ../
+replace github.com/zwolof/go-csitems-parser/models => ../../models
+replace github.com/zwolof/go-csitems-parser/modules => ../
 
 require (
 	github.com/baldurstod/vdf v0.0.8
-	github.com/zwolof/open-csitems-parser/models v0.0.0-00010101000000-000000000000
-	github.com/zwolof/open-csitems-parser/modules v0.0.0-00010101000000-000000000000
+	github.com/zwolof/go-csitems-parser/models v0.0.0-00010101000000-000000000000
+	github.com/zwolof/go-csitems-parser/modules v0.0.0-00010101000000-000000000000
 	github.com/rs/zerolog v1.34.0
 )
 

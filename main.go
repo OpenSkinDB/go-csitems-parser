@@ -9,9 +9,9 @@ import (
 
 	"github.com/jedib0t/go-pretty/list"
 	"github.com/rs/zerolog"
-	modules "github.com/zwolof/open-csitems-parser/modules"
-	parsers "github.com/zwolof/open-csitems-parser/modules/parsers"
-	// models "github.com/zwolof/open-csitems-parser/models"
+	modules "github.com/zwolof/go-csitems-parser/modules"
+	parsers "github.com/zwolof/go-csitems-parser/modules/parsers"
+	// models "github.com/zwolof/go-csitems-parser/models"
 )
 
 func main() {

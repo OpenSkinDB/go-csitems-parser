@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
-	models "github.com/zwolof/open-csitems-parser/models"
+	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 type StickerTypeParams struct {

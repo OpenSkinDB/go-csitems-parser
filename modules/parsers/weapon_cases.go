@@ -9,7 +9,7 @@ import (
 	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	models "github.com/zwolof/open-csitems-parser/models"
+	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.WeaponCase {

@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	models "github.com/zwolof/open-csitems-parser/models"
-	modules "github.com/zwolof/open-csitems-parser/modules"
+	models "github.com/zwolof/go-csitems-parser/models"
+	modules "github.com/zwolof/go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )

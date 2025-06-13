@@ -1,15 +1,15 @@
-module github.com/zwolof/open-csitems-parser/modules
+module github.com/zwolof/go-csitems-parser/modules
 
 go 1.24.4
 
 require (
 	github.com/baldurstod/vdf v0.0.8
-	github.com/zwolof/open-csitems-parser/models v0.0.0-00010101000000-000000000000
+	github.com/zwolof/go-csitems-parser/models v0.0.0-00010101000000-000000000000
 	github.com/rs/zerolog v1.34.0
 )
 
 // import from local folder
-replace github.com/zwolof/open-csitems-parser/models => ../models
+replace github.com/zwolof/go-csitems-parser/models => ../models
 
 require (
 	github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3 // indirect

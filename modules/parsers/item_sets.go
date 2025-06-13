@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/baldurstod/vdf"
-	models "github.com/zwolof/open-csitems-parser/models"
+	models "github.com/zwolof/go-csitems-parser/models"
 
 	"github.com/rs/zerolog"
 )

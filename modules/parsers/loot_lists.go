@@ -9,7 +9,7 @@ import (
 
 	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
-	models "github.com/zwolof/open-csitems-parser/models"
+	models "github.com/zwolof/go-csitems-parser/models"
 )
 
 // NOTE: UNFINISHED
