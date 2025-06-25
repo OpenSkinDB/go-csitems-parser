@@ -19,8 +19,12 @@ profile.cov
 
 *.png
 *.svg
+csfloat_schema.json
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+i_hate_valve/
+i_hate_valve/*
 
 # Go workspace file
 go.work
