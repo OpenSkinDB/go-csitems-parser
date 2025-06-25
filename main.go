@@ -7,12 +7,31 @@ import (
 	"sort"
 	"time"
 
+	"go-csitems-parser/models"
 	"go-csitems-parser/modules"
 	"go-csitems-parser/modules/parsers"
 
 	"github.com/jedib0t/go-pretty/list"
 	"github.com/rs/zerolog"
 )
+
+type ItemSchemaPaintKits struct {
+	Weapons *[]modules.WeaponSkinMap `json:"weapons"`
+	Knives  *[]modules.KnifeSkinMap  `json:"knives"`
+	Gloves  *[]modules.GloveSkinMap  `json:"gloves"`
+}
+
+type ItemSchema struct {
+	Collections  []models.ItemSet     `json:"collections"`
+	Rarities     []models.Rarity      `json:"rarities"`
+	Stickers     []models.StickerKit  `json:"stickers"`
+	Keychains    []models.Keychain    `json:"keychains"`
+	Collectibles []models.Collectible `json:"collectibles"`
+	Containers   []models.WeaponCase  `json:"containers"`
+	Agents       []models.PlayerAgent `json:"agents"`
+	MusicKits    []models.MusicKit    `json:"music_kits"`
+	PaintKits    ItemSchemaPaintKits  `json:"paint_kits"`
+}
 
 func main() {
 	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339Nano}).
@@ -51,6 +70,8 @@ func main() {
 	ctx := context.Background()
 	ctx = logger.WithContext(ctx)
 
+	start := time.Now()
+
 	musicKits := parsers.ParseMusicKits(ctx, itemsGame)
 	collectibles := parsers.ParseCollectibles(ctx, itemsGame)
 	weapon_cases := parsers.ParseWeaponCases(ctx, itemsGame)
@@ -65,6 +86,11 @@ func main() {
 	gloves := parsers.ParseGloves(ctx, itemsGame)
 	knives := parsers.ParseKnives(ctx, itemsGame)
 
+	duration := time.Since(start)
+	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)
+
+	// Export all parsed data to JSON files
+	// debugging
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
 	ExportToJsonFile(weapon_cases, "weapon_cases")
@@ -95,6 +121,26 @@ func main() {
 	// Some glove stuff
 	glove_skins := modules.GetGlovePaintKits(&gloves, &paint_kits)
 	ExportToJsonFile(glove_skins, "gloves_with_paint_kits")
+
+	// Final schema
+	itemSchema := ItemSchema{
+		Collections:  item_sets,
+		Rarities:     rarities,
+		Stickers:     sticker_kits,
+		Keychains:    keychains,
+		Collectibles: collectibles,
+		Containers:   weapon_cases,
+		Agents:       player_agents,
+		MusicKits:    musicKits,
+		PaintKits: ItemSchemaPaintKits{
+			Weapons: &weapon_skins,
+			Knives:  &knife_skins,
+			Gloves:  &glove_skins,
+		},
+	}
+
+	// Export the final schema to a JSON file
+	ExportToJsonFile(itemSchema, "item_schema")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")

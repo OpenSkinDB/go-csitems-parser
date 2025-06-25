@@ -34,9 +34,8 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 
 		definition_index, _ := strconv.Atoi(agent.Key)
 		name, _ := agent.GetString("name")
-		loc_name, _ := agent.GetString("loc_name")
+		item_name, _ := agent.GetString("item_name")
 		item_description, _ := agent.GetString("item_description")
-		image_inventory, _ := agent.GetString("image_inventory")
 		item_rarity, _ := agent.GetString("item_rarity")
 
 		// Create a new MusicKit instance
@@ -44,10 +43,8 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 			DefinitionIndex: definition_index,
 			Name:            name,
 			Prefab:          prefab,
-			ModelPlayer:     prefab,
-			ItemName:        loc_name,
+			ItemName:        item_name,
 			ItemDescription: item_description,
-			ImageInventory:  image_inventory,
 			ItemRarity:      item_rarity,
 		}
 

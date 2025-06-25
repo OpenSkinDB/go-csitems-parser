@@ -130,12 +130,9 @@ type PlayerAgent struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
 	Prefab          string `json:"prefab"`
-	ModelPlayer     string `json:"model_player"`
 	ItemName        string `json:"item_name"`
 	ItemDescription string `json:"item_description"`
-	ImageInventory  string `json:"image_inventory"`
 	ItemRarity      string `json:"item_rarity"`
-	UsedByTeam      string `json:"used_by_team"`
 }
 
 type WeaponCaseItemSet struct {
