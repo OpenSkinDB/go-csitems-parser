@@ -11,7 +11,7 @@ import (
 )
 
 func ParseWeapons(ctx context.Context, ig *models.ItemsGame) []models.BaseWeapon {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing music kits...")
@@ -37,32 +37,14 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame) []models.BaseWeapon
 		item_class, _ := w.GetString("item_class")
 		slot, _ := w.GetString("prefab")
 		image_inventory, _ := w.GetString("image_inventory")
-		
+
 		current := models.BaseWeapon{
-			ItemName: 			 	item_name,
-			ItemDescription: 	item_description,
-			ItemClass:        item_class,
-			Slot:            	slot,
-			ImageInventory: 	image_inventory,
+			ItemName:        item_name,
+			ItemDescription: item_description,
+			ItemClass:       item_class,
+			Slot:            slot,
+			ImageInventory:  image_inventory,
 		}
-		
-		attributes, _ := w.Get("attributes")
-		
-		if attributes != nil {
-			priceAttr, _ := attributes.GetInt("in game price")
-			current.WeaponPrice = priceAttr
-		}
-
-		used_by_classes, _ := w.Get("used_by_classes")
-
-		teams := []string{}
-		if used_by_classes != nil {
-			for _, team := range used_by_classes.GetChilds() {
-				teams = append(teams, team.Key)
-			}
-		}
-
-		current.Teams = teams
 
 		weapons = append(weapons, current)
 	}

@@ -1,8 +1,10 @@
 package modules
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
+	"regexp"
 
 	"go-csitems-parser/models"
 
@@ -35,8 +37,8 @@ func MergeKeysAtRootLevel(root *vdf.KeyValue) {
 
 	// create a new KeyValue for each section
 	newRoot := &vdf.KeyValue{
-		Key:    "items_game",
-		Value:  make([]*vdf.KeyValue, 0),
+		Key:   "items_game",
+		Value: make([]*vdf.KeyValue, 0),
 	}
 
 	for sectionName, items := range cached {
@@ -57,9 +59,71 @@ func MergeKeysAtRootLevel(root *vdf.KeyValue) {
 	root.Value = newRoot.Value
 }
 
+func LoadKnifeSkinsMap(path string) map[string][]string {
+	fileData, err := os.ReadFile(path)
+
+	if err != nil {
+		panic(fmt.Sprintf("Error reading file %s: %v", path, err))
+	}
+
+	if len(fileData) == 0 {
+		panic(fmt.Sprintf("File %s is empty", path))
+	}
+
+	result := make(map[string][]string)
+	json.Unmarshal(fileData, &result)
+
+	return result
+}
+
+type ItemsGameCdn struct {
+	ItemName string `json:"item_name"`
+	URL      string `json:"url"`
+}
+
+func LoadItemsGameCdn(path string) map[string]string {
+	fileData, err := os.ReadFile(path)
+
+	if err != nil {
+		panic(fmt.Sprintf("Error reading file %s: %v", path, err))
+	}
+
+	// Each newline looks like: weapon=url\n
+	// make a regex to split this into a map[string]string
+
+	if len(fileData) == 0 {
+		panic(fmt.Sprintf("File %s is empty", path))
+	}
+
+	// reg := `/(\w+)=([^\s]+)/g`
+	reg := `(\w+)=([^\s]+)`
+	re := regexp.MustCompile(reg)
+	matches := re.FindAllStringSubmatch(string(fileData), -1)
+
+	if matches == nil {
+		panic(fmt.Sprintf("No matches found in file %s", path))
+	}
+
+	items := make(map[string]string, 0)
+
+	for _, match := range matches {
+		if len(match) < 3 {
+			continue // skip if we don't have enough matches
+		}
+		itemName := match[1]
+		url := match[2]
+		if itemName == "" || url == "" {
+			continue // skip if item name or url is empty
+		}
+		items[itemName] = url
+	}
+
+	return items
+}
+
 func LoadItemsGame(path string) *models.ItemsGame {
 	fileData, err := os.ReadFile(path)
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -72,7 +136,7 @@ func LoadItemsGame(path string) *models.ItemsGame {
 	if kv == nil {
 		panic("items_game.txt does not contain 'items_game' section")
 	}
-	
+
 	// kv.RemoveDuplicates()
 	MergeKeysAtRootLevel(kv)
 

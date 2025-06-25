@@ -18,7 +18,7 @@ func main() {
 	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339Nano}).
 		Level(zerolog.TraceLevel).
 		With().
-		Timestamp().		
+		Timestamp().
 		Logger()
 
 	// Set the global logger to use the console writer
@@ -32,7 +32,7 @@ func main() {
 
 		l := list.NewWriter()
 		l.SetStyle(list.StyleConnectedRounded)
-		
+
 		sorted := itemsGame.GetChilds()
 
 		// Sort based on the number of their children
@@ -50,7 +50,7 @@ func main() {
 	// Attach the Logger to the context.Context
 	ctx := context.Background()
 	ctx = logger.WithContext(ctx)
-		
+
 	musicKits := parsers.ParseMusicKits(ctx, itemsGame)
 	collectibles := parsers.ParseCollectibles(ctx, itemsGame)
 	weapon_cases := parsers.ParseWeaponCases(ctx, itemsGame)
@@ -62,6 +62,8 @@ func main() {
 	keychains := parsers.ParseKeychains(ctx, itemsGame)
 	loot_lists := parsers.ParseClientLootLists(ctx, itemsGame)
 	weapons := parsers.ParseWeapons(ctx, itemsGame)
+	gloves := parsers.ParseGloves(ctx, itemsGame)
+	knives := parsers.ParseKnives(ctx, itemsGame)
 
 	ExportToJsonFile(musicKits, "music_kits")
 	ExportToJsonFile(collectibles, "collectibles")
@@ -74,8 +76,27 @@ func main() {
 	ExportToJsonFile(keychains, "keychains")
 	ExportToJsonFile(loot_lists, "client_loot_lists")
 	ExportToJsonFile(weapons, "weapons")
+	ExportToJsonFile(gloves, "gloves")
+	ExportToJsonFile(knives, "knives")
+
+	var itemsGameCdn = modules.LoadItemsGameCdn("./files/items_game_cdn.txt")
+	ExportToJsonFile(itemsGameCdn, "items_game_cdn")
+
+	// Some knife stuff
+	knife_skin_map := modules.LoadKnifeSkinsMap("./files/knife_skins.json")
+	knife_skins := modules.GetKnifePaintKits(&knives, &paint_kits, knife_skin_map)
+	ExportToJsonFile(knife_skins, "knives_with_paint_kits")
+
+	// Weapon map
+	weapon_skins := modules.GetWeaponPaintKits(&weapons, &paint_kits, &item_sets)
+	ExportToJsonFile(weapon_skins, "weapons_with_paint_kits")
+	// knife_skins := modules.GetKnifePaintKits(&knives, &paint_kits)
+
+	// Some glove stuff
+	glove_skins := modules.GetGlovePaintKits(&gloves, &paint_kits)
+	ExportToJsonFile(glove_skins, "gloves_with_paint_kits")
 
 	// keep alive
 	fmt.Println("Press Enter to exit...")
 	fmt.Scanln()
-};
+}

@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseGloves(ctx context.Context, ig *models.ItemsGame) []models.GloveItem {
+func ParseKnives(ctx context.Context, ig *models.ItemsGame) []models.KnifeItem {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -23,36 +23,36 @@ func ParseGloves(ctx context.Context, ig *models.ItemsGame) []models.GloveItem {
 		return nil
 	}
 
-	var gloves []models.GloveItem
-
+	var knives []models.KnifeItem
 	for _, w := range items.GetChilds() {
 		prefab, _ := w.GetString("prefab")
 
-		if prefab != "hands_paintable" {
-			// Skip non-glove items
+		if prefab != "melee_unusual" {
+			// Skip non-knife items
 			continue
 		}
 
 		definition_index, _ := strconv.Atoi(w.Key)
-
 		item_name, _ := w.GetString("item_name")
 		name, _ := w.GetString("name")
 		item_description, _ := w.GetString("item_description")
+		image_inventory, _ := w.GetString("image_inventory")
 
-		current := models.GloveItem{
+		current := models.KnifeItem{
 			DefinitionIndex: definition_index,
 			ItemName:        item_name,
 			Name:            name,
 			ItemDescription: item_description,
 			Prefab:          prefab,
+			ImageInventory:  image_inventory,
 		}
 
-		gloves = append(gloves, current)
+		knives = append(knives, current)
 	}
 
-	// Save gloves to the database
+	// Save knives to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' gloves in %s", len(gloves), duration)
+	logger.Info().Msgf("Parsed '%d' knives in %s", len(knives), duration.String())
 
-	return gloves
+	return knives
 }

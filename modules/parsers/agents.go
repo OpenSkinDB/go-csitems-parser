@@ -11,7 +11,7 @@ import (
 )
 
 func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing agents...")
@@ -29,7 +29,7 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 
 		// Skip if prefab is not "customplayertradable", xd
 		if prefab != "customplayertradable" {
-			continue 
+			continue
 		}
 
 		definition_index, _ := strconv.Atoi(agent.Key)
@@ -38,30 +38,17 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 		item_description, _ := agent.GetString("item_description")
 		image_inventory, _ := agent.GetString("image_inventory")
 		item_rarity, _ := agent.GetString("item_rarity")
-		
-		// this is stupid..
-		used_by_classes, _ := agent.Get("used_by_classes")
-
-		team_str := "all" // Default to "all" if not found
-		if used_by_classes != nil {
-			value := used_by_classes.GetChilds()[0].Key;
-			
-			if value != "" {
-				team_str = value
-			}
-		}
 
 		// Create a new MusicKit instance
 		current := models.PlayerAgent{
-			DefinitionIndex: 	definition_index,
-			Name:            	name,
-			Prefab: 					prefab,
-			ModelPlayer: 			prefab,
-			ItemName:        	loc_name,
-			ItemDescription: 	item_description,
-			ImageInventory: 	image_inventory,
-			ItemRarity: 			item_rarity,
-			UsedByTeam: 			team_str,
+			DefinitionIndex: definition_index,
+			Name:            name,
+			Prefab:          prefab,
+			ModelPlayer:     prefab,
+			ItemName:        loc_name,
+			ItemDescription: item_description,
+			ImageInventory:  image_inventory,
+			ItemRarity:      item_rarity,
 		}
 
 		// Append the current music kit to the slice
