@@ -7,8 +7,7 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
-
-	"github.com/rs/zerolog"
+	"go-csitems-parser/modules"
 )
 
 type StickerTypeParams struct {
@@ -17,8 +16,8 @@ type StickerTypeParams struct {
 	TournamentEventId  int `json:"tournament_event_id"`
 }
 
-func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []models.StickerKit {
-	logger := zerolog.Ctx(ctx)
+func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []*models.StickerKit {
+	logger := modules.GetLogger()
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing sticker kits...")
@@ -30,7 +29,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []models.Sticke
 		return nil
 	}
 
-	var items []models.StickerKit
+	var items []*models.StickerKit
 
 	// Iterate through all items in the "items" section
 	for _, item := range sticker_kits.GetChilds() {
@@ -52,7 +51,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []models.Sticke
 			tournament_event_id,
 		)
 
-		items = append(items, models.StickerKit{
+		items = append(items, &models.StickerKit{
 			DefinitionIndex:   definition_index,
 			Name:              name,
 			ItemName:          item_name,

@@ -9,12 +9,10 @@ import (
 
 	"go-csitems-parser/models"
 	"go-csitems-parser/modules"
-
-	"github.com/rs/zerolog"
 )
 
-func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Collectible {
-	logger := zerolog.Ctx(ctx)
+func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []*models.Collectible {
+	logger := modules.GetLogger()
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing collectibles...")
@@ -26,7 +24,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 		return nil
 	}
 
-	var collectibles []models.Collectible
+	var collectibles []*models.Collectible
 
 	// Iterate through all items in the "items" section
 	for _, item := range items.GetChilds() {
@@ -52,7 +50,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 		// Determine the type of collectible
 		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
 
-		collectibles = append(collectibles, models.Collectible{
+		collectibles = append(collectibles, &models.Collectible{
 			DefinitionIndex:   definition_index,
 			Prefab:            prefab,
 			Name:              name,

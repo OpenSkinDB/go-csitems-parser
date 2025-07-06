@@ -22,15 +22,15 @@ type ItemSchemaPaintKits struct {
 }
 
 type ItemSchema struct {
-	Collections  []models.ItemSet     `json:"collections"`
-	Rarities     []models.Rarity      `json:"rarities"`
-	Stickers     []models.StickerKit  `json:"stickers"`
-	Keychains    []models.Keychain    `json:"keychains"`
-	Collectibles []models.Collectible `json:"collectibles"`
-	Containers   []models.WeaponCase  `json:"containers"`
-	Agents       []models.PlayerAgent `json:"agents"`
-	MusicKits    []models.MusicKit    `json:"music_kits"`
-	PaintKits    ItemSchemaPaintKits  `json:"paint_kits"`
+	Collections  []models.ItemSet      `json:"collections"`
+	Rarities     []models.Rarity       `json:"rarities"`
+	Stickers     []*models.StickerKit  `json:"stickers"`
+	Keychains    []models.Keychain     `json:"keychains"`
+	Collectibles []*models.Collectible `json:"collectibles"`
+	Containers   []models.WeaponCase   `json:"containers"`
+	Agents       []models.PlayerAgent  `json:"agents"`
+	MusicKits    []models.MusicKit     `json:"music_kits"`
+	PaintKits    ItemSchemaPaintKits   `json:"paint_kits"`
 }
 
 func main() {

@@ -1,10 +1,18 @@
 package modules
 
 import (
+	"context"
 	"go-csitems-parser/models"
 
 	"github.com/baldurstod/vdf"
+	"github.com/rs/zerolog"
 )
+
+func GetLogger() *zerolog.Logger {
+	logger := zerolog.Ctx(context.Background())
+
+	return logger
+}
 
 func GetStringMapKeySlice(m map[string]string) []string {
 	keys := make([]string, 0, len(m))

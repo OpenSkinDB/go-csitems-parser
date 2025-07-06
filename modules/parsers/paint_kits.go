@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
@@ -14,7 +15,6 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame) []models.PaintKit
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
-	// logger.Info().Msg("Parsing paintkits...")
 
 	paint_kits, err := ig.Get("paint_kits")
 
@@ -23,23 +23,19 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame) []models.PaintKit
 		return nil
 	}
 
-	var raritymap = GetPaintKitRarityStringMap(ig)
+	raritymap := GetPaintKitRarityStringMap(ig)
 
 	if raritymap == nil {
 		logger.Error().Msg("Failed to get paint_kits_rarity from items_game.txt")
 		return nil
 	}
 
-	// logger.Debug().Msgf("Found '%d' entires in 'paint_kits_rarity'", len(raritymap))
-
 	var items []models.PaintKit
 	for _, r := range paint_kits.GetChilds() {
 		name, _ := r.GetString("name")
 
-		// skip if name equal to "default" or "workshop_default"
+		// skip if name equal to "workshop_default"
 		if name == "workshop_default" {
-			// Log a warning and skip this paint kit
-			// logger.Warn().Msg("Skipping paint kit with name 'default'")
 			continue
 		}
 
@@ -67,6 +63,7 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame) []models.PaintKit
 		if !exists {
 			logger.Warn().Msgf("No rarity found for paint kit '%s' (definition index: %d)", current.Name, current.DefinitionIndex)
 		}
+
 		current.Rarity = val
 
 		items = append(items, current)
@@ -81,7 +78,7 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame) []models.PaintKit
 
 func GetPaintKitRarityStringMap(ig *models.ItemsGame) map[string]string {
 	paint_kits_rarity, err := ig.Get("paint_kits_rarity")
-	logger := zerolog.Ctx(context.Background())
+	logger := modules.GetLogger()
 
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get paint_kits_rarity from items_game.txt")
