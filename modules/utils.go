@@ -2,7 +2,6 @@ package modules
 
 import (
 	"go-csitems-parser/models"
-	"log"
 
 	"github.com/baldurstod/vdf"
 )
@@ -26,13 +25,11 @@ func GetStringMapValueSlice(m map[string]string) []string {
 func GetTournamentEventId(item *vdf.KeyValue) (int, error) {
 	attributes, err := item.Get("attributes")
 	if err != nil {
-		log.Print("Error getting tournament event id:", err)
 		return -1, err
 	}
 
 	tournament, err := attributes.Get("tournament event id")
 	if err != nil {
-		log.Print("Error getting tournament event id:", err)
 		return -1, err
 	}
 

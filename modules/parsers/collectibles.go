@@ -14,7 +14,7 @@ import (
 )
 
 func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Collectible {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing collectibles...")
@@ -45,7 +45,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 		attributes := modules.GetSubKey(item, "attributes")
 
 		// Get subkeys for attributes
-		tournament_event_id, _ := attributes.GetInt("value")
+		tournament_event_id, _ := modules.GetTournamentEventId(item)
 		pedestal_display_model, _ := attributes.GetString("pedestal display model")
 
 		// Get the pedestal display model from attributes
@@ -53,15 +53,15 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []models.Colle
 		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
 
 		collectibles = append(collectibles, models.Collectible{
-			DefinitionIndex: 		definition_index,
-			Prefab: 				 		prefab,
-			Name:            		name,
-			ItemName:        		item_name,
-			ItemDescription: 		item_description,
-			ImageInventory:  		image_inventory,
-			Model:    					pedestal_display_model,
-			Type: 							collectible_type,
-			TournamentEventId: 	tournament_event_id,
+			DefinitionIndex:   definition_index,
+			Prefab:            prefab,
+			Name:              name,
+			ItemName:          item_name,
+			ItemDescription:   item_description,
+			ImageInventory:    image_inventory,
+			Model:             pedestal_display_model,
+			Type:              collectible_type,
+			TournamentEventId: tournament_event_id,
 		})
 	}
 
@@ -97,7 +97,7 @@ func GetCollectibleType(
 	// image_inventory looks like "10yearcoin", "5yearcoin", etc.
 	reg1 := regexp.MustCompile(`\d+yearcoin`)
 	if reg1.MatchString(image_inventory) {
-		return models.CollectibleTypeYearsOfService	
+		return models.CollectibleTypeYearsOfService
 	}
 
 	if strings.Contains(item_name, "#CSGO_Collectible_Map") {
@@ -112,7 +112,7 @@ func GetCollectibleType(
 		return models.CollectibleTypeMapPin
 	}
 
-	// This is a bit odd, idk what Valve was thinking 
+	// This is a bit odd, idk what Valve was thinking
 	if strings.HasPrefix(item_name, "#CSGO_Collectible_CommunitySeason") {
 		return models.CollectibleTypeMapPin
 	}
