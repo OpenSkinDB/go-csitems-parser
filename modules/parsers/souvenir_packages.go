@@ -29,7 +29,6 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame) []models.S
 		prefab, _ := c.GetString("prefab")
 
 		if prefab != "weapon_case_souvenirpkg" {
-			// Skip other items
 			continue
 		}
 
@@ -55,7 +54,7 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame) []models.S
 
 	// Save knives to the database
 	duration := time.Since(start)
-	logger.Info().Msgf("Parsed '%d' souvenir packages in %s", len(souvenir_packages), duration.String())
+	logger.Info().Msgf("Parsed '%d' souvenir packages in %s", len(souvenir_packages), duration)
 
 	return souvenir_packages
 }
