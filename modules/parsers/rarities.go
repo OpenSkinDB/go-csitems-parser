@@ -24,6 +24,7 @@ func ParseRarities(ctx context.Context, ig *models.ItemsGame) []models.Rarity {
 
 	colors, _ := ig.Get("colors")
 	color_map := make(map[string]models.GenericColor)
+
 	for _, clr := range colors.GetChilds() {
 		color_name, _ := clr.GetString("color_name")
 		hex_color, _ := clr.GetString("hex_color")

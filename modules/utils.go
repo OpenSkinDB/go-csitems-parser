@@ -58,14 +58,10 @@ func GetContainerItemSet(item *vdf.KeyValue) *models.WeaponCaseItemSet {
 
 	tag, _ := item_set.GetString("tag_value")
 	tagText, _ := item_set.GetString("tag_text")
-	tagGroup, _ := item_set.GetString("tag_group")
-	tagGroupText, _ := item_set.GetString("tag_group_text")
 
 	return &models.WeaponCaseItemSet{
-		Tag:          tag,
-		TagText:      tagText,
-		TagGroup:     tagGroup,
-		TagGroupText: tagGroupText,
+		Id:   tag,
+		Name: tagText,
 	}
 }
 

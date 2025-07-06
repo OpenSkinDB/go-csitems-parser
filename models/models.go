@@ -148,10 +148,8 @@ type PlayerAgent struct {
 }
 
 type WeaponCaseItemSet struct {
-	Tag          string `json:"tag"`
-	TagText      string `json:"tag_text"`
-	TagGroup     string `json:"tag_group"`
-	TagGroupText string `json:"tag_group_text"`
+	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 type WeaponCaseKey struct {

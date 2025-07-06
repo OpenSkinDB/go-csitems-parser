@@ -7,14 +7,14 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
-	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.WeaponCase {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing weapon cases...")
@@ -31,7 +31,7 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 	// Iterate through all items in the "items" section
 	for _, item := range items.GetChilds() {
 		prefab, _ := item.GetString("prefab")
-		
+
 		if prefab != "weapon_case" {
 			continue
 		}
@@ -49,30 +49,30 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 
 		case_key_def_idx := -1 // Default to -1 if not found
 		if associated_items != nil {
-			value := associated_items.GetChilds()[0].Key;
-			
+			value := associated_items.GetChilds()[0].Key
+
 			if value != "" {
 				case_key_def_idx, _ = strconv.Atoi(value)
 			}
 		}
-		
+
 		// If case_key_def_idx is still -1, we cannot find the key for this case
 		case_key := GetWeaponCaseKeyByDefIndex(ig, case_key_def_idx)
-		item_set := GetWeaponCaseItemSet(item)
+		item_set := modules.GetContainerItemSet(item)
 
 		// Create the weapon case model
 		var current = models.WeaponCase{
-			DefinitionIndex: 		definition_index,
-			Prefab: 				 		prefab,
-			Name:            		name,
-			ItemName:        		item_name,
-			ItemDescription: 		item_description,
-			ModelPlayer:        model_player,
-			FirstSaleDate: 			first_sale_date,
-			ImageInventory:  		image_inventory,
-			Key: 								case_key,
-			ItemSet: 						item_set,
-		};
+			DefinitionIndex: definition_index,
+			Prefab:          prefab,
+			Name:            name,
+			ItemName:        item_name,
+			ItemDescription: item_description,
+			ModelPlayer:     model_player,
+			FirstSaleDate:   first_sale_date,
+			ImageInventory:  image_inventory,
+			Key:             case_key,
+			ItemSet:         item_set,
+		}
 
 		weapon_cases = append(weapon_cases, current)
 	}
@@ -112,13 +112,13 @@ func GetWeaponCaseKeyByDefIndex(ig *models.ItemsGame, definitionIndex int) *mode
 		image_inventory, _ := item.GetString("image_inventory")
 
 		current = models.WeaponCaseKey{
-			DefinitionIndex:  def_idx,
-			Prefab:            prefab,
-			Name:              name,
-			ItemName:          item_name,
-			ItemDescription:   item_description,
-			FirstSaleDate:     first_sale_date,
-			ImageInventory:    image_inventory,
+			DefinitionIndex: def_idx,
+			Prefab:          prefab,
+			Name:            name,
+			ItemName:        item_name,
+			ItemDescription: item_description,
+			FirstSaleDate:   first_sale_date,
+			ImageInventory:  image_inventory,
 		}
 
 		break // We found the item, no need to continue
@@ -130,30 +130,4 @@ func GetWeaponCaseKeyByDefIndex(ig *models.ItemsGame, definitionIndex int) *mode
 	}
 
 	return &current
-}
-
-func GetWeaponCaseItemSet(item *vdf.KeyValue) *models.WeaponCaseItemSet {
-	tags, err := item.Get("tags")
-	if err != nil {
-		log.Error().Err(err).Msg("Failed to get tags for weapon case item")
-		return nil
-	}
-
-	item_set, err := tags.Get("ItemSet")
-	if err != nil {
-		log.Error().Err(err).Msg("Failed to get ItemSet for weapon case item")
-		return nil
-	}
-
-	tag, _ := item_set.GetString("tag_value")
-	tagText, _ := item_set.GetString("tag_text")
-	tagGroup, _ := item_set.GetString("tag_group")
-	tagGroupText, _ := item_set.GetString("tag_group_text")
-
-	return &models.WeaponCaseItemSet{
-		Tag:           tag,
-		TagText:       tagText,
-		TagGroup:      tagGroup,
-		TagGroupText:  tagGroupText,
-	}
 }
