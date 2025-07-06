@@ -35,6 +35,10 @@ func GetWeaponPaintKits(
 		for _, paint_kit_name := range item_set_paint_kits {
 			paint_kit := GetPaintKitByName(paint_kits, paint_kit_name)
 
+			if paint_kit == nil {
+				continue
+			}
+
 			current.PaintKits = append(current.PaintKits, *paint_kit)
 		}
 

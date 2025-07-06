@@ -64,8 +64,8 @@ type PaintKit struct {
 	DescriptionString string  `json:"description_string"`
 	DescriptionTag    string  `json:"description_tag"`
 	Style             int     `json:"style"`
-	WearRemapMin      float64 `json:"wear_remap_min"`
-	WearRemapMax      float64 `json:"wear_remap_max"`
+	WearRemapMin      float32 `json:"wear_remap_min"`
+	WearRemapMax      float32 `json:"wear_remap_max"`
 	Rarity            string  `json:"rarity"`
 }
 
