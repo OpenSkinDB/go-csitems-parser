@@ -42,7 +42,6 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
 			Name:            name,
-			Prefab:          prefab,
 			ItemName:        item_name,
 			ItemDescription: item_description,
 			ItemRarity:      item_rarity,

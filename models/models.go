@@ -6,31 +6,39 @@ type ItemsGame struct {
 	*vdf.KeyValue
 }
 
+type Localization struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
 type BaseWeapon struct {
-	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	ItemDescription string `json:"item_description"`
-	ItemClass       string `json:"item_class"`
-	Slot            string `json:"slot"`
-	ImageInventory  string `json:"image_inventory"`
+	DefinitionIndex int           `json:"definition_index"`
+	ItemName        string        `json:"item_name"`
+	ItemDescription string        `json:"item_description"`
+	ItemClass       string        `json:"item_class"`
+	Slot            string        `json:"slot"`
+	ImageInventory  string        `json:"image_inventory"`
+	Localization    *Localization `json:"localization"`
 }
 
 type GloveItem struct {
-	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	Name            string `json:"name"`
-	Prefab          string `json:"prefab"`
-	ItemDescription string `json:"item_description"`
-	ImageInventory  string `json:"image_inventory"`
+	DefinitionIndex int           `json:"definition_index"`
+	ItemName        string        `json:"item_name"`
+	Name            string        `json:"name"`
+	Prefab          string        `json:"prefab"`
+	ItemDescription string        `json:"item_description"`
+	ImageInventory  string        `json:"image_inventory"`
+	Localization    *Localization `json:"localization"`
 }
 
 type KnifeItem struct {
-	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	Name            string `json:"name"`
-	Prefab          string `json:"prefab"`
-	ItemDescription string `json:"item_description"`
-	ImageInventory  string `json:"image_inventory"`
+	DefinitionIndex int           `json:"definition_index"`
+	ItemName        string        `json:"item_name"`
+	Name            string        `json:"name"`
+	Prefab          string        `json:"prefab"`
+	ItemDescription string        `json:"item_description"`
+	ImageInventory  string        `json:"image_inventory"`
+	Localization    *Localization `json:"localization"`
 }
 
 type GenericColor struct {
@@ -50,18 +58,20 @@ type StickerKit struct {
 	Type              StickerType   `json:"type"`
 	TournamentEventId int           `json:"tournament_event_id"`
 	TournamentTeamId  int           `json:"tournament_team_id"`
+	Localization      *Localization `json:"localization"`
 }
 
 type PaintKit struct {
-	DefinitionIndex   int     `json:"definition_index"`
-	Name              string  `json:"name"`
-	UseLegacyModel    bool    `json:"use_legacy_model"`
-	DescriptionString string  `json:"description_string"`
-	DescriptionTag    string  `json:"description_tag"`
-	Style             int     `json:"style"`
-	WearRemapMin      float64 `json:"wear_remap_min"`
-	WearRemapMax      float64 `json:"wear_remap_max"`
-	Rarity            string  `json:"rarity"`
+	DefinitionIndex   int           `json:"definition_index"`
+	Name              string        `json:"name"`
+	UseLegacyModel    bool          `json:"use_legacy_model"`
+	DescriptionString string        `json:"description_string"`
+	DescriptionTag    string        `json:"description_tag"`
+	Style             int           `json:"style"`
+	WearRemapMin      float64       `json:"wear_remap_min"`
+	WearRemapMax      float64       `json:"wear_remap_max"`
+	Rarity            string        `json:"rarity"`
+	Localization      *Localization `json:"localization"`
 }
 
 type ItemSetItem struct {
@@ -94,6 +104,7 @@ type ItemSet struct {
 	Type           ItemSetType   `json:"type"`
 	Items          []ItemSetItem `json:"items"`
 	Agents         []string      `json:"agents"`
+	Localization   *Localization `json:"localization"`
 }
 
 type Rarity struct {
@@ -107,29 +118,30 @@ type Rarity struct {
 }
 
 type MusicKit struct {
-	DefinitionIndex int    `json:"definition_index"`
-	Name            string `json:"name"`
-	ItemName        string `json:"item_name"`
-	ImageInventory  string `json:"image_inventory"`
-	Model           string `json:"display_model"`
+	DefinitionIndex int           `json:"definition_index"`
+	Name            string        `json:"name"`
+	ItemName        string        `json:"item_name"`
+	ImageInventory  string        `json:"image_inventory"`
+	Model           string        `json:"display_model"`
+	Localization    *Localization `json:"localization"`
 }
 
 type Keychain struct {
-	DefinitionIndex int    `json:"definition_index"`
-	Name            string `json:"name"`
-	LocName         string `json:"loc_name"`
-	LocDescription  string `json:"loc_description"`
-	Rarity          string `json:"rarity"`
-	Quality         string `json:"quality"`
-	ImageInventory  string `json:"image_inventory"`
-	Model           string `json:"display_model"`
-	LootListId      string `json:"loot_list_id"`
+	DefinitionIndex int           `json:"definition_index"`
+	Name            string        `json:"name"`
+	LocName         string        `json:"loc_name"`
+	LocDescription  string        `json:"loc_description"`
+	Rarity          string        `json:"rarity"`
+	Quality         string        `json:"quality"`
+	ImageInventory  string        `json:"image_inventory"`
+	Model           string        `json:"display_model"`
+	LootListId      string        `json:"loot_list_id"`
+	Localization    *Localization `json:"localization"`
 }
 
 type PlayerAgent struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
-	Prefab          string `json:"prefab"`
 	ItemName        string `json:"item_name"`
 	ItemDescription string `json:"item_description"`
 	ItemRarity      string `json:"item_rarity"`
@@ -163,6 +175,16 @@ type WeaponCase struct {
 	FirstSaleDate   string             `json:"first_sale_date"`
 	ItemSet         *WeaponCaseItemSet `json:"item_set"`
 	Key             *WeaponCaseKey     `json:"key"`
+}
+
+type SouvenirPackage struct {
+	DefinitionIndex   int                `json:"definition_index"`
+	Name              string             `json:"name"`
+	ItemName          string             `json:"item_name"`
+	ItemDescription   string             `json:"item_description"`
+	ImageInventory    string             `json:"image_inventory"`
+	TournamentEventId int                `json:"tournament_event_id"`
+	ItemSet           *WeaponCaseItemSet `json:"item_set"`
 }
 
 type Collectible struct {

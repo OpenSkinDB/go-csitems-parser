@@ -12,7 +12,7 @@ import (
 )
 
 func ParseKeychains(ctx context.Context, ig *models.ItemsGame) []models.Keychain {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing keychains...")
@@ -32,16 +32,16 @@ func ParseKeychains(ctx context.Context, ig *models.ItemsGame) []models.Keychain
 		loc_description, _ := mk.GetString("loc_description")
 		image_inventory, _ := mk.GetString("image_inventory")
 		item_rarity, _ := mk.GetString("item_rarity")
-		item_quality, _ := mk.GetString("item_quality")
+		// item_quality, _ := mk.GetString("item_quality")
 		pedestal_display_model, _ := mk.GetString("pedestal_display_model")
-		
+
 		// this is stupid..
 		tags, _ := mk.Get("tags")
 
 		loot_list_id := ""
 		if tags != nil {
 			keychain_capsule, _ := tags.Get("KeychainCapsule")
-			
+
 			if keychain_capsule != nil {
 				loot_list_id, _ = keychain_capsule.GetString("tag_value")
 			}
@@ -56,15 +56,14 @@ func ParseKeychains(ctx context.Context, ig *models.ItemsGame) []models.Keychain
 
 		// Create a new Keychain instance
 		current := models.Keychain{
-			DefinitionIndex: 	definition_index,
-			Name:            	name,
-			LocName: 			 		loc_name,
-			LocDescription: 	loc_description,
-			Rarity: 					item_rarity,
-			Quality: 					item_quality, 
-			ImageInventory: 	image_inventory,
-			Model: 						pedestal_display_model, 
-			LootListId: 			loot_list_id,
+			DefinitionIndex: definition_index,
+			Name:            name,
+			LocName:         loc_name,
+			LocDescription:  loc_description,
+			Rarity:          item_rarity,
+			ImageInventory:  image_inventory,
+			Model:           pedestal_display_model,
+			LootListId:      loot_list_id,
 		}
 
 		// Append the current keychains to the slice

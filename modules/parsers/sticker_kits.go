@@ -12,13 +12,13 @@ import (
 )
 
 type StickerTypeParams struct {
-	TournamentPlayerId 	int 	`json:"tournament_player_id"`
-	TournamentTeamId 		int 	`json:"tournament_team_id"`
-	TournamentEventId 	int 	`json:"tournament_event_id"`
+	TournamentPlayerId int `json:"tournament_player_id"`
+	TournamentTeamId   int `json:"tournament_team_id"`
+	TournamentEventId  int `json:"tournament_event_id"`
 }
 
 func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []models.StickerKit {
-	logger := zerolog.Ctx(ctx);
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing sticker kits...")
@@ -47,22 +47,22 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []models.Sticke
 		// Get sticker effect, dunno how accurate this is, but it works for now
 		sticker_effect := GetStickerEffect(sticker_material)
 		sticker_type := GetStickerType(
-			tournament_player_id, 
+			tournament_player_id,
 			tournament_team_id,
 			tournament_event_id,
 		)
 
 		items = append(items, models.StickerKit{
-			DefinitionIndex: 		definition_index,
-			Name:            		name,
-			ItemName:        		item_name,
-			DescriptionString: 	description_string,
-			StickerMaterial:    sticker_material,
-			Rarity:         		item_rarity,
-			Effect: 			 			sticker_effect,
-			Type:             	sticker_type,
-			TournamentEventId: 	tournament_event_id,
-			TournamentTeamId: 	tournament_team_id,
+			DefinitionIndex:   definition_index,
+			Name:              name,
+			ItemName:          item_name,
+			DescriptionString: description_string,
+			StickerMaterial:   sticker_material,
+			Rarity:            item_rarity,
+			Effect:            sticker_effect,
+			Type:              sticker_type,
+			TournamentEventId: tournament_event_id,
+			TournamentTeamId:  tournament_team_id,
 		})
 	}
 
@@ -104,6 +104,10 @@ func GetStickerEffect(sticker_material string) models.StickerEffect {
 
 	if strings.HasSuffix(sticker_material, "_gold") {
 		return models.StickerEffectGold
+	}
+
+	if strings.HasSuffix(sticker_material, "_lenticular") {
+		return models.StickerEffectLenticular
 	}
 
 	return models.StickerEffectUnknown

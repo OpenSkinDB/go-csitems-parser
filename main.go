@@ -63,12 +63,19 @@ func main() {
 			fmtKey := GetFormattedItemName(item.Key, len(item.GetChilds()), 35)
 			l.AppendItem(fmtKey)
 		}
-		fmt.Printf("%s\n", l.Render())
+		// fmt.Printf("%s\n", l.Render())
 	}
 
 	// Attach the Logger to the context.Context
 	ctx := context.Background()
 	ctx = logger.WithContext(ctx)
+
+	translator := modules.LoadAllTranslations(ctx, "./files/translations")
+
+	if translator == nil {
+		logger.Error().Msg("Failed to load translations")
+		return
+	}
 
 	start := time.Now()
 
@@ -85,6 +92,7 @@ func main() {
 	weapons := parsers.ParseWeapons(ctx, itemsGame)
 	gloves := parsers.ParseGloves(ctx, itemsGame)
 	knives := parsers.ParseKnives(ctx, itemsGame)
+	souvenir_packages := parsers.ParseSouvenirPackages(ctx, itemsGame)
 
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)
@@ -104,6 +112,7 @@ func main() {
 	ExportToJsonFile(weapons, "weapons")
 	ExportToJsonFile(gloves, "gloves")
 	ExportToJsonFile(knives, "knives")
+	ExportToJsonFile(souvenir_packages, "souvenir_packages")
 
 	var itemsGameCdn = modules.LoadItemsGameCdn("./files/items_game_cdn.txt")
 	ExportToJsonFile(itemsGameCdn, "items_game_cdn")
