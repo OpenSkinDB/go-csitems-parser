@@ -14,7 +14,6 @@ func ParseGloves(ctx context.Context, ig *models.ItemsGame) []models.GloveItem {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
-	// logger.Info().Msg("Parsing music kits...")
 
 	items, err := ig.Get("items")
 
