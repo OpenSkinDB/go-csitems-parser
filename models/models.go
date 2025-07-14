@@ -13,11 +13,13 @@ type Localization struct {
 
 type BaseWeapon struct {
 	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	ItemDescription string `json:"item_description"`
-	ItemClass       string `json:"item_class"`
-	Slot            string `json:"slot"`
+	Name            string `json:"name"`
+	ClassName       string `json:"classname"`
 	ImageInventory  string `json:"image_inventory"`
+
+	// ItemName        string `json:"item_name"`
+	// ItemDescription string `json:"item_description"`
+	// Slot            string `json:"slot"`
 }
 
 type GloveItem struct {
@@ -57,16 +59,21 @@ type StickerKit struct {
 	TournamentTeamId  int           `json:"tournament_team_id"`
 }
 
+type PaintKitWearRange struct {
+	Min float32 `json:"min"`
+	Max float32 `json:"max"`
+}
+
 type PaintKit struct {
-	DefinitionIndex   int     `json:"definition_index"`
-	Name              string  `json:"name"`
-	UseLegacyModel    bool    `json:"use_legacy_model"`
-	DescriptionString string  `json:"description_string"`
-	DescriptionTag    string  `json:"description_tag"`
-	Style             int     `json:"style"`
-	WearRemapMin      float32 `json:"wear_remap_min"`
-	WearRemapMax      float32 `json:"wear_remap_max"`
-	Rarity            string  `json:"rarity"`
+	DefinitionIndex int               `json:"definition_index"`
+	Name            string            `json:"name"`
+	MarketHashName  string            `json:"market_hash_name"`
+	Wear            PaintKitWearRange `json:"float"`
+	Rarity          string            `json:"rarity"`
+	// UseLegacyModel    bool    `json:"use_legacy_model"`
+	// DescriptionString string  `json:"description_string"`
+	// DescriptionTag    string  `json:"description_tag"`
+	// Style             int     `json:"style"`
 }
 
 type ItemSetItem struct {
@@ -114,9 +121,11 @@ type Rarity struct {
 type MusicKit struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
-	ItemName        string `json:"item_name"`
 	ImageInventory  string `json:"image_inventory"`
-	Model           string `json:"display_model"`
+	MarketHashName  string `json:"market_hash_name"`
+
+	// ItemName        string `json:"item_name"`
+	// Model           string `json:"display_model"`
 }
 
 type Keychain struct {
@@ -134,9 +143,9 @@ type Keychain struct {
 type PlayerAgent struct {
 	DefinitionIndex int    `json:"definition_index"`
 	MarketHashName  string `json:"market_hash_name"`
-	Name            string `json:"name"`
-	Description     string `json:"description"`
-	Rarity          string `json:"rarity"`
+	// Name            string `json:"name"`
+	// Description     string `json:"description"`
+	Rarity string `json:"rarity"`
 }
 
 type WeaponCaseItemSet struct {
@@ -147,35 +156,36 @@ type WeaponCaseItemSet struct {
 type WeaponCaseKey struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
-	ItemName        string `json:"item_name"`
-	ItemDescription string `json:"item_description"`
-	FirstSaleDate   string `json:"first_sale_date"`
-	Prefab          string `json:"prefab"`
-	ImageInventory  string `json:"image_inventory"`
+	// ItemName        string `json:"item_name"`
+	// ItemDescription string `json:"item_description"`
+	// FirstSaleDate   string `json:"first_sale_date"`
+	// Prefab          string `json:"prefab"`
+	ImageInventory string `json:"image_inventory"`
 }
 
 type WeaponCase struct {
 	DefinitionIndex int                `json:"definition_index"`
 	Name            string             `json:"name"`
-	Description     string             `json:"description"`
 	MarketHashName  string             `json:"market_hash_name"`
-	Prefab          string             `json:"prefab"`
 	ImageInventory  string             `json:"image_inventory"`
-	Model           string             `json:"model_player"`
-	FirstSaleDate   string             `json:"first_sale_date"`
 	ItemSet         *WeaponCaseItemSet `json:"item_set"`
 	Key             *WeaponCaseKey     `json:"key"`
+
+	// Description     string             `json:"description"`
+	// Prefab          string             `json:"prefab"`
+	// Model           string             `json:"model_player"`
+	// FirstSaleDate   string             `json:"first_sale_date"`
 }
 
 type SouvenirPackage struct {
-	DefinitionIndex   int                `json:"definition_index"`
-	Name              string             `json:"name"`
-	ItemName          string             `json:"item_name"`
-	ItemDescription   string             `json:"item_description"`
+	DefinitionIndex int    `json:"definition_index"`
+	MarketHashName  string `json:"market_hash_name"`
+	// Name              string             `json:"name"`
+	// ItemName          string             `json:"item_name"`
+	// ItemDescription   string             `json:"item_description"`
 	ImageInventory    string             `json:"image_inventory"`
 	TournamentEventId int                `json:"tournament_event_id"`
 	ItemSet           *WeaponCaseItemSet `json:"item_set"`
-	MarketHashName    string             `json:"market_hash_name"`
 }
 
 type Collectible struct {

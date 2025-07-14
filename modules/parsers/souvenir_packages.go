@@ -34,16 +34,18 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame, t *modules
 
 		definition_index, _ := strconv.Atoi(c.Key)
 		item_name, _ := c.GetString("item_name")
-		name, _ := c.GetString("name")
 		image_inventory, _ := c.GetString("image_inventory")
 
-		item_set := modules.GetContainerItemSet(c)
+		item_set := modules.GetContainerItemSet(c, t)
 		tournament_event_id, _ := modules.GetTournamentEventId(c)
+
+		// Add if you want those for cs2wiki
+		// name, _ := c.GetString("name")
+		// ItemName:          item_name,
+		// Name:              name,
 
 		current := models.SouvenirPackage{
 			DefinitionIndex:   definition_index,
-			ItemName:          item_name,
-			Name:              name,
 			ImageInventory:    image_inventory,
 			ItemSet:           item_set,
 			TournamentEventId: tournament_event_id,

@@ -31,14 +31,15 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 		name, _ := musicKit.GetString("name")
 		loc_name, _ := musicKit.GetString("loc_name")
 		image_inventory, _ := musicKit.GetString("image_inventory")
-		pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
+		// pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
 
 		musicKits = append(musicKits, models.MusicKit{
 			DefinitionIndex: definition_index,
 			Name:            name,
-			ItemName:        loc_name,
 			ImageInventory:  image_inventory,
-			Model:           pedestal_display_model,
+			MarketHashName:  modules.GenerateMarketHashName(t, loc_name, "music_kit"),
+			// ItemName:        loc_name,
+			// Model:           pedestal_display_model,
 		})
 	}
 

@@ -40,22 +40,24 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 		}
 
 		definition_index, _ := strconv.Atoi(r.Key)
-		use_legacy_model, _ := r.GetBool("use_legacy_model")
-		description_string, _ := r.GetString("description_string")
-		description_tag, _ := r.GetString("description_tag")
-		style, _ := r.GetInt("style")
 		wear_remap_min, _ := r.GetFloat32("wear_remap_min")
 		wear_remap_max, _ := r.GetFloat32("wear_remap_max")
+		description_tag, _ := r.GetString("description_tag")
+
+		// use_legacy_model, _ := r.GetBool("use_legacy_model")
+		// description_string, _ := r.GetString("description_string")
+		// style, _ := r.GetInt("style")
+
+		float_ranges := models.PaintKitWearRange{
+			Min: wear_remap_min,
+			Max: wear_remap_max,
+		}
 
 		current := models.PaintKit{
-			DefinitionIndex:   definition_index,
-			Name:              name,
-			DescriptionString: description_string,
-			DescriptionTag:    description_tag,
-			UseLegacyModel:    use_legacy_model,
-			Style:             style,
-			WearRemapMin:      wear_remap_min,
-			WearRemapMax:      wear_remap_max,
+			DefinitionIndex: definition_index,
+			Name:            name,
+			Wear:            float_ranges,
+			MarketHashName:  modules.GenerateMarketHashName(t, description_tag, "paint_kit"),
 		}
 
 		// Get the skin rarity from the paint_kits_rarity map

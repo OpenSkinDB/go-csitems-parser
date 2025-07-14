@@ -2,6 +2,7 @@ package parsers
 
 import (
 	"context"
+	"strconv"
 	"strings"
 	"time"
 
@@ -34,16 +35,23 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 		}
 
 		item_name, _ := w.GetString("item_name")
-		item_description, _ := w.GetString("item_description")
 		item_class, _ := w.GetString("item_class")
-		slot, _ := w.GetString("prefab")
 		image_inventory, _ := w.GetString("image_inventory")
 
+		// item_description, _ := w.GetString("item_description")
+		// slot, _ := w.GetString("prefab")
+		// Slot:           slot,
+
+		translated_name, err := t.GetValueByKey(item_name)
+		if err != nil {
+			logger.Error().Err(err).Msgf("Failed to translate item name for weapon %s", item_name)
+			translated_name = item_name // Fallback to original if translation fails
+		}
+
 		current := models.BaseWeapon{
-			ItemName:        item_name,
-			ItemDescription: item_description,
-			ItemClass:       item_class,
-			Slot:            slot,
+			DefinitionIndex: GetBaseWeaponDefinitionIndex(item_class, ig),
+			Name:            translated_name,
+			ClassName:       item_class,
 			ImageInventory:  image_inventory,
 		}
 
@@ -55,4 +63,23 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 	logger.Info().Msgf("Parsed '%d' weapons in %s", len(weapons), duration)
 
 	return weapons
+}
+
+func GetBaseWeaponDefinitionIndex(class string, ig *models.ItemsGame) int {
+	items, err := ig.Get("items")
+
+	if err != nil {
+		return -1 // Error retrieving prefabs
+	}
+
+	for _, w := range items.GetChilds() {
+		name, _ := w.GetString("name")
+
+		if name == class {
+			definition_index, _ := strconv.Atoi(w.Key)
+			return definition_index
+		}
+	}
+
+	return -1 // Class not found
 }

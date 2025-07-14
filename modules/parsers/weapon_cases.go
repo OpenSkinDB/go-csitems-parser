@@ -38,10 +38,10 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 
 		definition_index, _ := strconv.Atoi(item.Key)
 		item_name, _ := item.GetString("item_name")
-		item_description, _ := item.GetString("item_description")
 		image_inventory, _ := item.GetString("image_inventory")
-		model_player, _ := item.GetString("model_player")
-		first_sale_date, _ := item.GetString("first_sale_date")
+		// item_description, _ := item.GetString("item_description")
+		// model_player, _ := item.GetString("model_player")
+		// first_sale_date, _ := item.GetString("first_sale_date")
 
 		// Get child key called "attributes"
 		associated_items, _ := item.Get("associated_items")
@@ -57,20 +57,20 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 
 		// If case_key_def_idx is still -1, we cannot find the key for this case
 		case_key := GetWeaponCaseKeyByDefIndex(ig, case_key_def_idx)
-		item_set := modules.GetContainerItemSet(item)
+		item_set := modules.GetContainerItemSet(item, t)
 
 		// Create the weapon case model
 		var current = models.WeaponCase{
 			DefinitionIndex: definition_index,
-			Prefab:          prefab,
-			Name:            item_name,
-			Description:     item_description,
-			Model:           model_player,
-			FirstSaleDate:   first_sale_date,
-			ImageInventory:  image_inventory,
-			Key:             case_key,
-			ItemSet:         item_set,
-			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "weapon_case"),
+			// Prefab:          prefab,
+			Name: item_name,
+			// Description:     item_description,
+			// Model:           model_player,
+			// FirstSaleDate:   first_sale_date,
+			ImageInventory: image_inventory,
+			Key:            case_key,
+			ItemSet:        item_set,
+			MarketHashName: modules.GenerateMarketHashName(t, item_name, "weapon_case"),
 		}
 
 		weapon_cases = append(weapon_cases, current)
@@ -105,28 +105,28 @@ func GetWeaponCaseKeyByDefIndex(ig *models.ItemsGame, definitionIndex int) *mode
 		}
 
 		name, _ := item.GetString("name")
-		item_name, _ := item.GetString("item_name")
-		item_description, _ := item.GetString("item_description")
-		first_sale_date, _ := item.GetString("first_sale_date")
 		image_inventory, _ := item.GetString("image_inventory")
 
+		// item_name, _ := item.GetString("item_name")
+		// item_description, _ := item.GetString("item_description")
+		// first_sale_date, _ := item.GetString("first_sale_date")
 		current = models.WeaponCaseKey{
 			DefinitionIndex: def_idx,
-			Prefab:          prefab,
 			Name:            name,
-			ItemName:        item_name,
-			ItemDescription: item_description,
-			FirstSaleDate:   first_sale_date,
 			ImageInventory:  image_inventory,
+			// Prefab:          prefab,
+			// ItemName:        item_name,
+			// ItemDescription: item_description,
+			// FirstSaleDate:   first_sale_date,
 		}
 
 		break // We found the item, no need to continue
 	}
 
-	if current.Prefab == "" {
-		log.Error().Msgf("No weapon case key found for definition index %d", definitionIndex)
-		return nil
-	}
+	// if current.Prefab == "" {
+	// 	log.Error().Msgf("No weapon case key found for definition index %d", definitionIndex)
+	// 	return nil
+	// }
 
 	return &current
 }

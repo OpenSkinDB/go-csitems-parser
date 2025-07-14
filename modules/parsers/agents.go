@@ -35,22 +35,22 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 
 		definition_index, _ := strconv.Atoi(agent.Key)
 		item_name, _ := agent.GetString("item_name")
-		item_description, _ := agent.GetString("item_description")
 		item_rarity, _ := agent.GetString("item_rarity")
 
-		translated_description, err := t.GetValueByKey(item_description)
-		if err != nil {
-			logger.Error().Err(err).Msgf("Failed to translate item description for agent %s", item_name)
-			translated_description = item_description // Fallback to original if translation fails
-		}
+		// item_description, _ := agent.GetString("item_description")
+		// translated_description, err := t.GetValueByKey(item_description)
+		// if err != nil {
+		// 	logger.Error().Err(err).Msgf("Failed to translate item description for agent %s", item_name)
+		// 	translated_description = item_description // Fallback to original if translation fails
+		// }
 
 		// Create a new MusicKit instance
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
 			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "agent"),
-			Name:            item_name,
-			Description:     translated_description,
-			Rarity:          item_rarity,
+			// Name:            item_name,
+			// Description:     translated_description,
+			Rarity: item_rarity,
 		}
 
 		// Append the current music kit to the slice

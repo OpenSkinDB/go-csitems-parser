@@ -31,7 +31,7 @@ func GetWeaponPaintKits(
 			PaintKits: make([]models.PaintKit, 0),
 		}
 
-		item_set_paint_kits := GetItemSetPaintKitsForWeapon(item_sets, weapon.ItemClass)
+		item_set_paint_kits := GetItemSetPaintKitsForWeapon(item_sets, weapon.ClassName)
 		for _, paint_kit_name := range item_set_paint_kits {
 			paint_kit := GetPaintKitByName(paint_kits, paint_kit_name)
 
@@ -170,7 +170,7 @@ func GetPaintKitByName(paint_kits *[]models.PaintKit, name string) *models.Paint
 
 func GetWeaponByClass(weapons *[]models.BaseWeapon, weapon_class string) *models.BaseWeapon {
 	for _, wpn := range *weapons {
-		if wpn.ItemClass == weapon_class {
+		if wpn.ClassName == weapon_class {
 			return &wpn
 		}
 	}
