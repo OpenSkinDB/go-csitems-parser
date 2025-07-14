@@ -6,17 +6,19 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent {
+func ParseAgents(ctx context.Context, ig *models.ItemsGame, tf *modules.TranslatorFactory) []models.PlayerAgent {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing agents...")
 
 	items, err := ig.Get("items")
+	t := tf.GetTranslator("english")
 
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get items, is items_game.txt valid?")
@@ -33,18 +35,23 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame) []models.PlayerAgent
 		}
 
 		definition_index, _ := strconv.Atoi(agent.Key)
-		name, _ := agent.GetString("name")
 		item_name, _ := agent.GetString("item_name")
 		item_description, _ := agent.GetString("item_description")
 		item_rarity, _ := agent.GetString("item_rarity")
 
+		market_hash_name, err := modules.GenerateMarketHashName(t, item_name, "agent")
+		if err != nil {
+			logger.Error().Err(err).Msg("Failed to generate market hash name for agent")
+			continue
+		}
+
 		// Create a new MusicKit instance
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
-			Name:            name,
-			ItemName:        item_name,
-			ItemDescription: item_description,
-			ItemRarity:      item_rarity,
+			MarketHashName:  market_hash_name,
+			Name:            item_name,
+			Description:     item_description,
+			Rarity:          item_rarity,
 		}
 
 		// Append the current music kit to the slice

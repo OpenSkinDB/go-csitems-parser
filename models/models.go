@@ -133,10 +133,10 @@ type Keychain struct {
 
 type PlayerAgent struct {
 	DefinitionIndex int    `json:"definition_index"`
+	MarketHashName  string `json:"market_hash_name"`
 	Name            string `json:"name"`
-	ItemName        string `json:"item_name"`
-	ItemDescription string `json:"item_description"`
-	ItemRarity      string `json:"item_rarity"`
+	Description     string `json:"description"`
+	Rarity          string `json:"rarity"`
 }
 
 type WeaponCaseItemSet struct {

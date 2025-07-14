@@ -70,4 +70,54 @@ func GetContainerItemSet(item *vdf.KeyValue) *models.WeaponCaseItemSet {
 	}
 }
 
+type ItemWear struct {
+	Name    string  `json:"name"`
+	MinWear float64 `json:"min_wear"`
+	MaxWear float64 `json:"max_wear"`
+}
+
+var ItemWears = map[string]ItemWear{
+	"Factory New": {
+		Name:    "Factory New",
+		MinWear: 0.00,
+		MaxWear: 0.07,
+	},
+	"Minimal Wear": {
+		Name:    "Minimal Wear",
+		MinWear: 0.07,
+		MaxWear: 0.15,
+	},
+	"Field-Tested": {
+		Name:    "Field-Tested",
+		MinWear: 0.15,
+		MaxWear: 0.38,
+	},
+	"Well-Worn": {
+		Name:    "Well-Worn",
+		MinWear: 0.38,
+		MaxWear: 0.45,
+	},
+	"Battle-Scarred": {
+		Name:    "Battle-Scarred",
+		MinWear: 0.45,
+		MaxWear: 1.00,
+	},
+}
+
+func GenerateMarketHashName(t *Translator, item_name string, item_type string) (string, error) {
+
+	switch item_type {
+	case "agent":
+		value, err := t.GetValueByKey(item_name)
+
+		if err != nil {
+			return "", err
+		}
+
+		return value, nil
+	}
+
+	return "", nil
+}
+
 // func GetFilteredKeyValues()
