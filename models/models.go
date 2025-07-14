@@ -157,11 +157,11 @@ type WeaponCaseKey struct {
 type WeaponCase struct {
 	DefinitionIndex int                `json:"definition_index"`
 	Name            string             `json:"name"`
-	ItemName        string             `json:"item_name"`
-	ItemDescription string             `json:"item_description"`
+	Description     string             `json:"description"`
+	MarketHashName  string             `json:"market_hash_name"`
 	Prefab          string             `json:"prefab"`
 	ImageInventory  string             `json:"image_inventory"`
-	ModelPlayer     string             `json:"model_player"`
+	Model           string             `json:"model_player"`
 	FirstSaleDate   string             `json:"first_sale_date"`
 	ItemSet         *WeaponCaseItemSet `json:"item_set"`
 	Key             *WeaponCaseKey     `json:"key"`
@@ -175,16 +175,17 @@ type SouvenirPackage struct {
 	ImageInventory    string             `json:"image_inventory"`
 	TournamentEventId int                `json:"tournament_event_id"`
 	ItemSet           *WeaponCaseItemSet `json:"item_set"`
+	MarketHashName    string             `json:"market_hash_name"`
 }
 
 type Collectible struct {
-	DefinitionIndex   int             `json:"definition_index"`
-	Name              string          `json:"name"`
-	Prefab            string          `json:"prefab"`
-	ItemName          string          `json:"item_name"`
-	ItemDescription   string          `json:"item_description"`
-	ImageInventory    string          `json:"image_inventory"`
-	Model             string          `json:"display_model"`
-	TournamentEventId int             `json:"tournament_event_id"`
-	Type              CollectibleType `json:"type"`
+	DefinitionIndex   int    `json:"definition_index"`
+	Name              string `json:"name"`
+	Type              string `json:"type"`
+	Model             string `json:"display_model"`
+	Prefab            string `json:"prefab"`
+	Description       string `json:"description"`
+	ImageInventory    string `json:"image_inventory"`
+	TournamentEventId int    `json:"tournament_event_id"`
+	MarketHashName    string `json:"market_hash_name"`
 }

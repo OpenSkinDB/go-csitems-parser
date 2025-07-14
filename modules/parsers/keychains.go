@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseKeychains(ctx context.Context, ig *models.ItemsGame) []models.Keychain {
+func ParseKeychains(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.Keychain {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()

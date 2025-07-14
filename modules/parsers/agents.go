@@ -11,14 +11,13 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseAgents(ctx context.Context, ig *models.ItemsGame, tf *modules.TranslatorFactory) []models.PlayerAgent {
+func ParseAgents(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.PlayerAgent {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing agents...")
 
 	items, err := ig.Get("items")
-	t := tf.GetTranslator("english")
 
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get items, is items_game.txt valid?")
@@ -39,18 +38,18 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame, tf *modules.Translat
 		item_description, _ := agent.GetString("item_description")
 		item_rarity, _ := agent.GetString("item_rarity")
 
-		market_hash_name, err := modules.GenerateMarketHashName(t, item_name, "agent")
+		translated_description, err := t.GetValueByKey(item_description)
 		if err != nil {
-			logger.Error().Err(err).Msg("Failed to generate market hash name for agent")
-			continue
+			logger.Error().Err(err).Msgf("Failed to translate item description for agent %s", item_name)
+			translated_description = item_description // Fallback to original if translation fails
 		}
 
 		// Create a new MusicKit instance
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
-			MarketHashName:  market_hash_name,
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "agent"),
 			Name:            item_name,
-			Description:     item_description,
+			Description:     translated_description,
 			Rarity:          item_rarity,
 		}
 

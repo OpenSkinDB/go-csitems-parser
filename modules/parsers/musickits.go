@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit {
-	logger := zerolog.Ctx(ctx);
+func ParseMusicKits(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.MusicKit {
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing music kits...")
@@ -33,11 +34,11 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame) []models.MusicKit
 		pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
 
 		musicKits = append(musicKits, models.MusicKit{
-			DefinitionIndex: 	definition_index,
-			Name:            	name,
-			ItemName:        	loc_name,
-			ImageInventory:  	image_inventory,
-			Model:    				pedestal_display_model,
+			DefinitionIndex: definition_index,
+			Name:            name,
+			ItemName:        loc_name,
+			ImageInventory:  image_inventory,
+			Model:           pedestal_display_model,
 		})
 	}
 

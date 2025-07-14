@@ -11,7 +11,7 @@ import (
 	"go-csitems-parser/modules"
 )
 
-func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []*models.Collectible {
+func ParseCollectibles(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.Collectible {
 	logger := modules.GetLogger()
 
 	start := time.Now()
@@ -24,7 +24,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []*models.Coll
 		return nil
 	}
 
-	var collectibles []*models.Collectible
+	var collectibles []models.Collectible
 
 	// Iterate through all items in the "items" section
 	for _, item := range items.GetChilds() {
@@ -36,7 +36,6 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []*models.Coll
 
 		definition_index, _ := strconv.Atoi(item.Key)
 		prefab, _ := item.GetString("prefab")
-		name, _ := item.GetString("name")
 		item_description, _ := item.GetString("item_description")
 		image_inventory, _ := item.GetString("image_inventory")
 
@@ -50,16 +49,23 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame) []*models.Coll
 		// Determine the type of collectible
 		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
 
-		collectibles = append(collectibles, &models.Collectible{
+		market_hash_name := modules.GenerateMarketHashName(t, item_name, "collectible")
+
+		if collectible_type == "unknown" {
+			logger.Warn().Msgf("Unknown collectible type for item_name: %s, prefab: %s", item_name, prefab)
+			continue
+		}
+
+		collectibles = append(collectibles, models.Collectible{
 			DefinitionIndex:   definition_index,
 			Prefab:            prefab,
-			Name:              name,
-			ItemName:          item_name,
-			ItemDescription:   item_description,
+			Name:              item_name,
+			Description:       item_description,
 			ImageInventory:    image_inventory,
 			Model:             pedestal_display_model,
 			Type:              collectible_type,
 			TournamentEventId: tournament_event_id,
+			MarketHashName:    market_hash_name,
 		})
 	}
 
@@ -75,59 +81,58 @@ func GetCollectibleType(
 	prefab string,
 	item_name string,
 	tournament_event_id int,
-) models.CollectibleType {
+) string {
 	if prefab == "" {
-		return models.CollectibleTypeUnknown
+		return "unknown"
 	}
 
 	if image_inventory == "" {
-		return models.CollectibleTypeUnknown
+		return "unknown"
 	}
 
 	if prefab == "premier_season_coin" {
-		return models.CollectibleTypePremierSeasonCoin
+		return "premier_season_coin"
 	}
 
 	if strings.Contains(image_inventory, "service_medal") {
-		return models.CollectibleTypeServiceMedal
+		return "service_medal"
 	}
 
 	// image_inventory looks like "10yearcoin", "5yearcoin", etc.
 	reg1 := regexp.MustCompile(`\d+yearcoin`)
 	if reg1.MatchString(image_inventory) {
-		return models.CollectibleTypeYearsOfService
+		return "years_of_service"
 	}
 
 	if strings.Contains(item_name, "#CSGO_Collectible_Map") {
-		return models.CollectibleTypeMapContributor
+		return "map_contributor"
 	}
 
 	if strings.HasPrefix(item_name, "#CSGO_TournamentJournal") || strings.HasPrefix(item_name, "#CSGO_CollectibleCoin") {
-		return models.CollectibleTypePickEm
+		return "pickem"
 	}
 
 	if strings.HasPrefix(item_name, "#CSGO_Collectible_Pin") {
-		return models.CollectibleTypeMapPin
+		return "collectible_pin"
 	}
 
 	// This is a bit odd, idk what Valve was thinking
 	if strings.HasPrefix(item_name, "#CSGO_Collectible_CommunitySeason") {
-		return models.CollectibleTypeMapPin
+		return "collectible_pin"
 	}
 
 	// Create a regex for season1_coin, // season2_coin, etc.
 	reg2 := regexp.MustCompile(`season\d+_coin`)
 	if reg2.MatchString(prefab) {
-		return models.CollectibleTypeOperation
+		return "operation_coin"
 	}
 
 	if prefab == "majors_trophy" {
-		return models.CollectibleTypeTournamentFinalist
+		return "tournament_trophy"
 	}
 
 	// katowice_2014_finalist
-
-	return models.CollectibleTypeUnknown
+	return "unknown"
 }
 
 func IsItemCollectible(item_name string) bool {

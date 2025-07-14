@@ -6,11 +6,12 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseGloves(ctx context.Context, ig *models.ItemsGame) []models.GloveItem {
+func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.GloveItem {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()

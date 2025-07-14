@@ -6,11 +6,12 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseWeapons(ctx context.Context, ig *models.ItemsGame) []models.BaseWeapon {
+func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.BaseWeapon {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()

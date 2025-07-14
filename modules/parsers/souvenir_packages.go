@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame) []models.SouvenirPackage {
+func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.SouvenirPackage {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -47,6 +47,7 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame) []models.S
 			ImageInventory:    image_inventory,
 			ItemSet:           item_set,
 			TournamentEventId: tournament_event_id,
+			MarketHashName:    modules.GenerateMarketHashName(t, item_name, "souvenir_package"),
 		}
 
 		souvenir_packages = append(souvenir_packages, current)

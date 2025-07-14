@@ -5,11 +5,12 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseRarities(ctx context.Context, ig *models.ItemsGame) []models.Rarity {
+func ParseRarities(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.Rarity {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()

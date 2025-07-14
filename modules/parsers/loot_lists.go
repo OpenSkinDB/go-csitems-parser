@@ -8,19 +8,20 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
 )
 
 // NOTE: UNFINISHED
-func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.ClientLootList {
-	logger := zerolog.Ctx(ctx);
+func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.ClientLootList {
+	logger := zerolog.Ctx(ctx)
 
-	// Measure the time it takes to parse the loot lists, just 
+	// Measure the time it takes to parse the loot lists, just
 	// for performance monitoring and debugging purposes.
 	start := time.Now()
-	
+
 	// We need to get all available "main" loot lists to then find those in the "client_loot_lists" section.
 	// Instead of doing some funky string-checking, there is a direct connection between the
 	// "revolving_loot_lists" and "client_loot_lists" sections in the items_game.txt file.
@@ -57,12 +58,12 @@ func ParseClientLootLists(ctx context.Context, ig *models.ItemsGame) []models.Cl
 		series_int, _ := strconv.Atoi(series)
 
 		current := models.ClientLootList{
-			Series: series_int,
-			LootListId: list,
+			Series:       series_int,
+			LootListId:   list,
 			SubLootLists: make([]models.ClientLootListSubList, 0),
 		}
 
-		all, err := client_loot_lists.Get(list) 
+		all, err := client_loot_lists.Get(list)
 		// logger.Debug().Msgf("Processing loot list '%s' for series '%d'", list, series_int)
 
 		if err != nil {
@@ -157,14 +158,14 @@ func GetLootListItems(kv *vdf.KeyValue, loot_list string) []models.LootListItem 
 		res := r.FindStringSubmatch(v.Key)
 
 		if len(res) < 3 {
-			continue 
+			continue
 		}
 
 		name := res[1]
 		class := res[2]
 
 		items = append(items, models.LootListItem{
-			Name: name,
+			Name:  name,
 			Class: class,
 		})
 	}

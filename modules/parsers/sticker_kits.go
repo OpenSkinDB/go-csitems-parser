@@ -16,7 +16,7 @@ type StickerTypeParams struct {
 	TournamentEventId  int `json:"tournament_event_id"`
 }
 
-func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []*models.StickerKit {
+func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.StickerKit {
 	logger := modules.GetLogger()
 
 	start := time.Now()
@@ -29,7 +29,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []*models.Stick
 		return nil
 	}
 
-	var items []*models.StickerKit
+	var items []models.StickerKit
 
 	// Iterate through all items in the "items" section
 	for _, item := range sticker_kits.GetChilds() {
@@ -51,7 +51,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame) []*models.Stick
 			tournament_event_id,
 		)
 
-		items = append(items, &models.StickerKit{
+		items = append(items, models.StickerKit{
 			DefinitionIndex:   definition_index,
 			Name:              name,
 			ItemName:          item_name,

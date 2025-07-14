@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParsePaintKits(ctx context.Context, ig *models.ItemsGame) []models.PaintKit {
+func ParsePaintKits(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.PaintKit {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()

@@ -22,15 +22,15 @@ type ItemSchemaPaintKits struct {
 }
 
 type ItemSchema struct {
-	Collections  []models.ItemSet      `json:"collections"`
-	Rarities     []models.Rarity       `json:"rarities"`
-	Stickers     []*models.StickerKit  `json:"stickers"`
-	Keychains    []models.Keychain     `json:"keychains"`
-	Collectibles []*models.Collectible `json:"collectibles"`
-	Containers   []models.WeaponCase   `json:"containers"`
-	Agents       []models.PlayerAgent  `json:"agents"`
-	MusicKits    []models.MusicKit     `json:"music_kits"`
-	PaintKits    ItemSchemaPaintKits   `json:"paint_kits"`
+	Collections  []models.ItemSet     `json:"collections"`
+	Rarities     []models.Rarity      `json:"rarities"`
+	Stickers     []models.StickerKit  `json:"stickers"`
+	Keychains    []models.Keychain    `json:"keychains"`
+	Collectibles []models.Collectible `json:"collectibles"`
+	Containers   []models.WeaponCase  `json:"containers"`
+	Agents       []models.PlayerAgent `json:"agents"`
+	MusicKits    []models.MusicKit    `json:"music_kits"`
+	PaintKits    ItemSchemaPaintKits  `json:"paint_kits"`
 }
 
 func main() {
@@ -70,19 +70,21 @@ func main() {
 	ctx := context.Background()
 	ctx = logger.WithContext(ctx)
 
-	translator := modules.LoadAllTranslations(ctx, "./files/translations")
+	factory := modules.LoadAllTranslations(ctx, "./files/translations")
 
-	if translator == nil {
+	if factory == nil {
 		logger.Error().Msg("Failed to load translations")
 		return
 	}
 
+	translator := factory.GetTranslator("English")
 	start := time.Now()
 
+	player_agents := parsers.ParseAgents(ctx, itemsGame, translator)
+	souvenir_packages := parsers.ParseSouvenirPackages(ctx, itemsGame, translator)
 	musicKits := parsers.ParseMusicKits(ctx, itemsGame, translator)
 	collectibles := parsers.ParseCollectibles(ctx, itemsGame, translator)
 	weapon_cases := parsers.ParseWeaponCases(ctx, itemsGame, translator)
-	player_agents := parsers.ParseAgents(ctx, itemsGame, translator)
 	rarities := parsers.ParseRarities(ctx, itemsGame, translator)
 	paint_kits := parsers.ParsePaintKits(ctx, itemsGame, translator)
 	item_sets := parsers.ParseItemSets(ctx, itemsGame, translator)
@@ -92,7 +94,6 @@ func main() {
 	weapons := parsers.ParseWeapons(ctx, itemsGame, translator)
 	gloves := parsers.ParseGloves(ctx, itemsGame, translator)
 	knives := parsers.ParseKnives(ctx, itemsGame, translator)
-	souvenir_packages := parsers.ParseSouvenirPackages(ctx, itemsGame, translator)
 
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)

@@ -2,6 +2,7 @@ package modules
 
 import (
 	"context"
+	"fmt"
 	"go-csitems-parser/models"
 
 	"github.com/baldurstod/vdf"
@@ -104,20 +105,23 @@ var ItemWears = map[string]ItemWear{
 	},
 }
 
-func GenerateMarketHashName(t *Translator, item_name string, item_type string) (string, error) {
+func GenerateMarketHashName(t *Translator, name string, item_type string) string {
+	value, _ := t.GetValueByKey(name)
+
+	fmt.Println("Generating market hash name for:", name, "->", value)
 
 	switch item_type {
 	case "agent":
-		value, err := t.GetValueByKey(item_name)
-
-		if err != nil {
-			return "", err
-		}
-
-		return value, nil
+		return value
+	case "music_kit":
+		return value
+	case "weapon_case":
+		return value
+	case "collectible":
+		return value
 	}
 
-	return "", nil
+	return ""
 }
 
 // func GetFilteredKeyValues()

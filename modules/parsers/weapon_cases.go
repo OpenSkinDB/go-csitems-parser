@@ -13,7 +13,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.WeaponCase {
+func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.WeaponCase {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -38,7 +38,6 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 
 		definition_index, _ := strconv.Atoi(item.Key)
 		item_name, _ := item.GetString("item_name")
-		name, _ := item.GetString("name")
 		item_description, _ := item.GetString("item_description")
 		image_inventory, _ := item.GetString("image_inventory")
 		model_player, _ := item.GetString("model_player")
@@ -64,14 +63,14 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame) []models.Weapon
 		var current = models.WeaponCase{
 			DefinitionIndex: definition_index,
 			Prefab:          prefab,
-			Name:            name,
-			ItemName:        item_name,
-			ItemDescription: item_description,
-			ModelPlayer:     model_player,
+			Name:            item_name,
+			Description:     item_description,
+			Model:           model_player,
 			FirstSaleDate:   first_sale_date,
 			ImageInventory:  image_inventory,
 			Key:             case_key,
 			ItemSet:         item_set,
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "weapon_case"),
 		}
 
 		weapon_cases = append(weapon_cases, current)

@@ -6,20 +6,21 @@ import (
 	"time"
 
 	"go-csitems-parser/models"
+	"go-csitems-parser/modules"
 
 	"github.com/baldurstod/vdf"
 
 	"github.com/rs/zerolog"
 )
 
-func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
-	logger := zerolog.Ctx(ctx);
+func ParseItemSets(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.ItemSet {
+	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
 	// logger.Info().Msg("Parsing item sets...")
 
 	item_sets, err := ig.Get("item_sets")
-	
+
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get item_sets from items_game.txt")
 		return nil
@@ -30,13 +31,13 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 		name, _ := s.GetString("name")
 		set_description, _ := s.GetString("set_description")
 		is_collection, _ := s.GetBool("is_collection")
-		
+
 		current := models.ItemSet{
-			Key: s.Key,
-			Name: name,
+			Key:            s.Key,
+			Name:           name,
 			SetDescription: set_description,
-			IsCollection: is_collection,
-			Type: models.ItemSetTypePaintKits,
+			IsCollection:   is_collection,
+			Type:           models.ItemSetTypePaintKits,
 		}
 
 		// Get the items and convert them to ItemSetItem
@@ -50,7 +51,7 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame) []models.ItemSet {
 				current.Agents = agents
 				current.Type = models.ItemSetTypeAgents
 			} else {
-				continue 
+				continue
 			}
 		} else {
 			current.Items = items
@@ -95,7 +96,7 @@ func GetItemSetPaintKits(kv *vdf.KeyValue) []models.ItemSetItem {
 
 		skins = append(skins, models.ItemSetItem{
 			PaintKitName: paintkit_name,
-			WeaponClass: weapon_class,
+			WeaponClass:  weapon_class,
 		})
 	}
 

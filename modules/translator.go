@@ -87,6 +87,7 @@ func LoadAllTranslations(ctx context.Context, folderPath string) *TranslatorFact
 		}
 
 		lang_map[lang_name] = t
+		logger.Info().Msgf("Loaded '%d' tokens for language '%s'", len(*t.Tokens), lang_name)
 	}
 
 	duration := time.Since(start)
@@ -126,10 +127,11 @@ func LoadLanguage(vdf *vdf.KeyValue) (*Translator, string) {
 }
 
 func (t *Translator) GetValueByKey(key string) (string, error) {
+	token_key := strings.Replace(key, "#", "", -1)
 	if t == nil {
+		fmt.Println("Translator is nil")
 		return "", errors.New("key not found")
 	}
-	tkns := *t.Tokens
 
-	return tkns[key], nil
+	return (*t.Tokens)[token_key], nil
 }
