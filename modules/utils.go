@@ -207,6 +207,10 @@ func GenerateMarketHashName(t *Translator, name string, extra *string, item_type
 		}
 	}
 
+	if item_type == "knife" || item_type == "glove" {
+		value = fmt.Sprintf("★ %s", value)
+	}
+
 	if prefix, ok := hashNamePrefixes[item_type]; ok {
 		value = prefix + value
 	}
