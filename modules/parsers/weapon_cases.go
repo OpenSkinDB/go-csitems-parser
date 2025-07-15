@@ -69,7 +69,7 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 			// FirstSaleDate:   first_sale_date,
 			ImageInventory: image_inventory,
 			Key:            case_key,
-			ItemSet:        item_set,
+			ItemSetId:      &item_set,
 			MarketHashName: modules.GenerateMarketHashName(t, item_name, "weapon_case"),
 		}
 

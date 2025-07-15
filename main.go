@@ -16,7 +16,7 @@ import (
 )
 
 type ItemSchema struct {
-	Collections      []models.ItemSet         `json:"collections"`
+	Collections      []models.Collection      `json:"collections"`
 	Rarities         []models.Rarity          `json:"rarities"`
 	Stickers         []models.StickerKit      `json:"stickers"`
 	Keychains        []models.Keychain        `json:"keychains"`
@@ -95,6 +95,9 @@ func main() {
 	highlight_reels := parsers.ParseHighlightReels(ctx, itemsGame, translator)
 	tournaments := parsers.ParseTournaments(ctx, translator)
 
+	// Special parsing for collections
+	collections := parsers.ParseCollections(ctx, itemsGame, souvenir_packages, weapon_cases, translator)
+
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)
 
@@ -116,6 +119,7 @@ func main() {
 	ExportToJsonFile(souvenir_packages, "souvenir_packages")
 	ExportToJsonFile(highlight_reels, "highlight_reels")
 	ExportToJsonFile(tournaments, "tournaments")
+	ExportToJsonFile(collections, "collections")
 
 	var itemsGameCdn = modules.LoadItemsGameCdn("./files/items_game_cdn.txt")
 	ExportToJsonFile(itemsGameCdn, "items_game_cdn")
@@ -138,15 +142,10 @@ func main() {
 	paint_kits_list = append(paint_kits_list, weapon_skins...)
 	paint_kits_list = append(paint_kits_list, knife_skins...)
 	paint_kits_list = append(paint_kits_list, glove_skins...)
-	// paint_kits_list := []modules.WeaponSkinMap{
-	// 	weapon_skins...,
-	// 	knife_skins...,
-	// 	glove_skins...,
-	// }
 
 	// Final schema
 	itemSchema := ItemSchema{
-		Collections:      item_sets,
+		Collections:      collections,
 		Rarities:         rarities,
 		Stickers:         sticker_kits,
 		Keychains:        keychains,

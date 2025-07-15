@@ -51,27 +51,24 @@ func GetTournamentEventId(item *vdf.KeyValue) (int, error) {
 	return tournament_event_id, nil
 }
 
-func GetContainerItemSet(item *vdf.KeyValue, t *Translator) *models.WeaponCaseItemSet {
+func GetContainerItemSet(item *vdf.KeyValue, t *Translator) string {
 	tags, err := item.Get("tags")
 
 	if err != nil {
-		return nil
+		return ""
 	}
 
 	item_set, err := tags.Get("ItemSet")
 	if err != nil {
-		return nil
+		return ""
 	}
 
 	tag, _ := item_set.GetString("tag_value")
-	tagText, _ := item_set.GetString("tag_text")
+	// tagText, _ := item_set.GetString("tag_text")
 
-	translated, _ := t.GetValueByKey(tagText)
+	// translated, _ := t.GetValueByKey(tagText)
 
-	return &models.WeaponCaseItemSet{
-		Id:   tag,
-		Name: translated,
-	}
+	return tag
 }
 
 type ItemWear struct {

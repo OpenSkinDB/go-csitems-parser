@@ -57,7 +57,7 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame, t *modules
 		current := models.SouvenirPackage{
 			DefinitionIndex: definition_index,
 			ImageInventory:  image_inventory,
-			ItemSet:         item_set,
+			ItemSetId:       &item_set,
 			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "souvenir_package"),
 			KeychainSetId:   GetKeychainSetId(client_loot_lists, name),
 			Tournament:      modules.GetTournamentData(t, tournament_event_id),

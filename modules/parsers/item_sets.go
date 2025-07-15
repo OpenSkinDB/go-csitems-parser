@@ -29,15 +29,11 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame, t *modules.Transla
 	var sets []models.ItemSet
 	for _, s := range item_sets.GetChilds() {
 		name, _ := s.GetString("name")
-		set_description, _ := s.GetString("set_description")
-		is_collection, _ := s.GetBool("is_collection")
 
 		current := models.ItemSet{
-			Key:            s.Key,
-			Name:           name,
-			SetDescription: set_description,
-			IsCollection:   is_collection,
-			Type:           models.ItemSetTypePaintKits,
+			Key:  s.Key,
+			Name: name,
+			Type: models.ItemSetTypePaintKits,
 		}
 
 		// Get the items and convert them to ItemSetItem
