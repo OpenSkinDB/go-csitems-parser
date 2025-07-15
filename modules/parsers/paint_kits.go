@@ -57,7 +57,7 @@ func ParsePaintKits(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 			DefinitionIndex: definition_index,
 			Name:            name,
 			Wear:            float_ranges,
-			MarketHashName:  modules.GenerateMarketHashName(t, description_tag, "paint_kit"),
+			MarketHashName:  modules.GenerateMarketHashName(t, description_tag, &name, "paint_kit"),
 		}
 
 		// Get the skin rarity from the paint_kits_rarity map

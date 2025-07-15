@@ -47,7 +47,7 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		// Create a new MusicKit instance
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
-			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "agent"),
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, nil, "agent"),
 			// Name:            item_name,
 			// Description:     translated_description,
 			Rarity: item_rarity,

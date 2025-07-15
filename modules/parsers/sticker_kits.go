@@ -54,7 +54,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		items = append(items, models.StickerKit{
 			DefinitionIndex: definition_index,
 			Name:            name,
-			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "sticker_kit"),
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, nil, "sticker_kit"),
 			StickerMaterial: sticker_material,
 			Rarity:          item_rarity,
 			Effect:          sticker_effect,

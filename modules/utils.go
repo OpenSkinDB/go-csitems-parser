@@ -169,7 +169,25 @@ func GetTournamentTeamData(t *Translator, id int) *models.TournamentData {
 	}
 }
 
-func GenerateMarketHashName(t *Translator, name string, item_type string) string {
+var dopplerPhaseMap = map[string]string{
+	// Doppler phases
+	"am_ruby_marbleized":       "Ruby",
+	"am_sapphire_marbleized":   "Sapphire",
+	"am_blackpearl_marbleized": "Black Pearl",
+	"am_doppler_phase1":        "Phase 1",
+	"am_doppler_phase2":        "Phase 2",
+	"am_doppler_phase3":        "Phase 3",
+	"am_doppler_phase4":        "Phase 4",
+
+	// Gamma Doppler phases
+	"am_emerald_marbleized":   "Emerald",
+	"am_gamma_doppler_phase1": "Phase 1",
+	"am_gamma_doppler_phase2": "Phase 2",
+	"am_gamma_doppler_phase3": "Phase 3",
+	"am_gamma_doppler_phase4": "Phase 4",
+}
+
+func GenerateMarketHashName(t *Translator, name string, extra *string, item_type string) string {
 	value, err := t.GetValueByKey(name)
 
 	if err != nil {
@@ -180,6 +198,13 @@ func GenerateMarketHashName(t *Translator, name string, item_type string) string
 	// Special case for the vanilla paint kit
 	if name == "#PaintKit_Default_Tag" {
 		value = "Vanilla"
+	}
+
+	// If the item type is a doppler, we need to add the phase to the name
+	if extra != nil && *extra != "" {
+		if phase, ok := dopplerPhaseMap[*extra]; ok {
+			value = fmt.Sprintf("%s (%s)", value, phase)
+		}
 	}
 
 	if prefix, ok := hashNamePrefixes[item_type]; ok {

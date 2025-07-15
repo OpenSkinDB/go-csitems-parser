@@ -52,7 +52,7 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame, t *modules.Tra
 
 		collectibles = append(collectibles, models.Collectible{
 			DefinitionIndex:   definition_index,
-			MarketHashName:    modules.GenerateMarketHashName(t, item_name, "collectible"),
+			MarketHashName:    modules.GenerateMarketHashName(t, item_name, nil, "collectible"),
 			ImageInventory:    image_inventory,
 			Type:              collectible_type,
 			TournamentEventId: tournament_event_id,

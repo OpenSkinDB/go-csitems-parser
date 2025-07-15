@@ -57,7 +57,7 @@ func ParseKeychains(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 		// Create a new Keychain instance
 		current := models.Keychain{
 			DefinitionIndex: definition_index,
-			MarketHashName:  modules.GenerateMarketHashName(t, loc_name, "keychain"),
+			MarketHashName:  modules.GenerateMarketHashName(t, loc_name, nil, "keychain"),
 			Rarity:          item_rarity,
 			ImageInventory:  image_inventory,
 			// Name:            name,

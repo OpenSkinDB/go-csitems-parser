@@ -40,7 +40,7 @@ func ParseCollections(
 
 		current := models.Collection{
 			Key:  s.Key,
-			Name: modules.GenerateMarketHashName(t, name, "collection"),
+			Name: modules.GenerateMarketHashName(t, name, nil, "collection"),
 		}
 
 		// Check if any weapon case matches this item set

@@ -37,7 +37,7 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 			DefinitionIndex: definition_index,
 			Name:            name,
 			ImageInventory:  image_inventory,
-			MarketHashName:  modules.GenerateMarketHashName(t, loc_name, "music_kit"),
+			MarketHashName:  modules.GenerateMarketHashName(t, loc_name, nil, "music_kit"),
 			// ItemName:        loc_name,
 			// Model:           pedestal_display_model,
 		})
