@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseKnives(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.KnifeItem {
+func ParseKnives(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.BaseWeapon {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -24,7 +24,7 @@ func ParseKnives(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		return nil
 	}
 
-	var knives []models.KnifeItem
+	var knives []models.BaseWeapon
 	for _, w := range items.GetChilds() {
 		prefab, _ := w.GetString("prefab")
 
@@ -35,16 +35,13 @@ func ParseKnives(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 
 		definition_index, _ := strconv.Atoi(w.Key)
 		item_name, _ := w.GetString("item_name")
-		name, _ := w.GetString("name")
-		item_description, _ := w.GetString("item_description")
+		classname, _ := w.GetString("name")
 		image_inventory, _ := w.GetString("image_inventory")
 
-		current := models.KnifeItem{
+		current := models.BaseWeapon{
 			DefinitionIndex: definition_index,
-			ItemName:        item_name,
-			Name:            name,
-			ItemDescription: item_description,
-			Prefab:          prefab,
+			ClassName:       classname,
+			Name:            item_name,
 			ImageInventory:  image_inventory,
 		}
 

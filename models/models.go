@@ -22,41 +22,33 @@ type BaseWeapon struct {
 	// Slot            string `json:"slot"`
 }
 
-type GloveItem struct {
-	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	Name            string `json:"name"`
-	Prefab          string `json:"prefab"`
-	ItemDescription string `json:"item_description"`
-	ImageInventory  string `json:"image_inventory"`
-}
-
-type KnifeItem struct {
-	DefinitionIndex int    `json:"definition_index"`
-	ItemName        string `json:"item_name"`
-	Name            string `json:"name"`
-	Prefab          string `json:"prefab"`
-	ItemDescription string `json:"item_description"`
-	ImageInventory  string `json:"image_inventory"`
-}
-
 type GenericColor struct {
 	Key       string `json:"key"`
 	ColorName string `json:"color_name"`
 	HexColor  string `json:"hex_color"`
 }
 
+type CustomStickers struct {
+	Group int    `json:"group"`
+	Name  string `json:"name"`
+	Count int    `json:"count"`
+}
+
 type StickerKit struct {
-	DefinitionIndex   int           `json:"definition_index"`
-	Name              string        `json:"name"`
-	ItemName          string        `json:"item_name"`
-	DescriptionString string        `json:"description_string"`
-	StickerMaterial   string        `json:"sticker_material"`
-	Rarity            string        `json:"rarity"`
-	Effect            StickerEffect `json:"effect"`
-	Type              StickerType   `json:"type"`
-	TournamentEventId int           `json:"tournament_event_id"`
-	TournamentTeamId  int           `json:"tournament_team_id"`
+	DefinitionIndex int             `json:"definition_index"`
+	MarketHashName  string          `json:"market_hash_name"`
+	Name            string          `json:"name"`
+	StickerMaterial string          `json:"sticker_material"`
+	Rarity          string          `json:"rarity"`
+	Effect          string          `json:"effect"`
+	Type            string          `json:"type"`
+	Tournament      *TournamentData `json:"tournament"`
+	Team            *TournamentData `json:"team"`
+
+	// ItemName          string        `json:"item_name"`
+	// DescriptionString string        `json:"description_string"`
+	// TournamentEventId int           `json:"tournament_event_id"`
+	// TournamentTeamId  int           `json:"tournament_team_id"`
 }
 
 type PaintKitWearRange struct {
@@ -109,13 +101,11 @@ type ItemSet struct {
 }
 
 type Rarity struct {
-	Key             string `json:"key"`
-	LocKey          string `json:"loc_key"`
-	LocKeyWeapon    string `json:"loc_key_weapon"`
-	LocKeyCharacter string `json:"loc_key_character"`
-	HexColor        string `json:"hex_color"`
-	ColorName       string `json:"color_name"`
-	DropSound       string `json:"drop_sound"`
+	Key          string `json:"key"`
+	LocRarity    string `json:"loc_rarity"`
+	LocWeapon    string `json:"loc_weapon"`
+	LocCharacter string `json:"loc_character"`
+	Hex          string `json:"hex"`
 }
 
 type MusicKit struct {
@@ -130,14 +120,29 @@ type MusicKit struct {
 
 type Keychain struct {
 	DefinitionIndex int    `json:"definition_index"`
-	Name            string `json:"name"`
-	LocName         string `json:"loc_name"`
-	LocDescription  string `json:"loc_description"`
+	MarketHashName  string `json:"market_hash_name"`
 	Rarity          string `json:"rarity"`
-	Quality         string `json:"quality"`
 	ImageInventory  string `json:"image_inventory"`
-	Model           string `json:"display_model"`
-	LootListId      string `json:"loot_list_id"`
+	// Name            string `json:"name"`
+	// LocName         string `json:"loc_name"`
+	// LocDescription  string `json:"loc_description"`
+	// Quality         string `json:"quality"`
+	// Model           string `json:"display_model"`
+	// LootListId      string `json:"loot_list_id"`
+}
+
+type HighlightReelTeams struct {
+	TeamZero string `json:"team_0"`
+	TeamOne  string `json:"team_1"`
+}
+
+type HighlightReel struct {
+	Id                     string             `json:"id"`
+	MarketHashName         string             `json:"market_hash_name"`
+	TournamentEventId      int                `json:"tournament_event_id"`
+	TournamentEventStageId int                `json:"tournament_event_stage_id"`
+	Map                    string             `json:"map"`
+	Teams                  HighlightReelTeams `json:"teams"`
 }
 
 type PlayerAgent struct {
@@ -164,12 +169,12 @@ type WeaponCaseKey struct {
 }
 
 type WeaponCase struct {
-	DefinitionIndex int                `json:"definition_index"`
-	Name            string             `json:"name"`
-	MarketHashName  string             `json:"market_hash_name"`
-	ImageInventory  string             `json:"image_inventory"`
-	ItemSet         *WeaponCaseItemSet `json:"item_set"`
-	Key             *WeaponCaseKey     `json:"key"`
+	DefinitionIndex int `json:"definition_index"`
+	// Name            string             `json:"name"`
+	MarketHashName string             `json:"market_hash_name"`
+	ImageInventory string             `json:"image_inventory"`
+	ItemSet        *WeaponCaseItemSet `json:"item_set"`
+	Key            *WeaponCaseKey     `json:"key"`
 
 	// Description     string             `json:"description"`
 	// Prefab          string             `json:"prefab"`
@@ -178,23 +183,29 @@ type WeaponCase struct {
 }
 
 type SouvenirPackage struct {
-	DefinitionIndex int    `json:"definition_index"`
-	MarketHashName  string `json:"market_hash_name"`
+	DefinitionIndex int     `json:"definition_index"`
+	MarketHashName  string  `json:"market_hash_name"`
+	KeychainSetId   *string `json:"keychain_set_id"`
 	// Name              string             `json:"name"`
 	// ItemName          string             `json:"item_name"`
 	// ItemDescription   string             `json:"item_description"`
-	ImageInventory    string             `json:"image_inventory"`
-	TournamentEventId int                `json:"tournament_event_id"`
-	ItemSet           *WeaponCaseItemSet `json:"item_set"`
+	ImageInventory string             `json:"image_inventory"`
+	ItemSet        *WeaponCaseItemSet `json:"item_set"`
+	Tournament     *TournamentData    `json:"tournament"`
+}
+
+type TournamentData struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 type Collectible struct {
-	DefinitionIndex   int    `json:"definition_index"`
-	Name              string `json:"name"`
-	Type              string `json:"type"`
-	Model             string `json:"display_model"`
-	Prefab            string `json:"prefab"`
-	Description       string `json:"description"`
+	DefinitionIndex int `json:"definition_index"`
+	// Name              string `json:"name"`
+	Type string `json:"type"`
+	// Model             string `json:"display_model"`
+	// Prefab            string `json:"prefab"`
+	// Description       string `json:"description"`
 	ImageInventory    string `json:"image_inventory"`
 	TournamentEventId int    `json:"tournament_event_id"`
 	MarketHashName    string `json:"market_hash_name"`

@@ -12,6 +12,13 @@ import (
 	"github.com/rs/zerolog"
 )
 
+var invalid_weapon_prefabs = []string{
+	"grenade",
+	"equipment",
+	"weapon_fire_grenade_prefab",
+	"weapon_hegrenade_prefab",
+}
+
 func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.BaseWeapon {
 	logger := zerolog.Ctx(ctx)
 
@@ -34,8 +41,21 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 			continue
 		}
 
-		item_name, _ := w.GetString("item_name")
 		item_class, _ := w.GetString("item_class")
+		def_idx := GetBaseWeaponDefinitionIndex(item_class, ig)
+
+		if def_idx == -1 {
+			logger.Error().Msgf("Failed to get definition index for weapon class '%s'", item_class)
+			continue
+		}
+		_, err := w.Get("paint_data")
+
+		if err != nil {
+			// Skip if no paint data is available
+			continue
+		}
+
+		item_name, _ := w.GetString("item_name")
 		image_inventory, _ := w.GetString("image_inventory")
 
 		// item_description, _ := w.GetString("item_description")
@@ -49,7 +69,7 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 		}
 
 		current := models.BaseWeapon{
-			DefinitionIndex: GetBaseWeaponDefinitionIndex(item_class, ig),
+			DefinitionIndex: def_idx,
 			Name:            translated_name,
 			ClassName:       item_class,
 			ImageInventory:  image_inventory,

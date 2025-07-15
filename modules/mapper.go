@@ -69,26 +69,21 @@ func GetItemSetPaintKitsForWeapon(
 	return paint_kits
 }
 
-type KnifeSkinMap struct {
-	BaseItem  models.KnifeItem  `json:"base_item"`
-	PaintKits []models.PaintKit `json:"paint_kits"`
-}
-
 func GetKnifePaintKits(
-	knives *[]models.KnifeItem,
+	knives *[]models.BaseWeapon,
 	paint_kits *[]models.PaintKit,
 	knife_map map[string][]string,
-) []KnifeSkinMap {
-	knife_skin_map := make([]KnifeSkinMap, 0)
+) []WeaponSkinMap {
+	knife_skin_map := make([]WeaponSkinMap, 0)
 
 	for _, knife := range *knives {
 		// Create a new glove skin map entry
-		current := KnifeSkinMap{
+		current := WeaponSkinMap{
 			BaseItem:  knife,
 			PaintKits: make([]models.PaintKit, 0),
 		}
 
-		knife_map_value, ok := knife_map[knife.Name]
+		knife_map_value, ok := knife_map[knife.ClassName]
 		if !ok {
 			continue
 		}
@@ -111,7 +106,7 @@ func GetKnifePaintKits(
 }
 
 type GloveSkinMap struct {
-	BaseItem  models.GloveItem  `json:"base_item"`
+	BaseItem  models.BaseWeapon `json:"base_item"`
 	PaintKits []models.PaintKit `json:"paint_kits"`
 }
 
@@ -123,12 +118,12 @@ var glovePrefixMap = map[string]string{
 	"studded_bloodhound_gloves": "bloodhound_",
 }
 
-func GetGlovePaintKits(gloves *[]models.GloveItem, paint_kits *[]models.PaintKit) []GloveSkinMap {
-	glove_skin_map := make([]GloveSkinMap, 0)
+func GetGlovePaintKits(gloves *[]models.BaseWeapon, paint_kits *[]models.PaintKit) []WeaponSkinMap {
+	glove_skin_map := make([]WeaponSkinMap, 0)
 
 	for _, glove := range *gloves {
 		// Create a new glove skin map entry
-		current := GloveSkinMap{
+		current := WeaponSkinMap{
 			BaseItem:  glove,
 			PaintKits: make([]models.PaintKit, 0),
 		}
@@ -137,9 +132,9 @@ func GetGlovePaintKits(gloves *[]models.GloveItem, paint_kits *[]models.PaintKit
 			// We need to remove "_gloves" from the item name
 			var newGlovePrefix string
 
-			value, ok := glovePrefixMap[glove.Name]
+			value, ok := glovePrefixMap[glove.ClassName]
 			if !ok {
-				newGlovePrefix = strings.Replace(glove.Name, "_gloves", "", -1)
+				newGlovePrefix = strings.Replace(glove.ClassName, "_gloves", "", -1)
 			} else {
 				newGlovePrefix = value
 			}

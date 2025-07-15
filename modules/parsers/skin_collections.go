@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseSkinCollections(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.KnifeItem {
+func ParseSkinCollections(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.BaseWeapon {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -24,7 +24,7 @@ func ParseSkinCollections(ctx context.Context, ig *models.ItemsGame, t *modules.
 		return nil
 	}
 
-	var knives []models.KnifeItem
+	var knives []models.BaseWeapon
 	for _, c := range client_loot_lists.GetChilds() {
 		prefab, _ := c.GetString("prefab")
 
@@ -34,18 +34,20 @@ func ParseSkinCollections(ctx context.Context, ig *models.ItemsGame, t *modules.
 		}
 
 		definition_index, _ := strconv.Atoi(c.Key)
-		item_name, _ := c.GetString("item_name")
-		name, _ := c.GetString("name")
-		item_description, _ := c.GetString("item_description")
+		classname, _ := c.GetString("name")
 		image_inventory, _ := c.GetString("image_inventory")
+		item_name, _ := c.GetString("item_name")
+		// item_description, _ := c.GetString("item_description")
 
-		current := models.KnifeItem{
+		current := models.BaseWeapon{
 			DefinitionIndex: definition_index,
-			ItemName:        item_name,
-			Name:            name,
-			ItemDescription: item_description,
-			Prefab:          prefab,
-			ImageInventory:  image_inventory,
+			ClassName:       classname,
+			Name:            item_name,
+			// ItemName:        item_name,
+			// Name:            name,
+			// ItemDescription: item_description,
+			// Prefab:          prefab,
+			ImageInventory: image_inventory,
 		}
 
 		knives = append(knives, current)

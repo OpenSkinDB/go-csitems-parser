@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.GloveItem {
+func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.BaseWeapon {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -23,7 +23,7 @@ func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		return nil
 	}
 
-	var gloves []models.GloveItem
+	var gloves []models.BaseWeapon
 
 	for _, w := range items.GetChilds() {
 		prefab, _ := w.GetString("prefab")
@@ -35,16 +35,17 @@ func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 
 		definition_index, _ := strconv.Atoi(w.Key)
 
+		classname, _ := w.GetString("name")
 		item_name, _ := w.GetString("item_name")
-		name, _ := w.GetString("name")
-		item_description, _ := w.GetString("item_description")
+		// item_description, _ := w.GetString("item_description")
 
-		current := models.GloveItem{
+		current := models.BaseWeapon{
 			DefinitionIndex: definition_index,
-			ItemName:        item_name,
-			Name:            name,
-			ItemDescription: item_description,
-			Prefab:          prefab,
+			ClassName:       classname,
+			Name:            item_name,
+			// ItemName:        item_name,
+			// ItemDescription: item_description,
+			// Prefab:          prefab,
 		}
 
 		gloves = append(gloves, current)

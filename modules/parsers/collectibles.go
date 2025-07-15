@@ -36,36 +36,31 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame, t *modules.Tra
 
 		definition_index, _ := strconv.Atoi(item.Key)
 		prefab, _ := item.GetString("prefab")
-		item_description, _ := item.GetString("item_description")
 		image_inventory, _ := item.GetString("image_inventory")
 
-		attributes := modules.GetSubKey(item, "attributes")
+		tournament_event_id, _ := modules.GetTournamentEventId(item)
+		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
+
+		// item_description, _ := item.GetString("item_description")
+		// attributes := modules.GetSubKey(item, "attributes")
 
 		// Get subkeys for attributes
-		tournament_event_id, _ := modules.GetTournamentEventId(item)
-		pedestal_display_model, _ := attributes.GetString("pedestal display model")
+		// pedestal_display_model, _ := attributes.GetString("pedestal display model")
 
 		// Get the pedestal display model from attributes
 		// Determine the type of collectible
-		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
-
-		market_hash_name := modules.GenerateMarketHashName(t, item_name, "collectible")
-
-		if collectible_type == "unknown" {
-			logger.Warn().Msgf("Unknown collectible type for item_name: %s, prefab: %s", item_name, prefab)
-			continue
-		}
 
 		collectibles = append(collectibles, models.Collectible{
 			DefinitionIndex:   definition_index,
-			Prefab:            prefab,
-			Name:              item_name,
-			Description:       item_description,
+			MarketHashName:    modules.GenerateMarketHashName(t, item_name, "collectible"),
 			ImageInventory:    image_inventory,
-			Model:             pedestal_display_model,
 			Type:              collectible_type,
 			TournamentEventId: tournament_event_id,
-			MarketHashName:    market_hash_name,
+
+			// Prefab:            prefab,
+			// Name:              item_name,
+			// Description:       item_description,
+			// Model:             pedestal_display_model,
 		})
 	}
 

@@ -15,22 +15,20 @@ import (
 	"github.com/rs/zerolog"
 )
 
-type ItemSchemaPaintKits struct {
-	Weapons *[]modules.WeaponSkinMap `json:"weapons"`
-	Knives  *[]modules.KnifeSkinMap  `json:"knives"`
-	Gloves  *[]modules.GloveSkinMap  `json:"gloves"`
-}
-
 type ItemSchema struct {
-	Collections  []models.ItemSet     `json:"collections"`
-	Rarities     []models.Rarity      `json:"rarities"`
-	Stickers     []models.StickerKit  `json:"stickers"`
-	Keychains    []models.Keychain    `json:"keychains"`
-	Collectibles []models.Collectible `json:"collectibles"`
-	Containers   []models.WeaponCase  `json:"containers"`
-	Agents       []models.PlayerAgent `json:"agents"`
-	MusicKits    []models.MusicKit    `json:"music_kits"`
-	PaintKits    ItemSchemaPaintKits  `json:"paint_kits"`
+	Collections      []models.ItemSet         `json:"collections"`
+	Rarities         []models.Rarity          `json:"rarities"`
+	Stickers         []models.StickerKit      `json:"stickers"`
+	Keychains        []models.Keychain        `json:"keychains"`
+	Collectibles     []models.Collectible     `json:"collectibles"`
+	Containers       []models.WeaponCase      `json:"containers"`
+	SouvenirPackages []models.SouvenirPackage `json:"souvenir_packages"`
+	Agents           []models.PlayerAgent     `json:"agents"`
+	MusicKits        []models.MusicKit        `json:"music_kits"`
+	HighlightReels   []models.HighlightReel   `json:"highlight_reels"`
+	PaintKits        []modules.WeaponSkinMap  `json:"paint_kits"`
+	Tournaments      map[string]string        `json:"tournaments"`
+	Locations        map[string]string        `json:"locations"`
 }
 
 func main() {
@@ -94,6 +92,8 @@ func main() {
 	weapons := parsers.ParseWeapons(ctx, itemsGame, translator)
 	gloves := parsers.ParseGloves(ctx, itemsGame, translator)
 	knives := parsers.ParseKnives(ctx, itemsGame, translator)
+	highlight_reels := parsers.ParseHighlightReels(ctx, itemsGame, translator)
+	tournaments := parsers.ParseTournaments(ctx, translator)
 
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)
@@ -114,6 +114,8 @@ func main() {
 	ExportToJsonFile(gloves, "gloves")
 	ExportToJsonFile(knives, "knives")
 	ExportToJsonFile(souvenir_packages, "souvenir_packages")
+	ExportToJsonFile(highlight_reels, "highlight_reels")
+	ExportToJsonFile(tournaments, "tournaments")
 
 	var itemsGameCdn = modules.LoadItemsGameCdn("./files/items_game_cdn.txt")
 	ExportToJsonFile(itemsGameCdn, "items_game_cdn")
@@ -132,21 +134,31 @@ func main() {
 	glove_skins := modules.GetGlovePaintKits(&gloves, &paint_kits)
 	ExportToJsonFile(glove_skins, "gloves_with_paint_kits")
 
+	paint_kits_list := make([]modules.WeaponSkinMap, 0)
+	paint_kits_list = append(paint_kits_list, weapon_skins...)
+	paint_kits_list = append(paint_kits_list, knife_skins...)
+	paint_kits_list = append(paint_kits_list, glove_skins...)
+	// paint_kits_list := []modules.WeaponSkinMap{
+	// 	weapon_skins...,
+	// 	knife_skins...,
+	// 	glove_skins...,
+	// }
+
 	// Final schema
 	itemSchema := ItemSchema{
-		Collections:  item_sets,
-		Rarities:     rarities,
-		Stickers:     sticker_kits,
-		Keychains:    keychains,
-		Collectibles: collectibles,
-		Containers:   weapon_cases,
-		Agents:       player_agents,
-		MusicKits:    musicKits,
-		PaintKits: ItemSchemaPaintKits{
-			Weapons: &weapon_skins,
-			Knives:  &knife_skins,
-			Gloves:  &glove_skins,
-		},
+		Collections:      item_sets,
+		Rarities:         rarities,
+		Stickers:         sticker_kits,
+		Keychains:        keychains,
+		Collectibles:     collectibles,
+		Containers:       weapon_cases,
+		SouvenirPackages: souvenir_packages,
+		Agents:           player_agents,
+		MusicKits:        musicKits,
+		HighlightReels:   highlight_reels,
+		PaintKits:        paint_kits_list,
+		Tournaments:      tournaments.Tournaments,
+		Locations:        tournaments.Locations,
 	}
 
 	// Export the final schema to a JSON file

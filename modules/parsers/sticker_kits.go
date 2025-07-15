@@ -36,7 +36,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		definition_index, _ := strconv.Atoi(item.Key)
 		item_name, _ := item.GetString("item_name")
 		name, _ := item.GetString("name")
-		description_string, _ := item.GetString("description_string")
+		// description_string, _ := item.GetString("description_string")
 		sticker_material, _ := item.GetString("sticker_material")
 		item_rarity, _ := item.GetString("item_rarity")
 		tournament_event_id, _ := item.GetInt("tournament_event_id")
@@ -52,16 +52,15 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		)
 
 		items = append(items, models.StickerKit{
-			DefinitionIndex:   definition_index,
-			Name:              name,
-			ItemName:          item_name,
-			DescriptionString: description_string,
-			StickerMaterial:   sticker_material,
-			Rarity:            item_rarity,
-			Effect:            sticker_effect,
-			Type:              sticker_type,
-			TournamentEventId: tournament_event_id,
-			TournamentTeamId:  tournament_team_id,
+			DefinitionIndex: definition_index,
+			Name:            name,
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, "sticker_kit"),
+			StickerMaterial: sticker_material,
+			Rarity:          item_rarity,
+			Effect:          sticker_effect,
+			Type:            sticker_type,
+			Tournament:      modules.GetTournamentData(t, tournament_event_id),
+			Team:            modules.GetTournamentTeamData(t, tournament_team_id),
 		})
 	}
 
@@ -72,42 +71,42 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 	return items
 }
 
-func GetStickerType(player int, event int, team int) models.StickerType {
+func GetStickerType(player int, event int, team int) string {
 	if player > 0 {
-		return models.StickerTypeAutograph
+		return "autograph"
 	}
 
 	if team > 0 {
-		return models.StickerTypeTeam
+		return "team"
 	}
 
 	if event > 0 {
-		return models.StickerTypeEvent
+		return "event"
 	}
 
-	return models.StickerTypeUnknown
+	return "normal"
 }
 
-func GetStickerEffect(sticker_material string) models.StickerEffect {
+func GetStickerEffect(sticker_material string) string {
 	if strings.HasSuffix(sticker_material, "_glitter") {
-		return models.StickerEffectGlitter
+		return "glitter"
 	}
 
 	if strings.HasSuffix(sticker_material, "_holo") {
-		return models.StickerEffectHolo
+		return "holo"
 	}
 
 	if strings.HasSuffix(sticker_material, "_foil") {
-		return models.StickerEffectFoil
+		return "foil"
 	}
 
 	if strings.HasSuffix(sticker_material, "_gold") {
-		return models.StickerEffectGold
+		return "gold"
 	}
 
 	if strings.HasSuffix(sticker_material, "_lenticular") {
-		return models.StickerEffectLenticular
+		return "lenticular"
 	}
 
-	return models.StickerEffectUnknown
+	return "normal"
 }

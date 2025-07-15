@@ -48,7 +48,7 @@ func LoadAllTranslations(ctx context.Context, folderPath string) *TranslatorFact
 
 	// Loop through all files in the folder
 	for _, dir_entry := range files {
-		logger.Debug().Msgf("Processing file %s", dir_entry.Name())
+		// logger.Debug().Msgf("Processing file %s", dir_entry.Name())
 
 		if dir_entry.IsDir() {
 			logger.Info().Msgf("Skipping directory %s", dir_entry.Name())
@@ -87,7 +87,7 @@ func LoadAllTranslations(ctx context.Context, folderPath string) *TranslatorFact
 		}
 
 		lang_map[lang_name] = t
-		logger.Info().Msgf("Loaded '%d' tokens for language '%s'", len(*t.Tokens), lang_name)
+		// logger.Info().Msgf("Loaded '%d' tokens for language '%s'", len(*t.Tokens), lang_name)
 	}
 
 	duration := time.Since(start)
@@ -114,6 +114,15 @@ func LoadLanguage(vdf *vdf.KeyValue) (*Translator, string) {
 
 	token_map, err := tokens.ToStringMap()
 
+	// Convert all keys to lowercase
+	for key, value := range *token_map {
+		lowerKey := strings.ToLower(key)
+		if lowerKey != key {
+			(*token_map)[lowerKey] = value
+			delete(*token_map, key)
+		}
+	}
+
 	if err != nil {
 		panic(fmt.Sprintf("Error parsing tokens: %v", err))
 	}
@@ -127,11 +136,14 @@ func LoadLanguage(vdf *vdf.KeyValue) (*Translator, string) {
 }
 
 func (t *Translator) GetValueByKey(key string) (string, error) {
-	token_key := strings.Replace(key, "#", "", -1)
+	// Remove the '#' character from the key if it exists
+	key = strings.Replace(key, "#", "", 1)
+	key = strings.ToLower(key) // Ensure the key is in lowercase
+
 	if t == nil {
 		fmt.Println("Translator is nil")
-		return "", errors.New("key not found")
+		return key, errors.New("key not found")
 	}
 
-	return (*t.Tokens)[token_key], nil
+	return (*t.Tokens)[key], nil
 }

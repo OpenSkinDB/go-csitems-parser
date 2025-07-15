@@ -42,14 +42,21 @@ func ParseRarities(ctx context.Context, ig *models.ItemsGame, t *modules.Transla
 		loc_key, _ := r.GetString("loc_key")
 		loc_key_weapon, _ := r.GetString("loc_key_weapon")
 		loc_key_character, _ := r.GetString("loc_key_character")
-		drop_sound, _ := r.GetString("drop_sound")
+
+		if loc_key == "" || loc_key_weapon == "" || loc_key_character == "" {
+			logger.Warn().Msgf("Rarity '%s' is missing one of the localization keys, skipping", r.Key)
+			continue
+		}
+
+		translated_rarity, _ := t.GetValueByKey(loc_key)
+		translated_weapon, _ := t.GetValueByKey(loc_key_weapon)
+		translated_character, _ := t.GetValueByKey(loc_key_character)
 
 		current := models.Rarity{
-			Key:             r.Key,
-			LocKey:          loc_key,
-			LocKeyWeapon:    loc_key_weapon,
-			LocKeyCharacter: loc_key_character,
-			DropSound:       drop_sound,
+			Key:          r.Key,
+			LocRarity:    translated_rarity,
+			LocWeapon:    translated_weapon,
+			LocCharacter: translated_character,
 		}
 
 		// Get color Data
@@ -59,8 +66,8 @@ func ParseRarities(ctx context.Context, ig *models.ItemsGame, t *modules.Transla
 		if color_str != "" {
 			if colorData, ok := color_map[color_str]; ok {
 
-				current.HexColor = colorData.HexColor
-				current.ColorName = colorData.ColorName
+				current.Hex = colorData.HexColor
+				// current.ColorName = colorData.ColorName
 			}
 		}
 

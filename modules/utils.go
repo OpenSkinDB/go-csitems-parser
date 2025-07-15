@@ -2,7 +2,9 @@ package modules
 
 import (
 	"context"
+	"fmt"
 	"go-csitems-parser/models"
+	"strings"
 
 	"github.com/baldurstod/vdf"
 	"github.com/rs/zerolog"
@@ -106,8 +108,90 @@ var ItemWears = map[string]ItemWear{
 	},
 }
 
+var hashNamePrefixes = map[string]string{
+	"sticker_kit": "Sticker | ",
+	"music_kit":   "Music Kit | ",
+	// "highlight_reel": "Souvenir Charm | Austin 2025 Highlight | ",
+}
+
+func GenerateHighlightReelMarketHashName(t *Translator, name string, event int) string {
+	value, err := t.GetValueByKey("HighlightReel_" + name)
+
+	if err != nil {
+		fmt.Printf("Error translating name '%s': %v\n", name, err)
+		value = name // Fallback to original name if translation fails
+	}
+
+	// split name by "_", first part is the tournament id for the keychain capsule
+	tournament_id := ""
+	if len(name) > 0 {
+		parts := strings.Split(name, "_")
+		if len(parts) > 0 {
+			tournament_id = parts[0]
+		}
+	}
+
+	// Get the capsule name "keychain_kc_%s"
+	capsule, err := t.GetValueByKey("keychain_kc_" + tournament_id)
+
+	if err != nil {
+		fmt.Printf("Error translating capsule name '%s': %v\n", tournament_id, err)
+		capsule = "Unknown Capsule" // Fallback to a default value
+	}
+
+	return fmt.Sprintf("Souvenir Charm | %s | %s", capsule, value)
+}
+
+func GetTournamentData(t *Translator, id int) *models.TournamentData {
+	lang_key := fmt.Sprintf("CSGO_Tournament_Event_NameShort_%d", id)
+
+	name, _ := t.GetValueByKey(lang_key)
+
+	if id == 0 || name == "" {
+		return nil
+	}
+
+	return &models.TournamentData{
+		Id:   id,
+		Name: name,
+	}
+}
+
+func GetTournamentTeamData(t *Translator, id int) *models.TournamentData {
+	lang_key := fmt.Sprintf("CSGO_TeamID_%d", id)
+
+	name, _ := t.GetValueByKey(lang_key)
+
+	if id == 0 || name == "" {
+		return nil
+	}
+
+	return &models.TournamentData{
+		Id:   id,
+		Name: name,
+	}
+}
+
 func GenerateMarketHashName(t *Translator, name string, item_type string) string {
-	value, _ := t.GetValueByKey(name)
+	value, err := t.GetValueByKey(name)
+
+	if err != nil {
+		fmt.Printf("Error translating name '%s': %v\n", name, err)
+		value = name // Fallback to original name if translation fails
+	}
+
+	// Special case for the vanilla paint kit
+	if name == "#PaintKit_Default_Tag" {
+		value = "Vanilla"
+	}
+
+	if prefix, ok := hashNamePrefixes[item_type]; ok {
+		value = prefix + value
+	}
+
+	// if item_type == "collectible" {
+	// 	fmt.Printf("Generated market hash name for item type: [%s] %s -> %s\n", name, item_type, value)
+	// }
 
 	return value
 }
