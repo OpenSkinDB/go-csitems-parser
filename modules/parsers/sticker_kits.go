@@ -36,6 +36,11 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		definition_index, _ := strconv.Atoi(item.Key)
 		item_name, _ := item.GetString("item_name")
 		name, _ := item.GetString("name")
+
+		if strings.HasPrefix(name, "patch_") {
+			continue // Skip non-sticker kit items
+		}
+
 		// description_string, _ := item.GetString("description_string")
 		sticker_material, _ := item.GetString("sticker_material")
 		item_rarity, _ := item.GetString("item_rarity")
