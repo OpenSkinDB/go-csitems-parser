@@ -44,6 +44,7 @@ func GetWeaponPaintKits(
 			if data != nil {
 				paint_kit.StatTrak = data.CanBeStatTrak
 				paint_kit.Souvenir = data.CanBeSouvenir
+				paint_kit.ItemSetId = data.ItemSetId
 			}
 
 			current.PaintKits = append(current.PaintKits, *paint_kit)

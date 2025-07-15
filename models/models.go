@@ -64,6 +64,7 @@ type PaintKit struct {
 	Rarity          string            `json:"rarity"`
 	Souvenir        bool              `json:"souvenir"`
 	StatTrak        bool              `json:"stattrak"`
+	ItemSetId       string            `json:"item_set_id,omitempty"`
 	// UseLegacyModel    bool    `json:"use_legacy_model"`
 	// DescriptionString string  `json:"description_string"`
 	// DescriptionTag    string  `json:"description_tag"`
