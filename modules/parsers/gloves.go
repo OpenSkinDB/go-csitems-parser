@@ -42,7 +42,7 @@ func ParseGloves(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		current := models.BaseWeapon{
 			DefinitionIndex: definition_index,
 			ClassName:       classname,
-			Name:            item_name,
+			Name:            modules.GenerateMarketHashName(t, item_name, nil, "glove"),
 			// ItemName:        item_name,
 			// ItemDescription: item_description,
 			// Prefab:          prefab,

@@ -140,12 +140,12 @@ func LoadItemsGame(path string) *models.ItemsGame {
 	// kv.RemoveDuplicates()
 	MergeKeysAtRootLevel(kv)
 
-	json, _ := kv.MarshalJSON()
+	// json, _ := kv.MarshalJSON()
 
-	err = os.WriteFile("exported/items_game.json", json, 0644)
-	if err != nil {
-		fmt.Println("Error writing data to file:", err)
-	}
+	// err = os.WriteFile("exported/items_game.json", json, 0644)
+	// if err != nil {
+	// 	fmt.Println("Error writing data to file:", err)
+	// }
 
 	return &models.ItemsGame{
 		KeyValue: kv,

@@ -86,7 +86,6 @@ func main() {
 	rarities := parsers.ParseRarities(ctx, itemsGame, translator)
 	sticker_kits := parsers.ParseStickerKits(ctx, itemsGame, translator)
 	keychains := parsers.ParseKeychains(ctx, itemsGame, translator)
-	loot_lists := parsers.ParseClientLootLists(ctx, itemsGame, translator)
 	weapons := parsers.ParseWeapons(ctx, itemsGame, translator)
 	gloves := parsers.ParseGloves(ctx, itemsGame, translator)
 	knives := parsers.ParseKnives(ctx, itemsGame, translator)
@@ -104,42 +103,11 @@ func main() {
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)
 
-	// Export all parsed data to JSON files
-	// debugging
-	ExportToJsonFile(musicKits, "music_kits")
-	ExportToJsonFile(collectibles, "collectibles")
-	ExportToJsonFile(weapon_cases, "weapon_cases")
-	ExportToJsonFile(player_agents, "player_agents")
-	ExportToJsonFile(rarities, "rarities")
-	ExportToJsonFile(paint_kits, "paint_kits")
-	ExportToJsonFile(item_sets, "item_sets")
-	ExportToJsonFile(sticker_kits, "sticker_kits")
-	ExportToJsonFile(keychains, "keychains")
-	ExportToJsonFile(loot_lists, "client_loot_lists")
-	ExportToJsonFile(weapons, "weapons")
-	ExportToJsonFile(gloves, "gloves")
-	ExportToJsonFile(knives, "knives")
-	ExportToJsonFile(souvenir_packages, "souvenir_packages")
-	ExportToJsonFile(highlight_reels, "highlight_reels")
-	ExportToJsonFile(tournaments, "tournaments")
-	ExportToJsonFile(collections, "collections")
-
-	var itemsGameCdn = modules.LoadItemsGameCdn("./files/items_game_cdn.txt")
-	ExportToJsonFile(itemsGameCdn, "items_game_cdn")
-
 	// Some knife stuff
 	knife_skin_map := modules.LoadKnifeSkinsMap("./files/knife_skins.json")
 	knife_skins := modules.GetKnifePaintKits(&knives, &paint_kits, knife_skin_map)
-	ExportToJsonFile(knife_skins, "knives_with_paint_kits")
-
-	// Weapon map
 	weapon_skins := modules.GetWeaponPaintKits(&weapons, &paint_kits, &item_sets)
-	ExportToJsonFile(weapon_skins, "weapons_with_paint_kits")
-	// knife_skins := modules.GetKnifePaintKits(&knives, &paint_kits)
-
-	// Some glove stuff
 	glove_skins := modules.GetGlovePaintKits(&gloves, &paint_kits)
-	ExportToJsonFile(glove_skins, "gloves_with_paint_kits")
 
 	paint_kits_list := make([]modules.WeaponSkinMap, 0)
 	paint_kits_list = append(paint_kits_list, weapon_skins...)

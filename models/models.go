@@ -174,10 +174,10 @@ type WeaponCaseKey struct {
 type WeaponCase struct {
 	DefinitionIndex int `json:"definition_index"`
 	// Name            string             `json:"name"`
-	MarketHashName string         `json:"market_hash_name"`
-	ImageInventory string         `json:"image_inventory"`
-	ItemSetId      *string        `json:"item_set"`
-	Key            *WeaponCaseKey `json:"key"`
+	MarketHashName string  `json:"market_hash_name"`
+	ImageInventory string  `json:"image_inventory"`
+	ItemSetId      *string `json:"item_set_id"`
+	// Key            *WeaponCaseKey `json:"key"`
 
 	// Description     string             `json:"description"`
 	// Prefab          string             `json:"prefab"`
