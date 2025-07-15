@@ -62,12 +62,7 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		// Create the weapon case model
 		var current = models.WeaponCase{
 			DefinitionIndex: definition_index,
-			// Prefab:          prefab,
-			// Name: item_name,
-			// Description:     item_description,
-			// Model:           model_player,
-			// FirstSaleDate:   first_sale_date,
-			ImageInventory: image_inventory,
+			ImageInventory:  image_inventory,
 			// Key:            case_key,
 			ItemSetId:      &item_set,
 			MarketHashName: modules.GenerateMarketHashName(t, item_name, nil, "weapon_case"),

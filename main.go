@@ -4,14 +4,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"sort"
 	"time"
 
 	"go-csitems-parser/models"
 	"go-csitems-parser/modules"
 	"go-csitems-parser/modules/parsers"
 
-	"github.com/jedib0t/go-pretty/list"
 	"github.com/rs/zerolog"
 )
 
@@ -46,22 +44,6 @@ func main() {
 		panic("items_game.txt is nil, exiting...")
 	} else {
 		logger.Info().Msgf("Successfully loaded items_game.txt")
-
-		l := list.NewWriter()
-		l.SetStyle(list.StyleConnectedRounded)
-
-		sorted := itemsGame.GetChilds()
-
-		// Sort based on the number of their children
-		sort.Slice(sorted, func(i, j int) bool {
-			return len(sorted[i].GetChilds()) > len(sorted[j].GetChilds())
-		})
-
-		for _, item := range sorted {
-			fmtKey := GetFormattedItemName(item.Key, len(item.GetChilds()), 35)
-			l.AppendItem(fmtKey)
-		}
-		// fmt.Printf("%s\n", l.Render())
 	}
 
 	// Attach the Logger to the context.Context

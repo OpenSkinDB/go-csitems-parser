@@ -58,10 +58,6 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 		item_name, _ := w.GetString("item_name")
 		image_inventory, _ := w.GetString("image_inventory")
 
-		// item_description, _ := w.GetString("item_description")
-		// slot, _ := w.GetString("prefab")
-		// Slot:           slot,
-
 		translated_name, err := t.GetValueByKey(item_name)
 		if err != nil {
 			logger.Error().Err(err).Msgf("Failed to translate item name for weapon %s", item_name)
