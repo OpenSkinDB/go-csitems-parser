@@ -84,8 +84,6 @@ func main() {
 	collectibles := parsers.ParseCollectibles(ctx, itemsGame, translator)
 	weapon_cases := parsers.ParseWeaponCases(ctx, itemsGame, translator)
 	rarities := parsers.ParseRarities(ctx, itemsGame, translator)
-	paint_kits := parsers.ParsePaintKits(ctx, itemsGame, translator)
-	item_sets := parsers.ParseItemSets(ctx, itemsGame, translator)
 	sticker_kits := parsers.ParseStickerKits(ctx, itemsGame, translator)
 	keychains := parsers.ParseKeychains(ctx, itemsGame, translator)
 	loot_lists := parsers.ParseClientLootLists(ctx, itemsGame, translator)
@@ -95,8 +93,13 @@ func main() {
 	highlight_reels := parsers.ParseHighlightReels(ctx, itemsGame, translator)
 	tournaments := parsers.ParseTournaments(ctx, translator)
 
+	// Paint kits are tricky
+	item_sets := parsers.ParseItemSets(ctx, itemsGame, souvenir_packages, weapon_cases, translator)
+	paint_kits := parsers.ParsePaintKits(ctx, itemsGame, translator)
+
 	// Special parsing for collections
 	collections := parsers.ParseCollections(ctx, itemsGame, souvenir_packages, weapon_cases, translator)
+	// Now we need to map whether or not an item has a souvenir variant or not, same for stattrak
 
 	duration := time.Since(start)
 	logger.Debug().Msgf("[go-items] Parsed all items in %s", duration)

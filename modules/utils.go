@@ -186,11 +186,36 @@ func GenerateMarketHashName(t *Translator, name string, item_type string) string
 		value = prefix + value
 	}
 
-	// if item_type == "collectible" {
-	// 	fmt.Printf("Generated market hash name for item type: [%s] %s -> %s\n", name, item_type, value)
-	// }
-
 	return value
 }
 
-// func GetFilteredKeyValues()
+// Performance might be bad, but it is a one-time operation once every few months so its fine
+func AddPaintKitMappings(
+	item_sets *[]models.ItemSet,
+	paint_kits *[]models.PaintKit,
+) []models.PaintKit {
+	// create a clone of paint_kits to avoid modifying the original slice
+	paint_kits_clone := make([]models.PaintKit, len(*paint_kits))
+	copy(paint_kits_clone, *paint_kits)
+
+	for _, set := range *item_sets {
+
+		// If the item set has a crate, we assume it can be StatTrak
+		items_can_be_stattrak := set.HasCrate
+
+		// If the item set has a souvenir, we assume it can be Souvenir
+		items_can_be_souvenir := set.HasSouvenir
+
+		for _, item := range set.Items {
+			for _, paint_kit := range paint_kits_clone {
+				if paint_kit.Name == item.PaintKitName {
+
+					paint_kit.StatTrak = items_can_be_stattrak
+					paint_kit.Souvenir = items_can_be_souvenir
+				}
+			}
+		}
+	}
+
+	return paint_kits_clone
+}

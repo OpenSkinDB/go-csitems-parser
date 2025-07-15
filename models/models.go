@@ -62,6 +62,8 @@ type PaintKit struct {
 	MarketHashName  string            `json:"market_hash_name"`
 	Wear            PaintKitWearRange `json:"float"`
 	Rarity          string            `json:"rarity"`
+	Souvenir        bool              `json:"souvenir"`
+	StatTrak        bool              `json:"stattrak"`
 	// UseLegacyModel    bool    `json:"use_legacy_model"`
 	// DescriptionString string  `json:"description_string"`
 	// DescriptionTag    string  `json:"description_tag"`
@@ -91,11 +93,13 @@ type ClientLootListSubList struct {
 }
 
 type ItemSet struct {
-	Key    string        `json:"key"`
-	Name   string        `json:"name"`
-	Type   ItemSetType   `json:"type"`
-	Items  []ItemSetItem `json:"items"`
-	Agents []string      `json:"agents"`
+	Key         string        `json:"key"`
+	Name        string        `json:"name"`
+	Type        ItemSetType   `json:"type"`
+	Items       []ItemSetItem `json:"items"`
+	Agents      []string      `json:"agents"`
+	HasCrate    bool          `json:"has_crate"`
+	HasSouvenir bool          `json:"has_souvenir"`
 }
 
 type Rarity struct {
@@ -215,4 +219,18 @@ type Collection struct {
 	Name        string `json:"name"`
 	HasCrate    bool   `json:"has_crate"`
 	HasSouvenir bool   `json:"has_souvenir"`
+}
+
+type ItemSetCollectionMap struct {
+	Key         string        `json:"key"`
+	Name        string        `json:"name"`
+	Items       []ItemSetItem `json:"items"`
+	HasCrate    bool          `json:"has_crate"`
+	HasSouvenir bool          `json:"has_souvenir"`
+}
+
+type PaintKitWeaponCombinationData struct {
+	ItemSetId     string `json:"item_set_id"`
+	CanBeStatTrak bool   `json:"can_be_stattrak"`
+	CanBeSouvenir bool   `json:"can_be_souvenir"`
 }

@@ -43,36 +43,27 @@ func ParseCollections(
 			Name: modules.GenerateMarketHashName(t, name, "collection"),
 		}
 
+		// Check if any weapon case matches this item set
+		for _, wpncase := range cs {
+			if wpncase.ItemSetId == nil || *wpncase.ItemSetId != current.Key {
+				continue
+			}
+
+			current.HasCrate = true
+			break
+		}
+
+		// Check if any souvenir package matches this item set
+		for _, sv_pkg := range sv {
+			if sv_pkg.ItemSetId == nil || *sv_pkg.ItemSetId != current.Key {
+				continue
+			}
+			current.HasSouvenir = true
+			break
+		}
+
 		// We're done here, add the current item set to the list
 		collections = append(collections, current)
-	}
-
-	// Check if a souvenir package exists with the same itemset.id
-	for _, c := range cs {
-		for i, col := range collections {
-			if c.ItemSetId == nil {
-				continue
-			}
-			if c.ItemSetId == &col.Key {
-				collections[i].HasCrate = true
-				break
-			}
-		}
-	}
-
-	// Same for weapon cases
-	for _, sv_pkg := range sv {
-		for i, col := range collections {
-
-			if sv_pkg.ItemSetId == nil {
-				continue
-			}
-
-			if sv_pkg.ItemSetId == &col.Key {
-				collections[i].HasSouvenir = true
-				break
-			}
-		}
 	}
 
 	// Save music kits to the database

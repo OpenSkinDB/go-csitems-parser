@@ -13,7 +13,13 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func ParseItemSets(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.ItemSet {
+func ParseItemSets(
+	ctx context.Context,
+	ig *models.ItemsGame,
+	sv []models.SouvenirPackage,
+	cs []models.WeaponCase,
+	t *modules.Translator,
+) []models.ItemSet {
 	logger := zerolog.Ctx(ctx)
 
 	start := time.Now()
@@ -51,6 +57,24 @@ func ParseItemSets(ctx context.Context, ig *models.ItemsGame, t *modules.Transla
 			}
 		} else {
 			current.Items = items
+		}
+
+		for _, wpncase := range cs {
+			if wpncase.ItemSetId == nil || *wpncase.ItemSetId != current.Key {
+				continue
+			}
+
+			current.HasCrate = true
+			break
+		}
+
+		// Check if any souvenir package matches this item set
+		for _, sv_pkg := range sv {
+			if sv_pkg.ItemSetId == nil || *sv_pkg.ItemSetId != current.Key {
+				continue
+			}
+			current.HasSouvenir = true
+			break
 		}
 
 		// We're done here, add the current item set to the list
