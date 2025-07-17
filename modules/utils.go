@@ -171,20 +171,37 @@ func GetTournamentTeamData(t *Translator, id int) *models.TournamentData {
 
 var dopplerPhaseMap = map[string]string{
 	// Doppler phases
-	"am_ruby_marbleized":       "Ruby",
-	"am_sapphire_marbleized":   "Sapphire",
-	"am_blackpearl_marbleized": "Black Pearl",
-	"am_doppler_phase1":        "Phase 1",
-	"am_doppler_phase2":        "Phase 2",
-	"am_doppler_phase3":        "Phase 3",
-	"am_doppler_phase4":        "Phase 4",
+	"am_ruby_marbleized":         "Ruby",
+	"am_ruby_marbleized_b":       "Ruby",
+	"am_sapphire_marbleized":     "Sapphire",
+	"am_sapphire_marbleized_b":   "Sapphire",
+	"am_blackpearl_marbleized":   "Black Pearl",
+	"am_blackpearl_marbleized_b": "Black Pearl",
+
+	// Phase 1-4, with and without "b" suffix???
+	"am_doppler_phase1":   "Phase 1",
+	"am_doppler_phase2":   "Phase 2",
+	"am_doppler_phase3":   "Phase 3",
+	"am_doppler_phase4":   "Phase 4",
+	"am_doppler_phase1_b": "Phase 1",
+	"am_doppler_phase2_b": "Phase 2",
+	"am_doppler_phase3_b": "Phase 3",
+	"am_doppler_phase4_b": "Phase 4",
 
 	// Gamma Doppler phases
 	"am_emerald_marbleized":   "Emerald",
+	"am_emerald_marbleized_b": "Emerald",
 	"am_gamma_doppler_phase1": "Phase 1",
 	"am_gamma_doppler_phase2": "Phase 2",
 	"am_gamma_doppler_phase3": "Phase 3",
 	"am_gamma_doppler_phase4": "Phase 4",
+
+	// Gamma Doppler Glock phases
+	"am_emerald_marbleized_glock":   "Emerald",
+	"am_gamma_doppler_phase1_glock": "Phase 1",
+	"am_gamma_doppler_phase2_glock": "Phase 2",
+	"am_gamma_doppler_phase3_glock": "Phase 3",
+	"am_gamma_doppler_phase4_glock": "Phase 4",
 }
 
 func GenerateMarketHashName(t *Translator, name string, extra *string, item_type string) string {

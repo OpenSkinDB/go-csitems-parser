@@ -68,14 +68,9 @@ func GetItemSetPaintKitsForWeapon(
 		// }
 
 		for _, item := range item_set.Items {
-
 			if item.WeaponClass == weapon_name {
 				paint_kits = append(paint_kits, item.PaintKitName)
 			}
-
-			// if strings.Contains(item.PaintKitName, "lotus") && strings.Contains(weapon_name, "m4a1") {
-			// 	fmt.Printf("Checking item '%s' for weapon '%s'\n", item.PaintKitName, weapon_name)
-			// }
 		}
 	}
 

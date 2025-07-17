@@ -5474,7 +5474,7 @@
   {
     "definition_index": 617,
     "name": "am_blackpearl_marbleized_b",
-    "market_hash_name": "Doppler",
+    "market_hash_name": "Doppler (Black Pearl)",
     "float": {
       "min": 0,
       "max": 0.08
@@ -5486,7 +5486,7 @@
   {
     "definition_index": 618,
     "name": "am_doppler_phase2_b",
-    "market_hash_name": "Doppler",
+    "market_hash_name": "Doppler (Phase 2)",
     "float": {
       "min": 0,
       "max": 0.08
@@ -5498,7 +5498,7 @@
   {
     "definition_index": 619,
     "name": "am_sapphire_marbleized_b",
-    "market_hash_name": "Doppler",
+    "market_hash_name": "Doppler (Sapphire)",
     "float": {
       "min": 0,
       "max": 0.08
@@ -12278,7 +12278,7 @@
   {
     "definition_index": 1119,
     "name": "am_emerald_marbleized_glock",
-    "market_hash_name": "Gamma Doppler",
+    "market_hash_name": "Gamma Doppler (Emerald)",
     "float": {
       "min": 0,
       "max": 0.5
@@ -12290,7 +12290,7 @@
   {
     "definition_index": 1120,
     "name": "am_gamma_doppler_phase1_glock",
-    "market_hash_name": "Gamma Doppler",
+    "market_hash_name": "Gamma Doppler (Phase 1)",
     "float": {
       "min": 0,
       "max": 0.5
@@ -12302,7 +12302,7 @@
   {
     "definition_index": 1121,
     "name": "am_gamma_doppler_phase2_glock",
-    "market_hash_name": "Gamma Doppler",
+    "market_hash_name": "Gamma Doppler (Phase 2)",
     "float": {
       "min": 0,
       "max": 0.5
@@ -12314,7 +12314,7 @@
   {
     "definition_index": 1122,
     "name": "am_gamma_doppler_phase3_glock",
-    "market_hash_name": "Gamma Doppler",
+    "market_hash_name": "Gamma Doppler (Phase 3)",
     "float": {
       "min": 0,
       "max": 0.5
@@ -12326,7 +12326,7 @@
   {
     "definition_index": 1123,
     "name": "am_gamma_doppler_phase4_glock",
-    "market_hash_name": "Gamma Doppler",
+    "market_hash_name": "Gamma Doppler (Phase 4)",
     "float": {
       "min": 0,
       "max": 0.5
