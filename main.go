@@ -78,6 +78,9 @@ func main() {
 	item_sets := parsers.ParseItemSets(ctx, itemsGame, souvenir_packages, weapon_cases, translator)
 	paint_kits := parsers.ParsePaintKits(ctx, itemsGame, translator)
 
+	ExportToJsonFile(paint_kits, "paint_kits")
+	ExportToJsonFile(weapons, "weapons")
+
 	// Special parsing for collections
 	collections := parsers.ParseCollections(ctx, itemsGame, souvenir_packages, weapon_cases, translator)
 	// Now we need to map whether or not an item has a souvenir variant or not, same for stattrak

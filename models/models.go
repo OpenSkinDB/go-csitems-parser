@@ -15,6 +15,7 @@ type BaseWeapon struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
 	ClassName       string `json:"classname"`
+	NumStickers     int    `json:"sticker_count"`
 	ImageInventory  string `json:"image_inventory"`
 
 	// ItemName        string `json:"item_name"`

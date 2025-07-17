@@ -26,6 +26,7 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 	// logger.Info().Msg("Parsing music kits...")
 
 	prefabs, err := ig.Get("prefabs")
+	game_info, err := ig.Get("game_info")
 
 	if err != nil {
 		logger.Error().Err(err).Msg("Failed to get prefabs")
@@ -41,7 +42,7 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 			continue
 		}
 
-		item_class, _ := w.GetString("item_class")
+		item_class := strings.TrimSuffix(w.Key, "_prefab")
 		def_idx := GetBaseWeaponDefinitionIndex(item_class, ig)
 
 		if def_idx == -1 {
@@ -57,6 +58,7 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 
 		item_name, _ := w.GetString("item_name")
 		image_inventory, _ := w.GetString("image_inventory")
+		max_num_stickers, _ := game_info.GetInt("max_num_stickers")
 
 		translated_name, err := t.GetValueByKey(item_name)
 		if err != nil {
@@ -69,6 +71,7 @@ func ParseWeapons(ctx context.Context, ig *models.ItemsGame, t *modules.Translat
 			Name:            translated_name,
 			ClassName:       item_class,
 			ImageInventory:  image_inventory,
+			NumStickers:     max_num_stickers, // Default to 0, will be updated later
 		}
 
 		weapons = append(weapons, current)
