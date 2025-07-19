@@ -48,12 +48,15 @@ func MapCollectibles(collectibles *[]models.Collectible) map[int]models.SchemaGe
 	return collectible_map
 }
 
-func MapKeychains(keychains *[]models.Keychain) map[int]string {
-	keychain_map := make(map[int]string)
+func MapKeychains(keychains *[]models.Keychain) map[int]SchemaItemWithImage {
+	keychain_map := make(map[int]SchemaItemWithImage)
 
 	for _, keychain := range *keychains {
 		// Add to the map
-		keychain_map[keychain.DefinitionIndex] = keychain.MarketHashName
+		keychain_map[keychain.DefinitionIndex] = SchemaItemWithImage{
+			MarketHashName: keychain.MarketHashName,
+			Image:          keychain.ImageInventory,
+		}
 	}
 
 	return keychain_map
@@ -119,12 +122,20 @@ func MapContainers(
 	return container_map
 }
 
-func MapStickerKits(sticker_kits *[]models.StickerKit) map[int]string {
-	sticker_kit_map := make(map[int]string)
+type SchemaItemWithImage struct {
+	MarketHashName string `json:"market_hash_name"`
+	Image          string `json:"image"`
+}
+
+func MapStickerKits(sticker_kits *[]models.StickerKit) map[int]SchemaItemWithImage {
+	sticker_kit_map := make(map[int]SchemaItemWithImage)
 
 	for _, sticker_kit := range *sticker_kits {
 		// Add to the map
-		sticker_kit_map[sticker_kit.DefinitionIndex] = sticker_kit.MarketHashName
+		sticker_kit_map[sticker_kit.DefinitionIndex] = SchemaItemWithImage{
+			MarketHashName: sticker_kit.MarketHashName,
+			Image:          sticker_kit.StickerMaterial,
+		}
 	}
 
 	return sticker_kit_map
