@@ -43,7 +43,7 @@ func GetWeaponPaintKits(
 		current := SchemaWeaponSkinMap{
 			Name:          weapon.Name,
 			StickerAmount: weapon.NumStickers,
-			Type:          "weapons",
+			Type:          "weapon",
 			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 
@@ -114,7 +114,7 @@ func GetKnifePaintKits(
 		current := SchemaWeaponSkinMap{
 			Name:          knife.Name,
 			StickerAmount: 0, // Knives don't have stickers
-			Type:          "knives",
+			Type:          "knife",
 			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 
@@ -170,7 +170,7 @@ func GetGlovePaintKits(gloves *[]models.BaseWeapon, paint_kits *[]models.PaintKi
 		current := SchemaWeaponSkinMap{
 			Name:          glove.Name,
 			StickerAmount: 0, // Knives don't have stickers
-			Type:          "gloves",
+			Type:          "glove",
 			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 

@@ -50027,7 +50027,7 @@
     "1": {
       "name": "Desert Eagle",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1006": {
           "definition_index": 1006,
@@ -50580,7 +50580,7 @@
     "10": {
       "name": "FAMAS",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1053": {
           "definition_index": 1053,
@@ -51107,7 +51107,7 @@
     "11": {
       "name": "G3SG1",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1034": {
           "definition_index": 1034,
@@ -51504,7 +51504,7 @@
     "13": {
       "name": "Galil AR",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "101": {
           "definition_index": 101,
@@ -52057,7 +52057,7 @@
     "14": {
       "name": "M249",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1042": {
           "definition_index": 1042,
@@ -52376,7 +52376,7 @@
     "16": {
       "name": "M4A4",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "101": {
           "definition_index": 101,
@@ -52981,7 +52981,7 @@
     "17": {
       "name": "MAC-10",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1009": {
           "definition_index": 1009,
@@ -53677,7 +53677,7 @@
     "19": {
       "name": "P90",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "100": {
           "definition_index": 100,
@@ -54334,7 +54334,7 @@
     "2": {
       "name": "Dual Berettas",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1005": {
           "definition_index": 1005,
@@ -54861,7 +54861,7 @@
     "23": {
       "name": "MP5-SD",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1061": {
           "definition_index": 1061,
@@ -55141,7 +55141,7 @@
     "24": {
       "name": "UMP-45",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1003": {
           "definition_index": 1003,
@@ -55694,7 +55694,7 @@
     "25": {
       "name": "XM1014",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1021": {
           "definition_index": 1021,
@@ -56260,7 +56260,7 @@
     "26": {
       "name": "PP-Bizon",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1083": {
           "definition_index": 1083,
@@ -56722,7 +56722,7 @@
     "27": {
       "name": "MAG-7",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "100": {
           "definition_index": 100,
@@ -57197,7 +57197,7 @@
     "28": {
       "name": "Negev",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1012": {
           "definition_index": 1012,
@@ -57529,7 +57529,7 @@
     "29": {
       "name": "Sawed-Off",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1014": {
           "definition_index": 1014,
@@ -57965,7 +57965,7 @@
     "3": {
       "name": "Five-SeveN",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1002": {
           "definition_index": 1002,
@@ -58479,7 +58479,7 @@
     "30": {
       "name": "Tec-9",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1010": {
           "definition_index": 1010,
@@ -59071,7 +59071,7 @@
     "32": {
       "name": "P2000",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1019": {
           "definition_index": 1019,
@@ -59520,7 +59520,7 @@
     "33": {
       "name": "MP7",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1007": {
           "definition_index": 1007,
@@ -59995,7 +59995,7 @@
     "34": {
       "name": "MP9",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "100": {
           "definition_index": 100,
@@ -60535,7 +60535,7 @@
     "35": {
       "name": "Nova",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1051": {
           "definition_index": 1051,
@@ -61101,7 +61101,7 @@
     "36": {
       "name": "P250",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "102": {
           "definition_index": 102,
@@ -61810,7 +61810,7 @@
     "38": {
       "name": "SCAR-20",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "100": {
           "definition_index": 100,
@@ -62194,7 +62194,7 @@
     "39": {
       "name": "SG 553",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "101": {
           "definition_index": 101,
@@ -62682,7 +62682,7 @@
     "4": {
       "name": "Glock-18",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1016": {
           "definition_index": 1016,
@@ -63391,7 +63391,7 @@
     "40": {
       "name": "SSG 08",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1052": {
           "definition_index": 1052,
@@ -63931,7 +63931,7 @@
     "4725": {
       "name": "★ Broken Fang Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10085": {
           "definition_index": 10085,
@@ -63990,7 +63990,7 @@
     "500": {
       "name": "★ Bayonet",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -64439,7 +64439,7 @@
     "5027": {
       "name": "★ Bloodhound Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10006": {
           "definition_index": 10006,
@@ -64550,7 +64550,7 @@
     "503": {
       "name": "★ Classic Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -64726,7 +64726,7 @@
     "5030": {
       "name": "★ Sport Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10018": {
           "definition_index": 10018,
@@ -64889,7 +64889,7 @@
     "5031": {
       "name": "★ Driver Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10013": {
           "definition_index": 10013,
@@ -65052,7 +65052,7 @@
     "5032": {
       "name": "★ Hand Wraps",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10009": {
           "definition_index": 10009,
@@ -65215,7 +65215,7 @@
     "5033": {
       "name": "★ Moto Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10024": {
           "definition_index": 10024,
@@ -65378,7 +65378,7 @@
     "5034": {
       "name": "★ Specialist Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10030": {
           "definition_index": 10030,
@@ -65541,7 +65541,7 @@
     "5035": {
       "name": "★ Hydra Gloves",
       "sticker_count": 0,
-      "type": "gloves",
+      "type": "glove",
       "paints": {
         "10057": {
           "definition_index": 10057,
@@ -65600,7 +65600,7 @@
     "505": {
       "name": "★ Flip Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -66062,7 +66062,7 @@
     "506": {
       "name": "★ Gut Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -66524,7 +66524,7 @@
     "507": {
       "name": "★ Karambit",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -66986,7 +66986,7 @@
     "508": {
       "name": "★ M9 Bayonet",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -67448,7 +67448,7 @@
     "509": {
       "name": "★ Huntsman Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -67910,7 +67910,7 @@
     "512": {
       "name": "★ Falchion Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -68372,7 +68372,7 @@
     "514": {
       "name": "★ Bowie Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -68834,7 +68834,7 @@
     "515": {
       "name": "★ Butterfly Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -69296,7 +69296,7 @@
     "516": {
       "name": "★ Shadow Daggers",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -69758,7 +69758,7 @@
     "517": {
       "name": "★ Paracord Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -70090,7 +70090,7 @@
     "518": {
       "name": "★ Survival Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -70422,7 +70422,7 @@
     "519": {
       "name": "★ Ursus Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -70754,7 +70754,7 @@
     "520": {
       "name": "★ Navaja Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -71086,7 +71086,7 @@
     "521": {
       "name": "★ Nomad Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -71418,7 +71418,7 @@
     "522": {
       "name": "★ Stiletto Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -71750,7 +71750,7 @@
     "523": {
       "name": "★ Talon Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -72082,7 +72082,7 @@
     "525": {
       "name": "★ Skeleton Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -72414,7 +72414,7 @@
     "526": {
       "name": "★ Kukri Knife",
       "sticker_count": 0,
-      "type": "knives",
+      "type": "knife",
       "paints": {
         "0": {
           "definition_index": 0,
@@ -72590,7 +72590,7 @@
     "60": {
       "name": "M4A1-S",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1001": {
           "definition_index": 1001,
@@ -73130,7 +73130,7 @@
     "61": {
       "name": "USP-S",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1027": {
           "definition_index": 1027,
@@ -73683,7 +73683,7 @@
     "63": {
       "name": "CZ75-Auto",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1036": {
           "definition_index": 1036,
@@ -74145,7 +74145,7 @@
     "64": {
       "name": "R8 Revolver",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1011": {
           "definition_index": 1011,
@@ -74464,7 +74464,7 @@
     "7": {
       "name": "AK-47",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1004": {
           "definition_index": 1004,
@@ -75186,7 +75186,7 @@
     "8": {
       "name": "AUG",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "10": {
           "definition_index": 10,
@@ -75739,7 +75739,7 @@
     "9": {
       "name": "AWP",
       "sticker_count": 5,
-      "type": "weapons",
+      "type": "weapon",
       "paints": {
         "1026": {
           "definition_index": 1026,
