@@ -7,7 +7,13 @@ import (
 )
 
 func ExportToJsonFile(v any, fname string) {
+	encoder := json.NewEncoder(os.Stdout)
+	encoder.SetEscapeHTML(false) // Disable HTML escaping
+	encoder.SetIndent("", "  ")
+
+	// Marshal the data to JSON format
 	jsonData, err := json.MarshalIndent(v, "", "  ")
+
 	if err != nil {
 		fmt.Println("Error marshalling music kits to JSON:", err)
 		return

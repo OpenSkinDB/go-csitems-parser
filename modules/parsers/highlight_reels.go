@@ -31,7 +31,6 @@ func ParseHighlightReels(ctx context.Context, ig *models.ItemsGame, t *modules.T
 		map_name, _ := r.GetString("map")
 
 		// Get map name, this is weird but okay
-		map_name_friendly, _ := t.GetValueByKey("SFUI_Map_" + map_name)
 		// Some tournament events might not have an ID, so we need to handle that
 		tournament_event_id_int, _ := strconv.Atoi(tournament_event)
 		tournament_event_stage_id_int, _ := strconv.Atoi(tournament_event_stage_)
@@ -49,13 +48,15 @@ func ParseHighlightReels(ctx context.Context, ig *models.ItemsGame, t *modules.T
 			TeamOne:  team1, // This is the opposing team
 		}
 
+		tournament := modules.GetTournamentData(t, tournament_event_id_int)
+		stage := modules.GetTournamentStageData(t, tournament_event_stage_id_int)
 		current := models.HighlightReel{
-			Id:                     id,
-			TournamentEventId:      tournament_event_id_int,
-			TournamentEventStageId: tournament_event_stage_id_int,
-			Map:                    map_name_friendly,
-			MarketHashName:         modules.GenerateHighlightReelMarketHashName(t, id, tournament_event_id_int),
-			Teams:                  teams,
+			Id:             id,
+			Tournament:     tournament,
+			Stage:          stage,
+			Map:            map_name,
+			MarketHashName: modules.GenerateHighlightReelMarketHashName(t, id, tournament_event_id_int),
+			Teams:          teams,
 		}
 
 		items = append(items, current)

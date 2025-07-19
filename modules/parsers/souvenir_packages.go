@@ -45,7 +45,7 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame, t *modules
 		item_name, _ := c.GetString("item_name")
 		image_inventory, _ := c.GetString("image_inventory")
 
-		item_set := modules.GetContainerItemSet(c, t)
+		item_set := modules.GetContainerItemSet(c, t, "ItemSet")
 		tournament_event_id, _ := modules.GetTournamentEventId(c)
 
 		name, _ := c.GetString("name")
@@ -57,7 +57,7 @@ func ParseSouvenirPackages(ctx context.Context, ig *models.ItemsGame, t *modules
 		current := models.SouvenirPackage{
 			DefinitionIndex: definition_index,
 			ImageInventory:  image_inventory,
-			ItemSetId:       &item_set,
+			ItemSetId:       item_set,
 			MarketHashName:  modules.GenerateMarketHashName(t, item_name, nil, "souvenir_package"),
 			KeychainSetId:   GetKeychainSetId(client_loot_lists, name),
 			Tournament:      modules.GetTournamentData(t, tournament_event_id),

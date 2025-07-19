@@ -37,9 +37,14 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame, t *modules.Tra
 		definition_index, _ := strconv.Atoi(item.Key)
 		prefab, _ := item.GetString("prefab")
 		image_inventory, _ := item.GetString("image_inventory")
+		rarity, _ := item.GetString("item_rarity")
 
-		tournament_event_id, _ := modules.GetTournamentEventId(item)
-		collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
+		if prefab != "commodity_pin" {
+			continue // Skip if no rarity is defined
+		}
+
+		// tournament_event_id, _ := modules.GetTournamentEventId(item)
+		// collectible_type := GetCollectibleType(image_inventory, prefab, item_name, tournament_event_id)
 
 		// item_description, _ := item.GetString("item_description")
 		// attributes := modules.GetSubKey(item, "attributes")
@@ -51,11 +56,12 @@ func ParseCollectibles(ctx context.Context, ig *models.ItemsGame, t *modules.Tra
 		// Determine the type of collectible
 
 		collectibles = append(collectibles, models.Collectible{
-			DefinitionIndex:   definition_index,
-			MarketHashName:    modules.GenerateMarketHashName(t, item_name, nil, "collectible"),
-			ImageInventory:    image_inventory,
-			Type:              collectible_type,
-			TournamentEventId: tournament_event_id,
+			DefinitionIndex: definition_index,
+			MarketHashName:  modules.GenerateMarketHashName(t, item_name, nil, "collectible"),
+			ImageInventory:  image_inventory,
+			Rarity:          rarity,
+			// Type:              collectible_type,
+			// TournamentEventId: tournament_event_id,
 
 			// Prefab:            prefab,
 			// Name:              item_name,

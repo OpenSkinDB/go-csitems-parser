@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go-csitems-parser/models"
+	"strconv"
 	"strings"
 
 	"github.com/baldurstod/vdf"
@@ -51,16 +52,21 @@ func GetTournamentEventId(item *vdf.KeyValue) (int, error) {
 	return tournament_event_id, nil
 }
 
-func GetContainerItemSet(item *vdf.KeyValue, t *Translator) string {
+func GetContainerItemSet(item *vdf.KeyValue, t *Translator, key string) *string {
 	tags, err := item.Get("tags")
 
 	if err != nil {
-		return ""
+		return nil
 	}
 
-	item_set, err := tags.Get("ItemSet")
+	var container_item_set_key string = "ItemSet"
+	if key != "" {
+		container_item_set_key = key
+	}
+
+	item_set, err := tags.Get(container_item_set_key)
 	if err != nil {
-		return ""
+		return nil
 	}
 
 	tag, _ := item_set.GetString("tag_value")
@@ -68,7 +74,37 @@ func GetContainerItemSet(item *vdf.KeyValue, t *Translator) string {
 
 	// translated, _ := t.GetValueByKey(tagText)
 
-	return tag
+	return &tag
+}
+
+func GetSupplyCrateSeries(item *vdf.KeyValue, ig *models.ItemsGame) *string {
+	attributes, err := item.Get("attributes")
+
+	if err != nil {
+		return nil
+	}
+
+	set_supply_crate_series, err := attributes.Get("set supply crate series")
+	if err != nil {
+		return nil
+	}
+
+	series_id, err := set_supply_crate_series.GetString("value")
+	if err != nil {
+		return nil
+	}
+
+	revolving_loot_lists, _ := ig.Get("revolving_loot_lists")
+
+	for _, list := range revolving_loot_lists.GetChilds() {
+		if list.Key == series_id {
+			value, _ := list.ToString()
+
+			return &value
+		}
+	}
+
+	return nil
 }
 
 type ItemWear struct {
@@ -108,7 +144,51 @@ var ItemWears = map[string]ItemWear{
 var hashNamePrefixes = map[string]string{
 	"sticker_kit": "Sticker | ",
 	"music_kit":   "Music Kit | ",
+	"keychain":    "Charm | ",
 	// "highlight_reel": "Souvenir Charm | Austin 2025 Highlight | ",
+}
+
+var sticker_effect_names = map[string]string{
+	"glitter":    " (Glitter)",
+	"holo":       " (Holo)",
+	"foil":       " (Foil)",
+	"gold":       " (Gold)",
+	"lenticular": " (Lenticular)",
+	"normal":     " (Normal)",
+}
+
+func GenerateCustomStickerMarketHashName_Team(t *Translator, team_id int, effect *string) string {
+	lang_key := fmt.Sprintf("CSGO_TeamID_%d", team_id)
+	team_name, _ := t.GetValueByKey(lang_key)
+
+	if effect == nil {
+		return fmt.Sprintf("Sticker | %s", team_name) // Fallback if effect or type is nil
+	}
+
+	effect_name := sticker_effect_names[*effect]
+	return fmt.Sprintf("Sticker | %s%s", team_name, effect_name)
+}
+
+func GenerateCustomStickerMarketHashName_Player(t *Translator, player *models.TournamentData, effect *string) string {
+	if effect == nil {
+		return fmt.Sprintf("Sticker | %s", player.Name) // Fallback if effect is nil
+	}
+
+	effect_name := sticker_effect_names[*effect]
+	return fmt.Sprintf("Sticker | %s%s", player.Name, effect_name)
+}
+
+func GenerateCustomStickerMarketHashName_Event(t *Translator, event_id int, effect *string) string {
+	lang_key := fmt.Sprintf("CSGO_Tournament_Event_Location_%d", event_id)
+
+	translated, _ := t.GetValueByKey(lang_key)
+
+	if effect == nil {
+		return fmt.Sprintf("Sticker | %s", translated) // Fallback if effect or type is nil
+	}
+
+	effect_name := sticker_effect_names[*effect]
+	return fmt.Sprintf("Sticker | %s%s", translated, effect_name)
 }
 
 func GenerateHighlightReelMarketHashName(t *Translator, name string, event int) string {
@@ -123,6 +203,7 @@ func GenerateHighlightReelMarketHashName(t *Translator, name string, event int) 
 	tournament_id := ""
 	if len(name) > 0 {
 		parts := strings.Split(name, "_")
+
 		if len(parts) > 0 {
 			tournament_id = parts[0]
 		}
@@ -152,6 +233,40 @@ func GetTournamentData(t *Translator, id int) *models.TournamentData {
 		Id:   id,
 		Name: name,
 	}
+}
+
+func GetTournamentStageData(t *Translator, id int) *models.TournamentData {
+	lang_key := fmt.Sprintf("CSGO_Tournament_Event_Stage_%d", id)
+
+	name, _ := t.GetValueByKey(lang_key)
+
+	if id == 0 || name == "" {
+		return nil
+	}
+
+	return &models.TournamentData{
+		Id:   id,
+		Name: name,
+	}
+}
+
+func GetPlayerByAccountId(ig *models.ItemsGame, account_id int) *models.TournamentData {
+	pro_players, _ := ig.Get("pro_players")
+
+	for _, player := range pro_players.GetChilds() {
+		current_aid, _ := strconv.Atoi(player.Key)
+
+		if current_aid != account_id {
+			continue
+		}
+		name, _ := player.GetString("name")
+
+		return &models.TournamentData{
+			Id:   account_id,
+			Name: name,
+		}
+	}
+	return nil
 }
 
 func GetTournamentTeamData(t *Translator, id int) *models.TournamentData {

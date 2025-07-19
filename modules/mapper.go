@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"fmt"
 	"go-csitems-parser/models"
 	"strings"
 )
@@ -13,22 +14,37 @@ type WeaponToPaintKitMap struct {
 }
 
 type WeaponSkinMap struct {
-	BaseItem  models.BaseWeapon `json:"base_item"`
-	PaintKits []models.PaintKit `json:"paint_kits"`
+	BaseItem models.BaseWeapon `json:"base_item"`
+	Paints   []models.PaintKit `json:"paints"`
+}
+
+type SchemaWeaponSkinMap struct {
+	Name          string                                 `json:"name"`
+	StickerAmount int                                    `json:"sticker_count"`
+	Type          string                                 `json:"type"`
+	Paints        map[int]models.SchemaWeaponPaintKitMap `json:"paints"`
+}
+
+type CollectibleMap struct {
+	MarketHashName string `json:"market_hash_name"`
+	Rarity         string `json:"rarity"`
+	Image          string `json:"image"`
 }
 
 func GetWeaponPaintKits(
 	weapons *[]models.BaseWeapon,
 	paint_kits *[]models.PaintKit,
 	item_sets *[]models.ItemSet,
-) []WeaponSkinMap {
-	weapon_skin_map := make([]WeaponSkinMap, 0)
+) map[int]SchemaWeaponSkinMap {
+	weapon_skin_map := make(map[int]SchemaWeaponSkinMap, 0)
 
 	for _, weapon := range *weapons {
 		// Create a new glove skin map entry
-		current := WeaponSkinMap{
-			BaseItem:  weapon,
-			PaintKits: make([]models.PaintKit, 0),
+		current := SchemaWeaponSkinMap{
+			Name:          weapon.Name,
+			StickerAmount: weapon.NumStickers,
+			Type:          "weapons",
+			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 
 		item_set_paint_kits := GetItemSetPaintKitsForWeapon(item_sets, weapon.ClassName)
@@ -47,10 +63,19 @@ func GetWeaponPaintKits(
 				paint_kit.ItemSetId = data.ItemSetId
 			}
 
-			current.PaintKits = append(current.PaintKits, *paint_kit)
+			current.Paints[paint_kit.DefinitionIndex] = models.SchemaWeaponPaintKitMap{
+				DefinitionIndex: paint_kit.DefinitionIndex,
+				Float:           paint_kit.Wear,
+				Rarity:          paint_kit.Rarity,
+				Image:           fmt.Sprintf("%s_%s", weapon.ClassName, paint_kit.Name),
+				Name:            paint_kit.MarketHashName,
+				ItemSetId:       paint_kit.ItemSetId,
+				Souvenir:        paint_kit.Souvenir,
+				StatTrak:        paint_kit.StatTrak,
+			}
 		}
 
-		weapon_skin_map = append(weapon_skin_map, current)
+		weapon_skin_map[weapon.DefinitionIndex] = current
 	}
 
 	return weapon_skin_map
@@ -81,14 +106,16 @@ func GetKnifePaintKits(
 	knives *[]models.BaseWeapon,
 	paint_kits *[]models.PaintKit,
 	knife_map map[string][]string,
-) []WeaponSkinMap {
-	knife_skin_map := make([]WeaponSkinMap, 0)
+) map[int]SchemaWeaponSkinMap {
+	weapon_skin_map := make(map[int]SchemaWeaponSkinMap, 0)
 
 	for _, knife := range *knives {
 		// Create a new glove skin map entry
-		current := WeaponSkinMap{
-			BaseItem:  knife,
-			PaintKits: make([]models.PaintKit, 0),
+		current := SchemaWeaponSkinMap{
+			Name:          knife.Name,
+			StickerAmount: 0, // Knives don't have stickers
+			Type:          "knives",
+			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 
 		knife_map_value, ok := knife_map[knife.ClassName]
@@ -102,18 +129,24 @@ func GetKnifePaintKits(
 					continue
 				}
 
-				paint_kit.Souvenir = false // Knives can NOT be Souvenir
-				paint_kit.StatTrak = true  // Knives can always be StatTrak
-
 				// Add the paint kit to the current glove skin map
-				current.PaintKits = append(current.PaintKits, paint_kit)
+				current.Paints[paint_kit.DefinitionIndex] = models.SchemaWeaponPaintKitMap{
+					DefinitionIndex: paint_kit.DefinitionIndex,
+					Float:           paint_kit.Wear,
+					Rarity:          paint_kit.Rarity,
+					Image:           fmt.Sprintf("%s_%s", knife.ClassName, paint_kit.Name),
+					Name:            paint_kit.MarketHashName,
+					ItemSetId:       paint_kit.ItemSetId,
+					Souvenir:        false, // Knives can NOT be Souvenir
+					StatTrak:        true,  // Knives can always be StatTrak
+				}
 			}
 		}
 
-		knife_skin_map = append(knife_skin_map, current)
+		weapon_skin_map[knife.DefinitionIndex] = current
 	}
 
-	return knife_skin_map
+	return weapon_skin_map
 }
 
 type GloveSkinMap struct {
@@ -129,14 +162,16 @@ var glovePrefixMap = map[string]string{
 	"studded_bloodhound_gloves": "bloodhound_",
 }
 
-func GetGlovePaintKits(gloves *[]models.BaseWeapon, paint_kits *[]models.PaintKit) []WeaponSkinMap {
-	glove_skin_map := make([]WeaponSkinMap, 0)
+func GetGlovePaintKits(gloves *[]models.BaseWeapon, paint_kits *[]models.PaintKit) map[int]SchemaWeaponSkinMap {
+	weapon_skin_map := make(map[int]SchemaWeaponSkinMap, 0)
 
 	for _, glove := range *gloves {
 		// Create a new glove skin map entry
-		current := WeaponSkinMap{
-			BaseItem:  glove,
-			PaintKits: make([]models.PaintKit, 0),
+		current := SchemaWeaponSkinMap{
+			Name:          glove.Name,
+			StickerAmount: 0, // Knives don't have stickers
+			Type:          "gloves",
+			Paints:        make(map[int]models.SchemaWeaponPaintKitMap),
 		}
 
 		for _, paint_kit := range *paint_kits {
@@ -155,17 +190,23 @@ func GetGlovePaintKits(gloves *[]models.BaseWeapon, paint_kits *[]models.PaintKi
 				continue
 			}
 
-			paint_kit.StatTrak = false
-			paint_kit.Souvenir = false
-
 			// Add the paint kit to the current glove skin map
-			current.PaintKits = append(current.PaintKits, paint_kit)
+			current.Paints[paint_kit.DefinitionIndex] = models.SchemaWeaponPaintKitMap{
+				DefinitionIndex: paint_kit.DefinitionIndex,
+				Float:           paint_kit.Wear,
+				Rarity:          paint_kit.Rarity,
+				Image:           fmt.Sprintf("%s_%s", glove.ClassName, paint_kit.Name),
+				Name:            paint_kit.MarketHashName,
+				ItemSetId:       paint_kit.ItemSetId,
+				Souvenir:        false, // Gloves can NOT be Souvenir
+				StatTrak:        false, // Gloves can NOT be StatTrak
+			}
 		}
 
-		glove_skin_map = append(glove_skin_map, current)
+		weapon_skin_map[glove.DefinitionIndex] = current
 	}
 
-	return glove_skin_map
+	return weapon_skin_map
 }
 
 func GetPaintKitByName(paint_kits *[]models.PaintKit, name string) *models.PaintKit {

@@ -36,6 +36,7 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		definition_index, _ := strconv.Atoi(agent.Key)
 		item_name, _ := agent.GetString("item_name")
 		item_rarity, _ := agent.GetString("item_rarity")
+		image_inventory, _ := agent.GetString("image_inventory")
 
 		// item_description, _ := agent.GetString("item_description")
 		// translated_description, err := t.GetValueByKey(item_description)
@@ -48,6 +49,7 @@ func ParseAgents(ctx context.Context, ig *models.ItemsGame, t *modules.Translato
 		current := models.PlayerAgent{
 			DefinitionIndex: definition_index,
 			MarketHashName:  modules.GenerateMarketHashName(t, item_name, nil, "agent"),
+			ImageInventory:  image_inventory,
 			// Name:            item_name,
 			// Description:     translated_description,
 			Rarity: item_rarity,

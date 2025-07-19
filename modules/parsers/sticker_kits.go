@@ -10,12 +10,6 @@ import (
 	"go-csitems-parser/modules"
 )
 
-type StickerTypeParams struct {
-	TournamentPlayerId int `json:"tournament_player_id"`
-	TournamentTeamId   int `json:"tournament_team_id"`
-	TournamentEventId  int `json:"tournament_event_id"`
-}
-
 func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Translator) []models.StickerKit {
 	logger := modules.GetLogger()
 
@@ -37,12 +31,22 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 		item_name, _ := item.GetString("item_name")
 		name, _ := item.GetString("name")
 
-		if strings.HasPrefix(name, "patch_") {
+		if definition_index <= 0 {
+			logger.Debug().Msgf("Skipping invalid sticker kit definition index: %d", definition_index)
+			continue // Skip invalid definition indices
+		}
+
+		if strings.Contains(name, "patch_") {
+			continue // Skip non-sticker kit items
+		}
+
+		if strings.Contains(name, "_graffiti") {
 			continue // Skip non-sticker kit items
 		}
 
 		// description_string, _ := item.GetString("description_string")
 		sticker_material, _ := item.GetString("sticker_material")
+
 		item_rarity, _ := item.GetString("item_rarity")
 		tournament_event_id, _ := item.GetInt("tournament_event_id")
 		tournament_team_id, _ := item.GetInt("tournament_team_id")
@@ -66,6 +70,7 @@ func ParseStickerKits(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 			Type:            sticker_type,
 			Tournament:      modules.GetTournamentData(t, tournament_event_id),
 			Team:            modules.GetTournamentTeamData(t, tournament_team_id),
+			Player:          modules.GetPlayerByAccountId(ig, tournament_player_id),
 		})
 	}
 

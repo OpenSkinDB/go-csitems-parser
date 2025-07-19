@@ -3,6 +3,7 @@ package parsers
 import (
 	"context"
 	"strconv"
+	"strings"
 	"time"
 
 	"go-csitems-parser/models"
@@ -31,6 +32,10 @@ func ParseMusicKits(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 		name, _ := musicKit.GetString("name")
 		loc_name, _ := musicKit.GetString("loc_name")
 		image_inventory, _ := musicKit.GetString("image_inventory")
+
+		if strings.Contains(name, "valve_") {
+			continue // Skip Valve agents
+		}
 		// pedestal_display_model, _ := musicKit.GetString("pedestal_display_model")
 
 		musicKits = append(musicKits, models.MusicKit{

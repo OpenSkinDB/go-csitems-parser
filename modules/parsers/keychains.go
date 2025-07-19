@@ -28,31 +28,17 @@ func ParseKeychains(ctx context.Context, ig *models.ItemsGame, t *modules.Transl
 	for _, mk := range keychain_definitions.GetChilds() {
 		definition_index, _ := strconv.Atoi(mk.Key)
 		// name, _ := mk.GetString("name")
+		name, _ := mk.GetString("name")
+
+		if name == "kc_aus2025" {
+			continue // Skip the AUS 2025 keychain, it's not a valid keychain
+		}
+
 		loc_name, _ := mk.GetString("loc_name")
-		// loc_description, _ := mk.GetString("loc_description")
 		image_inventory, _ := mk.GetString("image_inventory")
 		item_rarity, _ := mk.GetString("item_rarity")
-		// item_quality, _ := mk.GetString("item_quality")
-		// pedestal_display_model, _ := mk.GetString("pedestal_display_model")
 
-		// this is stupid..
-		tags, _ := mk.Get("tags")
-
-		loot_list_id := ""
-		if tags != nil {
-			keychain_capsule, _ := tags.Get("KeychainCapsule")
-
-			if keychain_capsule != nil {
-				loot_list_id, _ = keychain_capsule.GetString("tag_value")
-			}
-		}
-
-		keychain_capsule := modules.GetSubKey(mk, "tags.KeychainCapsule")
-
-		if keychain_capsule != nil {
-			loot_list_id, _ = keychain_capsule.GetString("tag_value")
-			logger.Debug().Msgf("Found KeychainCapsule tag with loot_list_id: %s", loot_list_id)
-		}
+		// keychain_capsule := modules.GetContainerItemSet(mk, t, "KeychainCapsule")
 
 		// Create a new Keychain instance
 		current := models.Keychain{

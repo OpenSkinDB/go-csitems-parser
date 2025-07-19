@@ -30,9 +30,11 @@ type GenericColor struct {
 }
 
 type CustomStickers struct {
-	Group int    `json:"group"`
-	Name  string `json:"name"`
-	Count int    `json:"count"`
+	GeneratedId string `json:"generated_id"`
+	Group       int    `json:"group"`
+	Name        string `json:"name"`
+	Count       int    `json:"count"`
+	// Count []*vdf.KeyValue `json:"count"`
 }
 
 type StickerKit struct {
@@ -45,6 +47,7 @@ type StickerKit struct {
 	Type            string          `json:"type"`
 	Tournament      *TournamentData `json:"tournament"`
 	Team            *TournamentData `json:"team"`
+	Player          *TournamentData `json:"player"`
 
 	// ItemName          string        `json:"item_name"`
 	// DescriptionString string        `json:"description_string"`
@@ -58,18 +61,18 @@ type PaintKitWearRange struct {
 }
 
 type PaintKit struct {
-	DefinitionIndex int               `json:"definition_index"`
-	Name            string            `json:"name"`
-	MarketHashName  string            `json:"market_hash_name"`
-	Wear            PaintKitWearRange `json:"float"`
-	Rarity          string            `json:"rarity"`
-	Souvenir        bool              `json:"souvenir"`
-	StatTrak        bool              `json:"stattrak"`
-	ItemSetId       string            `json:"item_set_id,omitempty"`
-	// UseLegacyModel    bool    `json:"use_legacy_model"`
-	// DescriptionString string  `json:"description_string"`
-	// DescriptionTag    string  `json:"description_tag"`
-	// Style             int     `json:"style"`
+	DefinitionIndex   int               `json:"definition_index"`
+	Name              string            `json:"name"`
+	MarketHashName    string            `json:"market_hash_name"`
+	Wear              PaintKitWearRange `json:"float"`
+	Rarity            string            `json:"rarity"`
+	Souvenir          bool              `json:"souvenir"`
+	StatTrak          bool              `json:"stattrak"`
+	ItemSetId         string            `json:"item_set_id,omitempty"`
+	UseLegacyModel    bool              `json:"use_legacy_model"`
+	DescriptionString string            `json:"description_string"`
+	DescriptionTag    string            `json:"description_tag"`
+	Style             int               `json:"style"`
 }
 
 type ItemSetItem struct {
@@ -118,8 +121,8 @@ type MusicKit struct {
 	ImageInventory  string `json:"image_inventory"`
 	MarketHashName  string `json:"market_hash_name"`
 
-	// ItemName        string `json:"item_name"`
-	// Model           string `json:"display_model"`
+	ItemName string `json:"item_name"`
+	Model    string `json:"display_model"`
 }
 
 type Keychain struct {
@@ -127,12 +130,12 @@ type Keychain struct {
 	MarketHashName  string `json:"market_hash_name"`
 	Rarity          string `json:"rarity"`
 	ImageInventory  string `json:"image_inventory"`
-	// Name            string `json:"name"`
-	// LocName         string `json:"loc_name"`
-	// LocDescription  string `json:"loc_description"`
-	// Quality         string `json:"quality"`
-	// Model           string `json:"display_model"`
-	// LootListId      string `json:"loot_list_id"`
+	Name            string `json:"name"`
+	LocName         string `json:"loc_name"`
+	LocDescription  string `json:"loc_description"`
+	Quality         string `json:"quality"`
+	Model           string `json:"display_model"`
+	LootListId      string `json:"loot_list_id"`
 }
 
 type HighlightReelTeams struct {
@@ -141,20 +144,21 @@ type HighlightReelTeams struct {
 }
 
 type HighlightReel struct {
-	Id                     string             `json:"id"`
-	MarketHashName         string             `json:"market_hash_name"`
-	TournamentEventId      int                `json:"tournament_event_id"`
-	TournamentEventStageId int                `json:"tournament_event_stage_id"`
-	Map                    string             `json:"map"`
-	Teams                  HighlightReelTeams `json:"teams"`
+	Id             string             `json:"id"`
+	MarketHashName string             `json:"market_hash_name"`
+	Map            string             `json:"map"`
+	Teams          HighlightReelTeams `json:"teams"`
+	Tournament     *TournamentData    `json:"tournament"`
+	Stage          *TournamentData    `json:"stage"`
 }
 
 type PlayerAgent struct {
 	DefinitionIndex int    `json:"definition_index"`
 	MarketHashName  string `json:"market_hash_name"`
-	// Name            string `json:"name"`
-	// Description     string `json:"description"`
-	Rarity string `json:"rarity"`
+	ImageInventory  string `json:"image_inventory"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	Rarity          string `json:"rarity"`
 }
 
 type WeaponCaseItemSet struct {
@@ -165,25 +169,25 @@ type WeaponCaseItemSet struct {
 type WeaponCaseKey struct {
 	DefinitionIndex int    `json:"definition_index"`
 	Name            string `json:"name"`
-	// ItemName        string `json:"item_name"`
-	// ItemDescription string `json:"item_description"`
-	// FirstSaleDate   string `json:"first_sale_date"`
-	// Prefab          string `json:"prefab"`
-	ImageInventory string `json:"image_inventory"`
+	ItemName        string `json:"item_name"`
+	ItemDescription string `json:"item_description"`
+	FirstSaleDate   string `json:"first_sale_date"`
+	Prefab          string `json:"prefab"`
+	ImageInventory  string `json:"image_inventory"`
 }
 
 type WeaponCase struct {
-	DefinitionIndex int `json:"definition_index"`
-	// Name            string             `json:"name"`
-	MarketHashName string  `json:"market_hash_name"`
-	ImageInventory string  `json:"image_inventory"`
-	ItemSetId      *string `json:"item_set_id"`
-	// Key            *WeaponCaseKey `json:"key"`
+	DefinitionIndex int            `json:"definition_index"`
+	Name            string         `json:"name"`
+	MarketHashName  string         `json:"market_hash_name"`
+	ImageInventory  string         `json:"image_inventory"`
+	ItemSetId       *string        `json:"item_set_id"`
+	Key             *WeaponCaseKey `json:"key"`
 
-	// Description     string             `json:"description"`
-	// Prefab          string             `json:"prefab"`
-	// Model           string             `json:"model_player"`
-	// FirstSaleDate   string             `json:"first_sale_date"`
+	Description   string `json:"description"`
+	Prefab        string `json:"prefab"`
+	Model         string `json:"model_player"`
+	FirstSaleDate string `json:"first_sale_date"`
 }
 
 type SouvenirPackage struct {
@@ -205,12 +209,13 @@ type TournamentData struct {
 }
 
 type Collectible struct {
-	DefinitionIndex int `json:"definition_index"`
-	// Name              string `json:"name"`
-	Type string `json:"type"`
-	// Model             string `json:"display_model"`
-	// Prefab            string `json:"prefab"`
-	// Description       string `json:"description"`
+	DefinitionIndex   int    `json:"definition_index"`
+	Name              string `json:"name"`
+	Type              string `json:"type"`
+	Model             string `json:"display_model"`
+	Prefab            string `json:"prefab"`
+	Description       string `json:"description"`
+	Rarity            string `json:"rarity"`
 	ImageInventory    string `json:"image_inventory"`
 	TournamentEventId int    `json:"tournament_event_id"`
 	MarketHashName    string `json:"market_hash_name"`
@@ -235,4 +240,40 @@ type PaintKitWeaponCombinationData struct {
 	ItemSetId     string `json:"item_set_id"`
 	CanBeStatTrak bool   `json:"can_be_stattrak"`
 	CanBeSouvenir bool   `json:"can_be_souvenir"`
+}
+
+type SchemaGenericeMap struct {
+	MarketHashName string `json:"market_hash_name"`
+	Rarity         string `json:"rarity"`
+	Image          string `json:"image"`
+}
+
+type SchemaRarity struct {
+	Key  string `json:"key"`
+	Name string `json:"name"`
+	Hex  string `json:"hex"`
+}
+
+type SchemaCustomSticker struct {
+	Group int    `json:"group"`
+	Name  string `json:"name"`
+	Count int    `json:"count"`
+}
+
+type SchemaWeaponPaintKitMap struct {
+	DefinitionIndex int               `json:"definition_index"`
+	Name            string            `json:"name"`
+	ItemSetId       string            `json:"item_set_id"`
+	Image           string            `json:"image"`
+	Rarity          string            `json:"rarity"`
+	Float           PaintKitWearRange `json:"float"`
+	Souvenir        bool              `json:"souvenir"`
+	StatTrak        bool              `json:"stattrak"`
+}
+
+type SchemaWeaponMap struct {
+	MarketHashName string                          `json:"market_hash_name"`
+	NumStickers    int                             `json:"sticker_count"`
+	Type           string                          `json:"type"`
+	Paints         map[int]SchemaWeaponPaintKitMap `json:"paints"`
 }

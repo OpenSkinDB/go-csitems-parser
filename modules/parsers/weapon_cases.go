@@ -57,14 +57,14 @@ func ParseWeaponCases(ctx context.Context, ig *models.ItemsGame, t *modules.Tran
 
 		// If case_key_def_idx is still -1, we cannot find the key for this case
 		// case_key := GetWeaponCaseKeyByDefIndex(ig, case_key_def_idx)
-		item_set := modules.GetContainerItemSet(item, t)
+		item_set := modules.GetContainerItemSet(item, t, "ItemSet")
 
 		// Create the weapon case model
 		var current = models.WeaponCase{
 			DefinitionIndex: definition_index,
 			ImageInventory:  image_inventory,
 			// Key:            case_key,
-			ItemSetId:      &item_set,
+			ItemSetId:      item_set,
 			MarketHashName: modules.GenerateMarketHashName(t, item_name, nil, "weapon_case"),
 		}
 
