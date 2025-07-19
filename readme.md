@@ -4,10 +4,13 @@ This project aims to generate a clone of the csfloat.com item schema from CS2’
 I’m quite new to Golang, so if anything is poorly written, feel free to open a PR! The codebase is okay and it works.
 
 ## Features
-✅ Parses CS2 items_game.txt to structured schema data
-✅ Outputs JSON just like https://csfloat.com/api/v1/schema
-✅ Fast, no-dependency parsing using Go’s standard library
-✅ Useful for CS2 skin projects, market analysis, or personal bots
+  ✅ Parses CS2 items_game.txt to structured schema data
+
+  ✅ Outputs JSON just like https://csfloat.com/api/v1/schema
+
+  ✅ Fast, no-dependency parsing using Go’s standard library
+
+  ✅ Useful for CS2 skin projects, market analysis, or personal bots
 
 ## Prerequisites
 - Go (Golang) installed
